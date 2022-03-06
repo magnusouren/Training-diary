@@ -18,6 +18,7 @@ public class Run implements Workout {
         this.duration = duration;
         this.rating = rating;
         this.content = content;
+        this.km = km;
         setAverageSpeed(duration, km);
     }
 
@@ -47,7 +48,8 @@ public class Run implements Workout {
 
     @Override
     public String toString() {
-        return "Date: " + date + " | Duration: " + duration + " | Rating: " + rating + " | Content: " + content;
+        return "Run: Date: " + date + ", " + km + "km, " + duration + " min, | Rating: " + rating + " | Content: "
+                + content;
     }
 
     public static void main(String[] args) {
