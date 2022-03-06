@@ -9,8 +9,11 @@ public class Run implements Workout {
     char rating;
     String content;
 
-    void Run() {
-
+    public Run(Date date, int duration, char rating, String content) {
+        this.date = date;
+        this.duration = duration;
+        this.rating = rating;
+        this.content = content;
     }
 
     @Override
@@ -33,4 +36,14 @@ public class Run implements Workout {
         return content;
     }
 
+    @Override
+    public String toString() {
+        return "Date: " + date + " | Duration: " + duration + " | Rating: " + rating + " | Content: " + content;
+    }
+
+    public static void main(String[] args) {
+        Date now = new Date();
+        Run test = new Run(now, 60, '4', "Test");
+        System.out.println(test);
+    }
 }
