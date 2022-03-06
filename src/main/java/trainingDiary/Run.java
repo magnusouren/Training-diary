@@ -6,10 +6,14 @@ public class Run implements Workout {
 
     Date date;
     int duration;
+    int km;
     char rating;
     String content;
+    int avaerageHeartRate;
+    int averageSpeed;
+    int maxHeartRate;
 
-    public Run(Date date, int duration, char rating, String content) {
+    public Run(Date date, int duration, int km, char rating, String content) {
         this.date = date;
         this.duration = duration;
         this.rating = rating;
@@ -43,7 +47,7 @@ public class Run implements Workout {
 
     public static void main(String[] args) {
         Date now = new Date();
-        Run test = new Run(now, 60, '4', "Test");
+        Run test = new Run(now, 60, 10, '4', "Test");
         System.out.println(test);
     }
 }
