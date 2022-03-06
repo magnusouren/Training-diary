@@ -18,6 +18,11 @@ public class Run implements Workout {
         this.duration = duration;
         this.rating = rating;
         this.content = content;
+        setAverageSpeed(duration, km);
+    }
+
+    private void setAverageSpeed(int duration, int km) {
+        this.averageSpeed = duration / km;
     }
 
     @Override
