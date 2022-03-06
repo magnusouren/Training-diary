@@ -22,8 +22,8 @@ public class Diary {
 
     public static void main(String[] args) {
         Date now = new Date();
-        Run run1 = new Run(now, 60, '5', "Braaa økt");
-        Run run2 = new Run(now, 80, '2', "Dårlig økt");
+        Run run1 = new Run(now, 60, 5, '5', "Braaa økt");
+        Run run2 = new Run(now, 80, 6, '2', "Dårlig økt");
 
         Diary diary = new Diary();
         diary.addWorkout(run1);
