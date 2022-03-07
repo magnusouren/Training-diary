@@ -51,7 +51,8 @@ public class Run implements Workout {
     @Override
     public String toString() {
         return "Run: Date: " + date + ", " + km + "km, " + duration + " min, | Rating: " + rating + " | Content: "
-                + content + " | MaxHR: " + maxHeartRate + " AvrgHR: " + avaerageHeartRate;
+                + content + " | Max HR: " + maxHeartRate + " Av. HR: " + avaerageHeartRate + " | Av. speed: "
+                + averageSpeed;
     }
 
     public static void main(String[] args) {
