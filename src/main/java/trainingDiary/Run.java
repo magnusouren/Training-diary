@@ -51,6 +51,7 @@ public class Run implements Workout {
     }
 
     private void validateContent(String content) {
+        // TO-DO
     }
 
     /**
@@ -77,7 +78,7 @@ public class Run implements Workout {
         values.addAll(Arrays.asList('1', '2', '3', '4', '5', '6'));
 
         if (!values.contains(rating))
-            throw new IllegalArgumentException("Illegal rating, must be from 1-6");
+            throw new IllegalArgumentException("Illegal rating, must be in the interval 1-6");
     }
 
     /**
@@ -88,9 +89,9 @@ public class Run implements Workout {
      */
     private void validateDuration(int duration) {
         if (duration < 0)
-            throw new IllegalArgumentException("Duration should be greater than 0");
+            throw new IllegalArgumentException("Duration must be greater than 0");
         if (duration > 300)
-            throw new IllegalArgumentException("A workout cant be longer than 5 hours");
+            throw new IllegalArgumentException("A workout canot be longer than 5 hours");
     }
 
     /**
@@ -102,7 +103,7 @@ public class Run implements Workout {
         if (distance < 0)
             throw new IllegalArgumentException("Km must be grater than 0");
         if (distance > 100000)
-            throw new IllegalArgumentException("Km must be less than 100km");
+            throw new IllegalArgumentException("Distance must be less than 100km");
     }
 
     /**
