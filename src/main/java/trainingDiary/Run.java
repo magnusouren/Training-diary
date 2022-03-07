@@ -8,10 +8,10 @@ import java.util.Date;
 public class Run implements Workout {
 
     private Date date;
-    private int duration;
-    private int km;
-    private char rating;
     private String content;
+    private char rating;
+    private int duration;
+    private int distance;
     private int avaerageHeartRate;
     private int maxHeartRate;
     private int averageSpeed;
@@ -22,16 +22,17 @@ public class Run implements Workout {
      * 
      * @param date             Date tilhørende datoen til økten
      * @param duration         Int varighet på økt
-     * @param km               Int lengde på løpetur i kilometer
+     * @param distance         Int lengde på løpetur i kilometer
      * @param rating           Char tallverdi for karrakter på økten
      * @param content          String tekstinnhold til økten
      * @param averageHeartRate Int gjennomsnitt puls
      * @param maxHeartRate     Int makspuls
      */
-    public Run(Date date, int duration, int km, char rating, String content, int averageHeartRate, int maxHeartRate) {
+    public Run(Date date, int duration, int distance, char rating, String content, int averageHeartRate,
+            int maxHeartRate) {
 
         validateDuration(duration);
-        validateKm(km);
+        validateDistance(distance);
         validateRating(rating);
         validateContent(content);
         validateHeartRate(averageHeartRate);
@@ -95,12 +96,12 @@ public class Run implements Workout {
     /**
      * Validerer om lengden på økten i km er gyldig. Utløser unntak hvis ikke.
      * 
-     * @param km Int tallverdi som representerer lengden på løpetur.
+     * @param distance Int tallverdi som representerer lengden på løpetur.
      */
-    private void validateKm(int km) {
-        if (km < 0)
+    private void validateDistance(int distance) {
+        if (distance < 0)
             throw new IllegalArgumentException("Km must be grater than 0");
-        if (km > 100)
+        if (distance > 100000)
             throw new IllegalArgumentException("Km must be less than 100km");
     }
 
@@ -108,7 +109,7 @@ public class Run implements Workout {
      * Beregner gjennomsnittsfart ut ifra lengden og varighet.
      * 
      * @param duration int minutter varighet
-     * @param km       int distanse i km
+     * @param distance int distanse i km
      */
     private void setAverageSpeed(int duration, int km) {
         this.averageSpeed = duration / km;
@@ -136,7 +137,7 @@ public class Run implements Workout {
 
     @Override
     public String toString() {
-        return "Run: Date: " + date + ", " + km + "km, " + duration + " min, | Rating: " + rating + " | Content: "
+        return "Run: Date: " + date + ", " + distance + "m, " + duration + " min, | Rating: " + rating + " | Content: "
                 + content + " | Max HR: " + maxHeartRate + " Av. HR: " + avaerageHeartRate + " | Av. speed: "
                 + averageSpeed;
     }
