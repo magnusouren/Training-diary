@@ -24,10 +24,20 @@ public class Run implements Workout {
         this.km = km;
         validateRating(rating);
         this.rating = rating;
+        validateContent(content);
         this.content = content;
+        validateHeartRate(averageHeartRate);
+        validateHeartRate(maxHeartRate);
         this.avaerageHeartRate = averageHeartRate;
         this.maxHeartRate = maxHeartRate;
         setAverageSpeed(duration, km);
+    }
+
+    private void validateHeartRate(int heartRate) {
+        if (heartRate < 0)
+            throw new IllegalArgumentException("Heartrate sholud be grater than 0");
+        if (heartRate < 225)
+            throw new IllegalArgumentException("Heartrate cannot be grater than 225");
     }
 
     private void validateRating(char rating) {
