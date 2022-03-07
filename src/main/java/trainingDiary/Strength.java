@@ -62,17 +62,16 @@ public class Strength implements Workout {
         return content;
     }
 
+    public List<Exercise> getExercises() {
+        return exercises;
+    }
+
     @Override
     public String toString() {
         String res = "Strength: Date: " + date + ", " + duration + " min, | Rating: " + rating + " | Content: "
-                + content + "\n";
+                + content;
         for (Exercise exercise : exercises) {
-            res += exercise.getName() + ": " + exercise.getSets() + ": ";
-            List<Integer> reps = exercise.getReps();
-            for (Integer integer : reps) {
-                res += integer + ", ";
-            }
-            res += "\n";
+            res += "\n" + exercise;
         }
         return res;
     }
@@ -80,8 +79,10 @@ public class Strength implements Workout {
     public static void main(String[] args) {
         Date now = new Date();
         Strength test = new Strength(now, 50, '3', "Braaa");
-        int[] rep = { 4, 5, 6 };
-        test.addExercise("benk", rep);
+        int[] rep1 = { 4, 5, 6 };
+        int[] rep2 = { 8, 8, 8 };
+        test.addExercise("benk", rep1);
+        test.addExercise("Knebøy", rep2);
         System.out.println(test);
     }
 }
