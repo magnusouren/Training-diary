@@ -16,6 +16,18 @@ public class Run implements Workout {
     private int maxHeartRate;
     private int averageSpeed;
 
+    /**
+     * Konstruktør til å sette tilstand til Run-objektet. Tar inn parameterverdier,
+     * validerer og setter disse.
+     * 
+     * @param date             Date tilhørende datoen til økten
+     * @param duration         Int varighet på økt
+     * @param km               Int lengde på løpetur i kilometer
+     * @param rating           Char tallverdi for karrakter på økten
+     * @param content          String tekstinnhold til økten
+     * @param averageHeartRate Int gjennomsnitt puls
+     * @param maxHeartRate     Int makspuls
+     */
     public Run(Date date, int duration, int km, char rating, String content, int averageHeartRate, int maxHeartRate) {
 
         validateDuration(duration);
@@ -40,6 +52,12 @@ public class Run implements Workout {
     private void validateContent(String content) {
     }
 
+    /**
+     * Valideringsmetode som tar inn en pulsverdi og validerer denne. Utløser unntak
+     * hvis ikke.
+     * 
+     * @param heartRate Int pulsverdi
+     */
     private void validateHeartRate(int heartRate) {
         if (heartRate < 0)
             throw new IllegalArgumentException("Heartrate sholud be grater than 0");
@@ -47,6 +65,12 @@ public class Run implements Workout {
             throw new IllegalArgumentException("Heartrate cannot be grater than 225");
     }
 
+    /**
+     * Tar inn en rating og validerer om denne er i en liste med gyldige verdier.
+     * Utløser unntak hvis ikke
+     * 
+     * @param rating char rating som skal være tallverdi fra 1-6
+     */
     private void validateRating(char rating) {
         Collection<Character> values = new ArrayList<>();
         values.addAll(Arrays.asList('1', '2', '3', '4', '5', '6'));
@@ -55,6 +79,12 @@ public class Run implements Workout {
             throw new IllegalArgumentException("Illegal rating, must be from 1-6");
     }
 
+    /**
+     * Valideringsmetode som sjekker om varighet på økten er gyldig. Satt makstid er
+     * bestemt til 5 timer. Utløser unntak hvis ugyldig.
+     * 
+     * @param duration int varighet i minutter på økt.
+     */
     private void validateDuration(int duration) {
         if (duration < 0)
             throw new IllegalArgumentException("Duration should be greater than 0");
@@ -62,6 +92,11 @@ public class Run implements Workout {
             throw new IllegalArgumentException("A workout cant be longer than 5 hours");
     }
 
+    /**
+     * Validerer om lengden på økten i km er gyldig. Utløser unntak hvis ikke.
+     * 
+     * @param km Int tallverdi som representerer lengden på løpetur.
+     */
     private void validateKm(int km) {
         if (km < 0)
             throw new IllegalArgumentException("Km must be grater than 0");
@@ -69,6 +104,12 @@ public class Run implements Workout {
             throw new IllegalArgumentException("Km must be less than 100km");
     }
 
+    /**
+     * Beregner gjennomsnittsfart ut ifra lengden og varighet.
+     * 
+     * @param duration int minutter varighet
+     * @param km       int distanse i km
+     */
     private void setAverageSpeed(int duration, int km) {
         this.averageSpeed = duration / km;
     }
