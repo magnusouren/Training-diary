@@ -6,22 +6,27 @@ import java.util.List;
 public class Exercise {
 
     String name;
-    int sets;
     List<Integer> reps = new ArrayList<>();
 
+    /**
+     * Konstruktør til å sette en øvelse
+     * 
+     * @param name String øvelsesnavn
+     */
     public Exercise(String name) {
         this.name = name;
     }
 
-    void setSets(int sets) {
-        this.sets = sets;
-    }
-
+    /**
+     * Tar inn tallverdi som representerer antall repetisjoner på det settet. Unntak
+     * hvis antall repetisjoner registrert er større enn tillatt
+     * 
+     * @param rep Int antall repetisjoner
+     */
     void addRep(int rep) {
-        if (reps.size() < sets)
-            reps.add(rep);
-        else
-            throw new IllegalArgumentException("To many sets added");
+        if (rep < 0)
+            throw new IllegalArgumentException("Rep must be greater than 0");
+        reps.add(rep);
     }
 
     public String getName() {
@@ -29,7 +34,7 @@ public class Exercise {
     }
 
     public int getSets() {
-        return sets;
+        return reps.size();
     }
 
     public List<Integer> getReps() {
