@@ -43,7 +43,7 @@ public class Run implements Workout {
     private void validateHeartRate(int heartRate) {
         if (heartRate < 0)
             throw new IllegalArgumentException("Heartrate sholud be grater than 0");
-        if (heartRate < 225)
+        if (heartRate > 225)
             throw new IllegalArgumentException("Heartrate cannot be grater than 225");
     }
 
