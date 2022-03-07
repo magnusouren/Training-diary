@@ -40,13 +40,13 @@ public class Run implements Workout {
 
         this.date = date;
         this.duration = duration;
-        this.km = km;
+        this.distance = distance;
         this.rating = rating;
         this.content = content;
         this.avaerageHeartRate = averageHeartRate;
         this.maxHeartRate = maxHeartRate;
 
-        setAverageSpeed(duration, km);
+        setAverageSpeed(duration, distance);
 
     }
 
