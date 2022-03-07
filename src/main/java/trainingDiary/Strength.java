@@ -12,6 +12,14 @@ public class Strength implements Workout {
     private String content;
     private List<Exercise> exercises = new ArrayList<>();
 
+    /**
+     * Konstrukøtr som innitialiserer en ny økt, med data tilknyttet økten.
+     * 
+     * @param date     Date til øktens dato
+     * @param duration Int varighet på økten i minutter
+     * @param rating   char terningkastverdi på økten
+     * @param content  String kommentarer til økten
+     */
     public Strength(Date date, int duration, char rating, String content) {
         this.date = date;
         this.duration = duration;
@@ -19,6 +27,13 @@ public class Strength implements Workout {
         this.content = content;
     }
 
+    /**
+     * Legger til en øvelse i listen over øvelser til økten. Tar inn navn antall
+     * sett og repetisjoner
+     * 
+     * @param name String navn på øvelse
+     * @param rep  Int[] med de ulike tallverdiene over reppetisjoner
+     */
     void addExercise(String name, int[] rep) {
         Exercise newEx = new Exercise(name);
         for (int i = 0; i < rep.length; i++) {
