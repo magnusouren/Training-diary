@@ -15,7 +15,9 @@ public class Run implements Workout {
 
     public Run(Date date, int duration, int km, char rating, String content, int averageHeartRate, int maxHeartRate) {
         this.date = date;
+        validateDuration(duration);
         this.duration = duration;
+        validateKm(km);
         this.km = km;
         this.rating = rating;
         this.content = content;
@@ -26,6 +28,13 @@ public class Run implements Workout {
 
     private void setAverageSpeed(int duration, int km) {
         this.averageSpeed = duration / km;
+    }
+
+    private void validateDuration(int duration) {
+        if (duration < 0)
+            throw new IllegalArgumentException("Duration should be greater than 0");
+        if (duration > 300)
+            throw new IllegalArgumentException("A workout cant be longer than 5 hours");
     }
 
     @Override
