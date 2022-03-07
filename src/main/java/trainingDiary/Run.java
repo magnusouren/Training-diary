@@ -30,6 +30,13 @@ public class Run implements Workout {
         this.averageSpeed = duration / km;
     }
 
+    private void validateKm(int km) {
+        if (km < 0)
+            throw new IllegalArgumentException("Km must be grater than 0");
+        if (km > 100)
+            throw new IllegalArgumentException("Km must be less than 100km");
+    }
+
     private void validateDuration(int duration) {
         if (duration < 0)
             throw new IllegalArgumentException("Duration should be greater than 0");
