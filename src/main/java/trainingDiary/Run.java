@@ -4,14 +4,14 @@ import java.util.Date;
 
 public class Run implements Workout {
 
-    Date date;
-    int duration;
-    int km;
-    char rating;
-    String content;
-    int avaerageHeartRate;
-    int maxHeartRate;
-    int averageSpeed;
+    private Date date;
+    private int duration;
+    private int km;
+    private char rating;
+    private String content;
+    private int avaerageHeartRate;
+    private int maxHeartRate;
+    private int averageSpeed;
 
     public Run(Date date, int duration, int km, char rating, String content, int averageHeartRate, int maxHeartRate) {
         this.date = date;

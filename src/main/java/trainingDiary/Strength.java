@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class Strength implements Workout {
 
-    Date date;
-    int duration;
-    char rating;
-    String content;
+    private Date date;
+    private int duration;
+    private char rating;
+    private String content;
 
     public Strength(Date date, int duration, char rating, String content) {
         this.date = date;
