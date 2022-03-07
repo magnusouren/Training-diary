@@ -1,5 +1,8 @@
 package trainingDiary;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 
 public class Run implements Workout {
@@ -19,6 +22,7 @@ public class Run implements Workout {
         this.duration = duration;
         validateKm(km);
         this.km = km;
+        validateRating(rating);
         this.rating = rating;
         this.content = content;
         this.avaerageHeartRate = averageHeartRate;
@@ -26,8 +30,12 @@ public class Run implements Workout {
         setAverageSpeed(duration, km);
     }
 
-    private void setAverageSpeed(int duration, int km) {
-        this.averageSpeed = duration / km;
+    private void validateRating(char rating) {
+        Collection<Character> values = new ArrayList<>();
+        values.addAll(Arrays.asList('1', '2', '3', '4', '5', '6'));
+
+        if (!values.contains(rating))
+            throw new IllegalArgumentException("Illegal rating");
     }
 
     private void validateKm(int km) {
@@ -42,6 +50,10 @@ public class Run implements Workout {
             throw new IllegalArgumentException("Duration should be greater than 0");
         if (duration > 300)
             throw new IllegalArgumentException("A workout cant be longer than 5 hours");
+    }
+
+    private void setAverageSpeed(int duration, int km) {
+        this.averageSpeed = duration / km;
     }
 
     @Override
