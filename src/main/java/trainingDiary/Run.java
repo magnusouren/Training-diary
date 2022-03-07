@@ -17,6 +17,7 @@ public class Run implements Workout {
     private int averageSpeed;
 
     public Run(Date date, int duration, int km, char rating, String content, int averageHeartRate, int maxHeartRate) {
+
         validateDuration(duration);
         validateKm(km);
         validateRating(rating);
@@ -36,7 +37,7 @@ public class Run implements Workout {
 
     }
 
-    private void validateContent(String content2) {
+    private void validateContent(String content) {
     }
 
     private void validateHeartRate(int heartRate) {
@@ -51,14 +52,7 @@ public class Run implements Workout {
         values.addAll(Arrays.asList('1', '2', '3', '4', '5', '6'));
 
         if (!values.contains(rating))
-            throw new IllegalArgumentException("Illegal rating");
-    }
-
-    private void validateKm(int km) {
-        if (km < 0)
-            throw new IllegalArgumentException("Km must be grater than 0");
-        if (km > 100)
-            throw new IllegalArgumentException("Km must be less than 100km");
+            throw new IllegalArgumentException("Illegal rating, must be from 1-6");
     }
 
     private void validateDuration(int duration) {
@@ -66,6 +60,13 @@ public class Run implements Workout {
             throw new IllegalArgumentException("Duration should be greater than 0");
         if (duration > 300)
             throw new IllegalArgumentException("A workout cant be longer than 5 hours");
+    }
+
+    private void validateKm(int km) {
+        if (km < 0)
+            throw new IllegalArgumentException("Km must be grater than 0");
+        if (km > 100)
+            throw new IllegalArgumentException("Km must be less than 100km");
     }
 
     private void setAverageSpeed(int duration, int km) {
