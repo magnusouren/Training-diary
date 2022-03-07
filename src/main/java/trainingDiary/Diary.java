@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Diary {
+
     List<Workout> diary = new ArrayList<>();
 
     void addWorkout(Workout workout) {
