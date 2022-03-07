@@ -33,21 +33,46 @@ public class Run implements Workout {
 
         validateDuration(duration);
         validateDistance(distance);
-        validateRating(rating);
         validateContent(content);
         validateHeartRate(averageHeartRate);
         validateHeartRate(maxHeartRate);
+        validateRating(rating);
 
         this.date = date;
         this.duration = duration;
         this.distance = distance;
-        this.rating = rating;
         this.content = content;
         this.avaerageHeartRate = averageHeartRate;
         this.maxHeartRate = maxHeartRate;
+        this.rating = rating;
 
         setAverageSpeed(duration, distance);
 
+    }
+
+    /**
+     * Valideringsmetode som sjekker om varighet på økten er gyldig. Satt makstid er
+     * bestemt til 5 timer. Utløser unntak hvis ugyldig.
+     * 
+     * @param duration int varighet i minutter på økt.
+     */
+    private void validateDuration(int duration) {
+        if (duration < 0)
+            throw new IllegalArgumentException("Duration must be greater than 0");
+        if (duration > 300)
+            throw new IllegalArgumentException("A workout canot be longer than 5 hours");
+    }
+
+    /**
+     * Validerer om lengden på økten i km er gyldig. Utløser unntak hvis ikke.
+     * 
+     * @param distance Int tallverdi som representerer lengden på løpetur.
+     */
+    private void validateDistance(int distance) {
+        if (distance < 0)
+            throw new IllegalArgumentException("Km must be grater than 0");
+        if (distance > 100000)
+            throw new IllegalArgumentException("Distance must be less than 100km");
     }
 
     private void validateContent(String content) {
@@ -79,31 +104,6 @@ public class Run implements Workout {
 
         if (!values.contains(rating))
             throw new IllegalArgumentException("Illegal rating, must be in the interval 1-6");
-    }
-
-    /**
-     * Valideringsmetode som sjekker om varighet på økten er gyldig. Satt makstid er
-     * bestemt til 5 timer. Utløser unntak hvis ugyldig.
-     * 
-     * @param duration int varighet i minutter på økt.
-     */
-    private void validateDuration(int duration) {
-        if (duration < 0)
-            throw new IllegalArgumentException("Duration must be greater than 0");
-        if (duration > 300)
-            throw new IllegalArgumentException("A workout canot be longer than 5 hours");
-    }
-
-    /**
-     * Validerer om lengden på økten i km er gyldig. Utløser unntak hvis ikke.
-     * 
-     * @param distance Int tallverdi som representerer lengden på løpetur.
-     */
-    private void validateDistance(int distance) {
-        if (distance < 0)
-            throw new IllegalArgumentException("Km must be grater than 0");
-        if (distance > 100000)
-            throw new IllegalArgumentException("Distance must be less than 100km");
     }
 
     /**
