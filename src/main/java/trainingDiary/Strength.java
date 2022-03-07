@@ -1,6 +1,8 @@
 package trainingDiary;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Strength implements Workout {
 
@@ -8,12 +10,21 @@ public class Strength implements Workout {
     private int duration;
     private char rating;
     private String content;
+    private List<Exercise> exercises = new ArrayList<>();
 
     public Strength(Date date, int duration, char rating, String content) {
         this.date = date;
         this.duration = duration;
         this.rating = rating;
         this.content = content;
+    }
+
+    void addExercise(String name, int sets, int[] rep) {
+        Exercise newEx = new Exercise(name);
+        newEx.setSets(sets);
+        for (int i = 0; i < rep.length; i++) {
+            newEx.setSets(rep[i]);
+        }
     }
 
     @Override
