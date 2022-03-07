@@ -10,9 +10,7 @@ public class Exercise {
     List<Integer> reps = new ArrayList<>();
 
     public Exercise(String name) {
-
         this.name = name;
-
     }
 
     void setSets(int sets) {
