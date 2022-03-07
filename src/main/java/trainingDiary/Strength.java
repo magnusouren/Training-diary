@@ -19,9 +19,8 @@ public class Strength implements Workout {
         this.content = content;
     }
 
-    void addExercise(String name, int sets, int[] rep) {
+    void addExercise(String name, int[] rep) {
         Exercise newEx = new Exercise(name);
-        newEx.setSets(sets);
         for (int i = 0; i < rep.length; i++) {
             newEx.addRep(rep[i]);
         }
@@ -67,7 +66,7 @@ public class Strength implements Workout {
         Date now = new Date();
         Strength test = new Strength(now, 50, '3', "Braaa");
         int[] rep = { 4, 5, 6 };
-        test.addExercise("benk", 3, rep);
+        test.addExercise("benk", rep);
         System.out.println(test);
     }
 }
