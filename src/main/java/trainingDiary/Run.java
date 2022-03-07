@@ -11,6 +11,7 @@ public class Run implements Workout {
     private String content;
     private char rating;
     private int duration;
+
     private int distance;
     private int avaerageHeartRate;
     private int maxHeartRate;
