@@ -17,20 +17,26 @@ public class Run implements Workout {
     private int averageSpeed;
 
     public Run(Date date, int duration, int km, char rating, String content, int averageHeartRate, int maxHeartRate) {
-        this.date = date;
         validateDuration(duration);
-        this.duration = duration;
         validateKm(km);
-        this.km = km;
         validateRating(rating);
-        this.rating = rating;
         validateContent(content);
-        this.content = content;
         validateHeartRate(averageHeartRate);
         validateHeartRate(maxHeartRate);
+
+        this.date = date;
+        this.duration = duration;
+        this.km = km;
+        this.rating = rating;
+        this.content = content;
         this.avaerageHeartRate = averageHeartRate;
         this.maxHeartRate = maxHeartRate;
+
         setAverageSpeed(duration, km);
+
+    }
+
+    private void validateContent(String content2) {
     }
 
     private void validateHeartRate(int heartRate) {
