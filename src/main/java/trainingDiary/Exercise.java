@@ -44,13 +44,15 @@ public class Exercise {
 
     @Override
     public String toString() {
-        String res = name;
+        String res = name + ": ";
 
         if (new HashSet<Integer>(reps).size() == 1) {
             res += reps.size() + " x " + reps.get(0);
         } else {
             for (int i = 0; i < reps.size(); i++) {
-                res += ", " + reps.get(i);
+                res += reps.get(i);
+                if (i != reps.size() - 1)
+                    res += ", ";
             }
         }
 
