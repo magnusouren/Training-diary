@@ -23,7 +23,7 @@ public class Strength implements Workout {
         Exercise newEx = new Exercise(name);
         newEx.setSets(sets);
         for (int i = 0; i < rep.length; i++) {
-            newEx.setSets(rep[i]);
+            newEx.addRep(rep[i]);
         }
         exercises.add(newEx);
     }
@@ -50,13 +50,24 @@ public class Strength implements Workout {
 
     @Override
     public String toString() {
-        return "Strength: Date: " + date + ", " + duration + " min, | Rating: " + rating + " | Content: "
-                + content;
+        String res = "Strength: Date: " + date + ", " + duration + " min, | Rating: " + rating + " | Content: "
+                + content + "\n";
+        for (Exercise exercise : exercises) {
+            res += exercise.getName() + ": " + exercise.getSets() + ": ";
+            List<Integer> reps = exercise.getReps();
+            for (Integer integer : reps) {
+                res += integer + ", ";
+            }
+            res += "\n";
+        }
+        return res;
     }
 
     public static void main(String[] args) {
         Date now = new Date();
         Strength test = new Strength(now, 50, '3', "Braaa");
+        int[] rep = { 4, 5, 6 };
+        test.addExercise("benk", 3, rep);
         System.out.println(test);
     }
 }

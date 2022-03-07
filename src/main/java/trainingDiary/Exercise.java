@@ -23,4 +23,17 @@ public class Exercise {
         else
             throw new IllegalArgumentException("To many sets added");
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getSets() {
+        return sets;
+    }
+
+    public List<Integer> getReps() {
+        return reps;
+    }
+
 }
