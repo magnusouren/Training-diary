@@ -25,6 +25,7 @@ public class Strength implements Workout {
         for (int i = 0; i < rep.length; i++) {
             newEx.setSets(rep[i]);
         }
+        exercises.add(newEx);
     }
 
     @Override
