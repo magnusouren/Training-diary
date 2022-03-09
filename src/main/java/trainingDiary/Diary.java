@@ -13,12 +13,12 @@ public class Diary {
     }
 
     /**
-     * Method to add an exercise with reps to an existing workout with type
-     * strength.
+     * Legger til en øvelse til økten hvis økten er av type Strength. Utløser unntak
+     * hvis ikke.
      * 
-     * @param strength Workout to get exercise
-     * @param name     String name of exercise to be added
-     * @param reps     int[] with numbers of reps
+     * @param strength Workout som skal få øvelse lagt til
+     * @param name     String navn på type øvelse
+     * @param reps     int[] tallrepresentasjon av antall repetisjoner
      */
     void addExercise(Workout strength, String name, int[] reps) {
         if (strength instanceof Strength) {

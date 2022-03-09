@@ -28,7 +28,7 @@ public class Strength implements Workout {
     }
 
     /**
-     * Legger til en øvelse i listen over øvelser til økten. Tar inn navn antall
+     * Legger til en øvelse i listen over øvelser til økten. Tar inn navn, antall
      * sett og repetisjoner
      * 
      * @param name String navn på øvelse
