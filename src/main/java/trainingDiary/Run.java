@@ -1,7 +1,6 @@
 package trainingDiary;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Run implements Workout {
 
