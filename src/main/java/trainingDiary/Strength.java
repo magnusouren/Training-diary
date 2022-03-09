@@ -21,6 +21,12 @@ public class Strength implements Workout {
      * @param content  String kommentarer til økten
      */
     public Strength(LocalDateTime date, int duration, char rating, String content) {
+        WorkoutValidate validator = new WorkoutValidate();
+
+        validator.ValidateDate(date);
+        validator.validateDuration(duration);
+        validator.validateRating(rating);
+
         this.date = date;
         this.duration = duration;
         this.rating = rating;
@@ -36,6 +42,7 @@ public class Strength implements Workout {
      */
     void addExercise(String name, int[] rep) {
         Exercise newEx = new Exercise(name);
+
         for (int i = 0; i < rep.length; i++) {
             newEx.addRep(rep[i]);
         }
