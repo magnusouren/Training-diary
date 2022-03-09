@@ -12,6 +12,14 @@ public class Diary {
         diary.add(workout);
     }
 
+    /**
+     * Method to add an exercise with reps to an existing workout with type
+     * strength.
+     * 
+     * @param strength Workout to get exercise
+     * @param name     String name of exercise to be added
+     * @param reps     int[] with numbers of reps
+     */
     void addExercise(Workout strength, String name, int[] reps) {
         if (strength instanceof Strength) {
             Strength castStrength = (Strength) strength;
