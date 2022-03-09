@@ -24,10 +24,14 @@ public class Exercise {
      * 
      * @param rep Int antall repetisjoner
      */
-    void addRep(int rep) {
-        if (rep < 0)
-            throw new IllegalArgumentException("Rep must be greater than 0");
-        reps.add(rep);
+    void addRep(List<Integer> reps) {
+        for (Integer rep : reps) {
+            if (rep <= 0) {
+                throw new IllegalArgumentException("Ugyldig verdi på rep");
+            } else {
+                this.reps.add(rep);
+            }
+        }
     }
 
     public String getName() {

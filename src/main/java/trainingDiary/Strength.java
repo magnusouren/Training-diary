@@ -34,18 +34,15 @@ public class Strength implements Workout {
     }
 
     /**
-     * Legger til en øvelse i listen over øvelser til økten. Tar inn navn, antall
-     * sett og repetisjoner
+     * Legger til en øvelse i listen over øvelser til økten. Tar inn navn og antall
+     * repetisjoner
      * 
      * @param name String navn på øvelse
      * @param rep  Int[] med de ulike tallverdiene over reppetisjoner
      */
-    void addExercise(String name, int[] rep) {
+    void addExercise(String name, Integer... rep) {
         Exercise newEx = new Exercise(name);
-
-        for (int i = 0; i < rep.length; i++) {
-            newEx.addRep(rep[i]);
-        }
+        newEx.addRep(List.of(rep));
         exercises.add(newEx);
     }
 
@@ -81,5 +78,13 @@ public class Strength implements Workout {
             res += "\n" + exercise;
         }
         return res;
+    }
+
+    public static void main(String[] args) {
+        Strength test = new Strength(LocalDateTime.now(), 60, '4', "BRa");
+
+        test.addExercise("Benk", 3, 3, 3, 3, 3);
+
+        System.out.println(test);
     }
 }
