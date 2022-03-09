@@ -1,5 +1,6 @@
 package trainingDiary;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,10 @@ public class Diary {
             diary.add(workout);
         else
             throw new IllegalArgumentException("Workout already exists");
+    }
+
+    void removeWorkout(Workout workout) {
+        diary.remove(workout);
     }
 
     /**
@@ -42,5 +47,20 @@ public class Diary {
             res += workout + "\n";
         }
         return res;
+    }
+
+    public static void main(String[] args) {
+        Diary diary = new Diary();
+
+        Workout strength = new Strength(LocalDateTime.now(), 60, '5', "Bra");
+
+        diary.addWorkout(strength);
+
+        System.out.println(diary);
+
+        diary.removeWorkout(strength);
+
+        System.out.println(strength);
+
     }
 }
