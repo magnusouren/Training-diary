@@ -1,10 +1,10 @@
 package trainingDiary;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public interface Workout {
 
-    public Date getDate();
+    public LocalDateTime getDate();
 
     public int getDuration();
 

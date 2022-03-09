@@ -1,9 +1,9 @@
 package trainingDiary;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 
 public class WorkoutValidate {
 
@@ -12,11 +12,11 @@ public class WorkoutValidate {
      * 
      * @param date
      */
-    void ValidateDate(Date date) {
+    void ValidateDate(LocalDateTime date) {
 
-        Date today = new Date();
+        LocalDateTime today = LocalDateTime.now();
 
-        if (today.before(date)) {
+        if (today.isAfter(today)) {
             throw new IllegalArgumentException("Date could not be in the future");
         }
 

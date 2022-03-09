@@ -1,12 +1,12 @@
 package trainingDiary;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Strength implements Workout {
 
-    private Date date;
+    private LocalDateTime date;
     private int duration;
     private char rating;
     private String content;
@@ -20,7 +20,7 @@ public class Strength implements Workout {
      * @param rating   char terningkastverdi på økten
      * @param content  String kommentarer til økten
      */
-    public Strength(Date date, int duration, char rating, String content) {
+    public Strength(LocalDateTime date, int duration, char rating, String content) {
         this.date = date;
         this.duration = duration;
         this.rating = rating;
@@ -43,7 +43,7 @@ public class Strength implements Workout {
     }
 
     @Override
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
@@ -74,15 +74,5 @@ public class Strength implements Workout {
             res += "\n" + exercise;
         }
         return res;
-    }
-
-    public static void main(String[] args) {
-        Date now = new Date();
-        Strength test = new Strength(now, 50, '3', "Braaa");
-        int[] rep1 = { 4, 5, 6 };
-        int[] rep2 = { 8, 8, 8 };
-        test.addExercise("benk", rep1);
-        test.addExercise("Knebøy", rep2);
-        System.out.println(test);
     }
 }

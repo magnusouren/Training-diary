@@ -1,10 +1,11 @@
 package trainingDiary;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Run implements Workout {
 
-    private Date date;
+    private LocalDateTime date;
     private String content;
     private char rating;
     private int duration;
@@ -18,7 +19,7 @@ public class Run implements Workout {
      * Konstruktør til å sette tilstand til Run-objektet. Tar inn parameterverdier,
      * validerer og setter disse.
      * 
-     * @param date             Date tilhørende datoen til økten
+     * @param date             LocalDateTime tilhørende datoen til økten
      * @param duration         Int varighet på økt
      * @param distance         Int lengde på løpetur i kilometer
      * @param rating           Char tallverdi for karrakter på økten
@@ -26,7 +27,7 @@ public class Run implements Workout {
      * @param averageHeartRate Int gjennomsnitt puls
      * @param maxHeartRate     Int makspuls
      */
-    public Run(Date date, int duration, int distance, char rating, String content, int averageHeartRate,
+    public Run(LocalDateTime date, int duration, int distance, char rating, String content, int averageHeartRate,
             int maxHeartRate) {
 
         WorkoutValidate validator = new WorkoutValidate();
@@ -92,7 +93,7 @@ public class Run implements Workout {
     }
 
     @Override
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
@@ -118,9 +119,4 @@ public class Run implements Workout {
                 + averageSpeed;
     }
 
-    public static void main(String[] args) {
-        Date now = new Date();
-        Run test = new Run(now, 60, 10, '4', "Test", 150, 180);
-        System.out.println(test);
-    }
 }
