@@ -111,6 +111,22 @@ public class Run implements Workout {
         return content;
     }
 
+    public int getDistance() {
+        return distance;
+    }
+
+    public int getAvaerageHeartRate() {
+        return avaerageHeartRate;
+    }
+
+    public int getAverageSpeed() {
+        return averageSpeed;
+    }
+
+    public int getMaxHeartRate() {
+        return maxHeartRate;
+    }
+
     @Override
     public String toString() {
         return "Run: Date: " + date + ", " + distance + "m, " + duration + " min, | Rating: " + rating + " | Content: "
