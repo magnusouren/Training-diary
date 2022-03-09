@@ -12,6 +12,15 @@ public class Diary {
         diary.add(workout);
     }
 
+    void addExercise(Workout strength, String name, int[] reps) {
+        if (strength instanceof Strength) {
+            Strength castStrength = (Strength) strength;
+            castStrength.addExercise(name, reps);
+        } else {
+            throw new IllegalArgumentException("Workout is not a strength-workout, couldn't add exercise");
+        }
+    }
+
     @Override
     public String toString() {
         String res = "";
