@@ -15,8 +15,7 @@ public class WorkoutValidate {
     void ValidateDate(LocalDateTime date) {
 
         LocalDateTime today = LocalDateTime.now();
-
-        if (today.isAfter(today)) {
+        if (today.isAfter(date)) {
             throw new IllegalArgumentException("Date could not be in the future");
         }
 
