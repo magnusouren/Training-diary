@@ -1,8 +1,5 @@
 package trainingDiary;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 
 public class Run implements Workout {
@@ -32,12 +29,16 @@ public class Run implements Workout {
     public Run(Date date, int duration, int distance, char rating, String content, int averageHeartRate,
             int maxHeartRate) {
 
-        validateDuration(duration);
+        WorkoutValidate validator = new WorkoutValidate();
+
+        validator.ValidateDate(date);
+        validator.validateDuration(duration);
+        validator.validateRating(rating);
+
         validateDistance(distance);
         validateContent(content);
         validateHeartRate(averageHeartRate);
         validateHeartRate(maxHeartRate);
-        validateRating(rating);
 
         this.date = date;
         this.duration = duration;
@@ -49,19 +50,6 @@ public class Run implements Workout {
 
         setAverageSpeed(duration, distance);
 
-    }
-
-    /**
-     * Valideringsmetode som sjekker om varighet på økten er gyldig. Satt makstid er
-     * bestemt til 5 timer. Utløser unntak hvis ugyldig.
-     * 
-     * @param duration int varighet i minutter på økt.
-     */
-    private void validateDuration(int duration) {
-        if (duration < 0)
-            throw new IllegalArgumentException("Duration must be greater than 0");
-        if (duration > 300)
-            throw new IllegalArgumentException("A workout canot be longer than 5 hours");
     }
 
     /**
@@ -91,20 +79,6 @@ public class Run implements Workout {
             throw new IllegalArgumentException("Heartrate sholud be grater than 0");
         if (heartRate > 225)
             throw new IllegalArgumentException("Heartrate cannot be grater than 225");
-    }
-
-    /**
-     * Tar inn en rating og validerer om denne er i en liste med gyldige verdier.
-     * Utløser unntak hvis ikke
-     * 
-     * @param rating char rating som skal være tallverdi fra 1-6
-     */
-    private void validateRating(char rating) {
-        Collection<Character> values = new ArrayList<>();
-        values.addAll(Arrays.asList('1', '2', '3', '4', '5', '6'));
-
-        if (!values.contains(rating))
-            throw new IllegalArgumentException("Illegal rating, must be in the interval 1-6");
     }
 
     /**
