@@ -3,7 +3,7 @@ package trainingDiary;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,8 +15,20 @@ public class RunTest {
 
     @BeforeEach
     public void setup() {
-        Date today = new Date();
-        run = new Run(today, 60, 5000, '3', "Test", 150, 200);
+        run = new Run(LocalDateTime.now(), 60, 5000, '3', "Test", 150, 200);
+    }
+
+    @Test
+    public void testConstructor() {
+        LocalDateTime now = LocalDateTime.now();
+        assertEquals(now.getYear(), run.getDate().getYear(), "Workout should have same year-value as today");
+        assertEquals(now.getMonth(), run.getDate().getMonth(), "Workout should have same month-value as today");
+        assertEquals(now.getDayOfMonth(), run.getDate().getDayOfMonth(), "Workout should have same day-value as today");
+        assertEquals(now.getHour(), run.getDate().getHour(), "Workout should have same hour-value as today");
+        assertEquals(now.getMinute(), run.getDate().getMinute(), "Workout should have same minute-value as today");
+
+        assertEquals(60, run.getDuration(), "Duration should be 60 when sat to 60");
+        assertEquals('3', run.getRating(), "Rating should be '3'");
     }
 
 }
