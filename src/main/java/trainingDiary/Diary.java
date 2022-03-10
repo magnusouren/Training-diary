@@ -53,14 +53,15 @@ public class Diary {
         Diary diary = new Diary();
 
         Workout strength = new Strength(LocalDateTime.now(), 60, '5', "Bra");
+        Workout run = new Run(LocalDateTime.now(), 60, 50000, '5', "Løp", 150, 200);
 
         diary.addWorkout(strength);
+        diary.addWorkout(run);
+
+        diary.addExercise(strength, "benk", 5, 5, 5);
+        diary.addExercise(strength, "knebøy", 5, 6, 5);
 
         System.out.println(diary);
-
-        diary.removeWorkout(strength);
-
-        System.out.println(strength);
 
     }
 }

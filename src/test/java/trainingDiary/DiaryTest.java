@@ -57,4 +57,14 @@ public class DiaryTest {
         diary.removeWorkout(run);
         assertEquals(0, diary.getDiary().size());
     }
+
+    @Test
+    public void testAddExercise() {
+        diary.addExercise(strength, "benk", 1, 2, 3, 4);
+        assertEquals("benk", strength.getExercises().get(0).getName());
+        assertEquals(1, strength.getExercises().get(0).getReps().get(0));
+        assertEquals(2, strength.getExercises().get(0).getReps().get(1));
+        assertEquals(3, strength.getExercises().get(0).getReps().get(2));
+        assertEquals(4, strength.getExercises().get(0).getReps().get(3));
+    }
 }
