@@ -16,7 +16,10 @@ public class Diary {
     }
 
     void removeWorkout(Workout workout) {
-        diary.remove(workout);
+        if (diary.contains(workout))
+            diary.remove(workout);
+        else
+            throw new IllegalArgumentException("Workout doesn't exist in diary");
     }
 
     /**
