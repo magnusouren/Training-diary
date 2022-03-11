@@ -67,7 +67,7 @@ public class Strength implements Workout {
     }
 
     public List<Exercise> getExercises() {
-        return exercises;
+        return new ArrayList<>(exercises);
     }
 
     @Override

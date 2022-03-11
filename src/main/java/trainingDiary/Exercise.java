@@ -43,7 +43,7 @@ public class Exercise {
     }
 
     public List<Integer> getReps() {
-        return reps;
+        return new ArrayList<>(reps);
     }
 
     @Override

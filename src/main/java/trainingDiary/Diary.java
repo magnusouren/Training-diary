@@ -40,7 +40,7 @@ public class Diary {
     }
 
     public List<Workout> getDiary() {
-        return diary;
+        return new ArrayList<>(diary);
     }
 
     @Override
