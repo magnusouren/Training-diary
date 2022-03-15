@@ -61,7 +61,7 @@ public class Run implements Workout {
         if (distance < 0)
             throw new IllegalArgumentException("Km must be grater than 0");
         if (distance > 100000)
-            throw new IllegalArgumentException("Distance must be less than 100km");
+            throw new IllegalArgumentException("Distance cannot be greater than 100km");
     }
 
     private void validateContent(String content) {
