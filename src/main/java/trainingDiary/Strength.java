@@ -3,6 +3,7 @@ package trainingDiary;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Strength implements Workout {
 
@@ -73,10 +74,10 @@ public class Strength implements Workout {
     @Override
     public String toString() {
         String res = "Strength: Date: " + date + ", " + duration + " min, | Rating: " + rating + " | Content: "
-                + content;
-        for (Exercise exercise : exercises) {
-            res += "\n" + exercise;
-        }
+                + content + "\n";
+        res += exercises.stream()
+                .map(exercise -> exercise.toString())
+                .collect(Collectors.joining("\n"));
         return res;
     }
 
