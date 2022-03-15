@@ -1,7 +1,11 @@
 package trainingDiary;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -10,6 +14,8 @@ import javafx.scene.layout.GridPane;
 
 public class trainingDiaryController {
     private Diary diary = new Diary();
+    private int year = 2022;
+    private int month = 3;
 
     @FXML
     public GridPane calendar;
@@ -22,8 +28,8 @@ public class trainingDiaryController {
         Workout strength5 = new Strength(LocalDateTime.of(2022, 02, 5, 04, 30), 90, '4', "Litt tungt men greit");
         Workout strength6 = new Strength(LocalDateTime.of(2022, 02, 6, 10, 00), 80, '1', "Elendig form");
         Workout strength7 = new Strength(LocalDateTime.of(2022, 02, 7, 20, 00), 60, '2', "Fortsatt dårlig");
-        Workout strength8 = new Strength(LocalDateTime.of(2022, 02, 8, 18, 00), 75, '4', "Begynner å komme seg");
-        Workout strength9 = new Strength(LocalDateTime.of(2022, 02, 9, 13, 00), 70, '5', "Bra igjen");
+        Workout strength8 = new Strength(LocalDateTime.of(2022, 03, 12, 18, 00), 75, '4', "Begynner å komme seg");
+        Workout strength9 = new Strength(LocalDateTime.of(2022, 03, 13, 13, 00), 70, '5', "Bra igjen");
 
         diary.addWorkout(strength1);
         diary.addWorkout(strength2);
@@ -87,9 +93,20 @@ public class trainingDiaryController {
     @FXML
     public void initialize() {
         testData();
-        for (int i = 0; i < diary.getDiary().size(); i++) {
-            Workout workout = diary.getDiary().get(i);
-            calendar.add(createItemButton(workout), i % 7, i / 7 + 1);
+        List<Workout> workouts = diary.getDiary().stream()
+                .filter(workout -> workout.getDate().getMonth().getValue() == this.month).collect(Collectors.toList());
+        generateCalendar(workouts);
+
+    }
+
+    private void generateCalendar(List<Workout> workouts) {
+        LocalDate monthSet = LocalDate.of(year, month, 1);
+        int weekday = monthSet.getDayOfWeek().getValue() - 1;
+        System.out.println(weekday);
+
+        for (int i = weekday; i < workouts.size(); i++) {
+            Workout workout = workouts.get(i);
+            calendar.add(createItemButton(workout), (i % 7), (i / 7) + 1);
         }
     }
 
