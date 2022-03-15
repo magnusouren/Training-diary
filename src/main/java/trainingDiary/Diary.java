@@ -3,6 +3,7 @@ package trainingDiary;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Diary {
 
@@ -45,11 +46,9 @@ public class Diary {
 
     @Override
     public String toString() {
-        String res = "";
-        for (Workout workout : diary) {
-            res += workout + "\n";
-        }
-        return res;
+        return diary.stream()
+                .map(diary -> diary.toString())
+                .collect(Collectors.joining("\n"));
     }
 
     public static void main(String[] args) {
