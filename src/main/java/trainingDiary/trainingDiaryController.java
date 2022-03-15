@@ -14,7 +14,7 @@ public class trainingDiaryController {
     @FXML
     public GridPane calendar;
 
-    public void test() {
+    public void testData() {
         Workout strength1 = new Strength(LocalDateTime.of(2022, 02, 1, 12, 00), 90, '6', "Veldig bra økt");
         Workout strength2 = new Strength(LocalDateTime.of(2022, 02, 2, 13, 30), 30, '2', "Ble syk dro tidlig...");
         Workout strength3 = new Strength(LocalDateTime.of(2022, 02, 3, 11, 00), 60, '4', "OK");
@@ -86,7 +86,7 @@ public class trainingDiaryController {
 
     @FXML
     public void initialize() {
-        test();
+        testData();
         for (int i = 0; i < diary.getDiary().size(); i++) {
             Workout workout = diary.getDiary().get(i);
             calendar.add(createItemButton(workout), i % 7, i / 7 + 1);
@@ -101,11 +101,16 @@ public class trainingDiaryController {
         button.wrapTextProperty().setValue(true);
         button.setStyle("-fx-text-alignment: center;-fx-background-color: white;-fx-border-color:black;");
         button.setCursor(Cursor.HAND);
-        // button.setOnAction((event) -> handleWorkoutSelect(workout));
-        button.setMaxWidth(Double.MAX_VALUE - 10);
-        button.setMaxHeight(Double.MAX_VALUE - 10);
+        button.setOnAction((event) -> handleWorkoutSelect(workout));
+        button.setMaxWidth(99);
+        button.setMaxHeight(66);
 
         return button;
+    }
+
+    private void handleWorkoutSelect(Workout workout) {
+        System.out.println(workout);
+        // +++++
     }
 
     public static void main(String[] args) {
