@@ -12,7 +12,7 @@ public class Run implements Workout {
     private int distance;
     private int avaerageHeartRate;
     private int maxHeartRate;
-    private int averageSpeed;
+    private double averageSpeed;
 
     /**
      * Konstruktør til å sette tilstand til Run-objektet. Tar inn parameterverdier,
@@ -87,8 +87,8 @@ public class Run implements Workout {
      * @param duration int minutter varighet
      * @param distance int distanse i km
      */
-    private void setAverageSpeed(int duration, int km) {
-        this.averageSpeed = duration / km;
+    private void setAverageSpeed(double duration, double km) {
+        this.averageSpeed = (km / 1000) / (duration / 60);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class Run implements Workout {
         return avaerageHeartRate;
     }
 
-    public int getAverageSpeed() {
+    public double getAverageSpeed() {
         return averageSpeed;
     }
 
