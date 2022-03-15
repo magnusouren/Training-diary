@@ -99,6 +99,9 @@ public class DiaryTest {
         assertEquals(3, strength.getExercises().get(0).getReps().get(2));
         assertEquals(4, strength.getExercises().get(0).getReps().get(3));
 
+        diary.addExercise(strength, "benk", 1, 2, 3, 4);
+        assertNotEquals(strength.getExercises().get(0), strength.getExercises().get(1));
+
     }
 
     @Test
