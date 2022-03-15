@@ -1,0 +1,10 @@
+//Summerer total treningstid
+        int totalTime = (diary.getDiary().stream()
+                .filter(workout -> workout.getClass().equals(run1.getClass()))
+                .map(workout -> workout.getDuration())
+                .reduce(0, (sum, duration) -> sum + duration));
+
+
+// Printer hver økt med rating mindre enn
+        diary.getDiary().stream().filter(workout -> workout.getRating() < '3')
+                .forEach(System.out::println);
