@@ -2,6 +2,8 @@ package trainingDiary;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,14 +12,17 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
+import javafx.scene.effect.MotionBlur;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public class trainingDiaryController {
 
     private Diary diary = new Diary();
-    private int year;
-    private int month;
+    private int year = LocalDate.now().getYear();
+    private int month = LocalDate.now().getMonthValue();
+
     private List<Workout> workouts;
 
     public void initializetestData() {
@@ -95,12 +100,14 @@ public class trainingDiaryController {
     public GridPane calendar;
 
     @FXML
+    public Text monthText;
+
+    @FXML
     public void initialize() {
         initializetestData();
-        setMonth();
+        updateDateField();
         getWorkouts();
         generateCalendar();
-
     }
 
     private void getWorkouts() {
@@ -110,12 +117,15 @@ public class trainingDiaryController {
                 .collect(Collectors.toList());
     }
 
-    private void setMonth() {
-        this.year = LocalDate.now().getYear();
-        this.month = LocalDate.now().getMonthValue();
+    private void updateDateField() {
+        String month = Month.of(this.month).name();
+        month = month.substring(0, 1) + month.substring(1).toLowerCase();
+
+        monthText.setText(month + " " + year);
     }
 
     private void generateCalendar() {
+        calendar.getChildren().clear();
         LocalDate date = LocalDate.of(year, month, 1);
         int dateVal = date.getDayOfWeek().getValue() - 1;
 
@@ -146,10 +156,10 @@ public class trainingDiaryController {
                 .collect(Collectors.toList());
 
         if (stream.isEmpty()) {
-            Button button = new Button("----");
+            Button button = new Button("");
 
             button.wrapTextProperty().setValue(true);
-            button.setStyle("-fx-text-alignment: center;-fx-background-color: white;-fx-border-color:black;");
+            button.setStyle("-fx-text-alignment: center;-fx-background-color: white;");
             button.setMaxWidth(Double.MAX_VALUE);
             button.setMaxHeight(Double.MAX_VALUE);
 
@@ -168,13 +178,34 @@ public class trainingDiaryController {
         Font font = new Font("System", 12);
         button.setFont(font);
         button.wrapTextProperty().setValue(true);
-        button.setStyle("-fx-text-alignment: center;-fx-background-color: white;-fx-border-color:black;");
+        button.setStyle("-fx-text-alignment: center;-fx-background-color: white;");
         button.setCursor(Cursor.HAND);
         button.setOnAction((event) -> handleWorkoutSelect(workout));
         button.setMaxWidth(Double.MAX_VALUE);
         button.setMaxHeight(Double.MAX_VALUE);
 
         return button;
+    }
+
+    public void prevMonth() {
+        if (month == 1) {
+            month = 12;
+            year--;
+        } else
+            month--;
+
+        initialize();
+    }
+
+    public void nextMonth() {
+        if (month == 12) {
+            month = 1;
+            year++;
+        } else
+            month++;
+
+        initialize();
+
     }
 
     private void handleWorkoutSelect(Workout workout) {
