@@ -132,7 +132,7 @@ public class trainingDiaryController {
         while (date.getMonth().getValue() == this.month) {
             calendar.add(createTitledPane(date),
                     (dateVal % 7),
-                    1 + dateVal / 7);
+                    dateVal / 7);
             dateVal++;
             date = date.plusDays(1);
         }
