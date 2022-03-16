@@ -4,23 +4,23 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
 public class trainingDiaryController {
-    private Diary diary = new Diary();
-    private int year = 2022;
-    private int month = 3;
 
-    public void testData() {
+    private Diary diary = new Diary();
+    private int year;
+    private int month;
+    private List<Workout> workouts;
+
+    public void initializetestData() {
 
         Workout strength1 = new Strength(LocalDateTime.of(2022, 02, 1, 12, 00), 90, '6', "Veldig bra økt");
         Workout strength2 = new Strength(LocalDateTime.of(2022, 02, 2, 13, 30), 30, '2', "Ble syk dro tidlig...");
@@ -96,46 +96,60 @@ public class trainingDiaryController {
 
     @FXML
     public void initialize() {
-        testData();
-        List<Workout> workouts = diary.getDiary().stream()
-                .filter(workout -> workout.getDate().getMonth().getValue() == this.month).collect(Collectors.toList());
-        generateCalendar(workouts);
+        initializetestData();
+        setMonth();
+        getWorkouts();
+        generateCalendar();
 
     }
 
-    private void generateCalendar(List<Workout> workouts) {
-        LocalDate monthSet = LocalDate.of(year, month, 1);
+    private void getWorkouts() {
+        this.workouts = diary.getDiary().stream()
+                .filter(workout -> workout.getDate().getMonthValue() == this.month
+                        && workout.getDate().getYear() == this.year)
+                .collect(Collectors.toList());
+    }
 
-        while (monthSet.getMonth().getValue() == month) {
-            calendar.add(createTitledPane(monthSet),
-                    (monthSet.getDayOfMonth() % 7),
-                    1 + (monthSet.getDayOfMonth()) / 7);
-            monthSet = monthSet.plusDays(1);
+    private void setMonth() {
+        this.year = LocalDate.now().getYear();
+        this.month = LocalDate.now().getMonthValue();
+    }
+
+    private void generateCalendar() {
+        LocalDate date = LocalDate.of(year, month, 1);
+        int dateVal = date.getDayOfWeek().getValue() - 1;
+
+        while (date.getMonth().getValue() == this.month) {
+            calendar.add(createTitledPane(date),
+                    (dateVal % 7),
+                    1 + dateVal / 7);
+            dateVal++;
+            date = date.plusDays(1);
         }
     }
 
     private TitledPane createTitledPane(LocalDate date) {
+
         String dateValue = String.valueOf(date.getDayOfMonth());
+
         TitledPane dateView = new TitledPane(dateValue + ".", createWorkoutButton(date));
         dateView.collapsibleProperty().set(false);
         dateView.setMaxHeight(Double.MAX_VALUE);
+
         return dateView;
-        // return new TitledPane(date + ".", createItemButton(diary.getDiary().get(0)));
     }
 
-    private Button createWorkoutButton(LocalDate monthSet) {
+    private Button createWorkoutButton(LocalDate date) {
 
-        List<Workout> stream = diary.getDiary().stream()
-                .filter(w -> w.getDate().getDayOfMonth() == monthSet.getDayOfMonth()
-                        && w.getDate().getMonthValue() == monthSet.getMonthValue()
-                        && w.getDate().getYear() == monthSet.getYear())
+        List<Workout> stream = workouts.stream()
+                .filter(w -> w.getDate().getDayOfMonth() == date.getDayOfMonth())
                 .collect(Collectors.toList());
 
         if (stream.isEmpty()) {
-            Button button = new Button("----\n");
+            Button button = new Button("----");
+
             button.wrapTextProperty().setValue(true);
             button.setStyle("-fx-text-alignment: center;-fx-background-color: white;-fx-border-color:black;");
-            // button.setCursor(Cursor.HAND);
             button.setMaxWidth(Double.MAX_VALUE);
             button.setMaxHeight(Double.MAX_VALUE);
 
