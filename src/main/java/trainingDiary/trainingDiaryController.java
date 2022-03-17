@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
-import javafx.scene.effect.MotionBlur;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -206,6 +205,13 @@ public class trainingDiaryController {
 
         initialize();
 
+    }
+
+    public void today() {
+        year = LocalDate.now().getYear();
+        month = LocalDate.now().getMonthValue();
+
+        initialize();
     }
 
     private void handleWorkoutSelect(Workout workout) {
