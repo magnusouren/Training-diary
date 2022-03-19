@@ -3,6 +3,8 @@ package trainingDiary;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class Exercise {
 
@@ -53,11 +55,9 @@ public class Exercise {
         if (new HashSet<Integer>(reps).size() == 1) {
             res += reps.size() + " x " + reps.get(0);
         } else {
-            for (int i = 0; i < reps.size(); i++) {
-                res += reps.get(i);
-                if (i != reps.size() - 1)
-                    res += ", ";
-            }
+            res += reps.stream()
+                    .map(r -> String.valueOf(r))
+                    .collect(Collectors.joining(", "));
         }
 
         return res;
