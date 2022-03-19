@@ -3,10 +3,8 @@ package trainingDiary;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -113,7 +111,7 @@ public class trainingDiaryController {
         this.workouts = diary.getDiary().stream()
                 .filter(workout -> workout.getDate().getMonthValue() == this.month
                         && workout.getDate().getYear() == this.year)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private void updateDateField() {
@@ -152,7 +150,7 @@ public class trainingDiaryController {
 
         List<Workout> stream = workouts.stream()
                 .filter(w -> w.getDate().getDayOfMonth() == date.getDayOfMonth())
-                .collect(Collectors.toList());
+                .toList();
 
         if (stream.isEmpty()) {
             Button button = new Button("");
@@ -205,6 +203,18 @@ public class trainingDiaryController {
 
         initialize();
 
+    }
+
+    public void addRun() {
+        System.out.println("Add run");
+        calendar.getChildren().clear();
+        Button button = new Button("Cancel");
+        button.setOnAction((event) -> initialize());
+        calendar.add(button, 2, 2);
+    }
+
+    public void addStrength() {
+        System.out.println("Add strength");
     }
 
     public void today() {
