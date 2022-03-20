@@ -47,6 +47,7 @@ public class RunController {
     final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
     final PseudoClass validClass = PseudoClass.getPseudoClass("valid");
     WorkoutValidate validator = new WorkoutValidate();
+    Boolean validationStatus;
 
     @FXML
     private void initialize() {
@@ -65,6 +66,7 @@ public class RunController {
     }
 
     public void save() {
+        validationStatus = true;
         LocalDate dateVal = date.getValue();
         String durationVal = duration.getText();
         String distanceVal = distance.getText();
@@ -76,7 +78,7 @@ public class RunController {
         // validateDate(dateVal);
         validateDuration(durationVal);
         // validateDistance();
-        // validateRating();
+        validateRating(ratingVal);
         // validateMaxHr();
         // validateAvgHr();
         // validateComments();
@@ -93,16 +95,20 @@ public class RunController {
         // duration.pseudoClassStateChanged(validClass, true);
         // rating.pseudoClassStateChanged(validClass, true);
 
+        if (validationStatus)
+            quit();
     }
 
     /**
-     * Gir node klassen "error" og fjerner eventuelt klassen "valid"
+     * Gir node klassen "error" og fjerner eventuelt klassen "valid". Setter
+     * validationStatus lik false for å forhindre å sette ugyldige tilstander
      * 
      * @param field JavaFx-element som skal endre stil
      */
     private void invalidInput(Node field) {
         field.pseudoClassStateChanged(validClass, false);
         field.pseudoClassStateChanged(errorClass, true);
+        validationStatus = false;
     }
 
     /**
@@ -129,9 +135,17 @@ public class RunController {
             validator.validateDuration(hours * 60 + minutes);
 
             validInput(duration);
-
         } catch (Exception e) {
             invalidInput(duration);
+        }
+    }
+
+    private void validateRating(String ratingVal) {
+        try {
+            validator.validateDuration(Integer.valueOf(ratingVal));
+            validInput(rating);
+        } catch (Exception e) {
+            invalidInput(rating);
         }
     }
 
