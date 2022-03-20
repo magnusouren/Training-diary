@@ -1,18 +1,23 @@
 package trainingDiary;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class trainingDiaryController {
 
@@ -205,12 +210,16 @@ public class trainingDiaryController {
 
     }
 
-    public void addRun() {
-        System.out.println("Add run");
-        calendar.getChildren().clear();
-        Button button = new Button("Cancel");
-        button.setOnAction((event) -> initialize());
-        calendar.add(button, 2, 2);
+    public void addRun(ActionEvent event) {
+        Stage primaryStage = new Stage();
+        try {
+            primaryStage.setTitle("Training Diary");
+            primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("Run.fxml"))));
+            primaryStage.show();
+        } catch (IOException e) {
+            System.out.println("feil");
+            e.printStackTrace();
+        }
     }
 
     public void addStrength() {
