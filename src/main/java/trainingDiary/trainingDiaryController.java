@@ -155,6 +155,13 @@ public class trainingDiaryController {
         }
     }
 
+    /**
+     * Metode som lager et TitledPane med datoverdi pluss eventiuel knapp for økt
+     * tilhørende den dagen
+     * 
+     * @param date Dato som skal få tilordnet TitledPane
+     * @return TitledPane med dato som tekstverdi og eventuell knapp for økt
+     */
     private TitledPane createTitledPane(LocalDate date) {
 
         String dateValue = String.valueOf(date.getDayOfMonth());
@@ -166,6 +173,13 @@ public class trainingDiaryController {
         return dateView;
     }
 
+    /**
+     * Metode som lager knapp for økt tilhørende dato, hvis ikke returnerer tom
+     * knapp.
+     * 
+     * @param date Dato som skal få tildelt knapp
+     * @return Button med økt/tomt innhold
+     */
     private Button createWorkoutButton(LocalDate date) {
 
         List<Workout> stream = workouts.stream()
@@ -187,6 +201,13 @@ public class trainingDiaryController {
             return createButton(stream.get(0));
     }
 
+    /**
+     * Metode som lager knapp for knapp med økt. Definerer stil og funksjonskall ved
+     * interaksjon
+     * 
+     * @param workout Workout økt som skal få tildelt knapp
+     * @return Button med innhold tilknyttet økt
+     */
     private Button createButton(Workout workout) {
         Button button = new Button(
                 workout.getDate().format(DateTimeFormatter.ofPattern("HH:mm")) + " "
@@ -204,6 +225,10 @@ public class trainingDiaryController {
         return button;
     }
 
+    /**
+     * Dekrementerer verdien til månede, hvis januar senkes årstallet med 1 og
+     * månede settes til desember
+     */
     public void prevMonth() {
         if (month == 1) {
             month = 12;
@@ -214,6 +239,10 @@ public class trainingDiaryController {
         initialize();
     }
 
+    /**
+     * Inkrementerer verdien til månede, hvis desember øker årstall med 1 og månede
+     * settes til januar
+     */
     public void nextMonth() {
         if (month == 12) {
             month = 1;
@@ -225,22 +254,34 @@ public class trainingDiaryController {
 
     }
 
+    /**
+     * Metode som kalles når bruker legger til ny løpeøkt. Henter opp filen Run.fxml
+     * og viser denne i nytt vindu.
+     * 
+     * @param event
+     */
     public void addRun(ActionEvent event) {
         Stage primaryStage = new Stage();
         try {
-            primaryStage.setTitle("Training Diary");
+            primaryStage.setTitle("Add new Workout");
             primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("Run.fxml"))));
             primaryStage.show();
         } catch (IOException e) {
-            System.out.println("feil");
+            System.out.println("Not abel to open Run.Fxml in a new window");
             e.printStackTrace();
         }
     }
 
+    /**
+     * Mulig denne kan slås sammen med metoden ovenfor.
+     */
     public void addStrength() {
         System.out.println("Add strength");
     }
 
+    /**
+     * Setter feltene månede og år tilsvarende dagens månede og årstall
+     */
     public void today() {
         year = LocalDate.now().getYear();
         month = LocalDate.now().getMonthValue();
@@ -248,12 +289,14 @@ public class trainingDiaryController {
         initialize();
     }
 
+    /**
+     * Metoden som kalles når en økt blir valgt
+     * 
+     * @param workout Workout økt som skal vises
+     */
     private void handleWorkoutSelect(Workout workout) {
         System.out.println(workout);
         // +++++
     }
 
-    public static void main(String[] args) {
-
-    }
 }
