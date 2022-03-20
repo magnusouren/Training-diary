@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="315.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trainingDiary.RunController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="543.0" prefWidth="315.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trainingDiary.RunController">
   <columnConstraints>
       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="151.0" minWidth="0.0" prefWidth="20.0" />
     <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="306.0" minWidth="10.0" prefWidth="295.0" />
@@ -48,13 +48,13 @@
         </rowConstraints>
          <children>
             <Label text="Date:" />
-            <DatePicker fx:id="date" maxWidth="180.0" showWeekNumbers="true" GridPane.columnIndex="1" />
+            <DatePicker fx:id="date" maxWidth="180.0" showWeekNumbers="true" stylesheets="@style.css" GridPane.columnIndex="1" />
             <Label text="Duration:" GridPane.rowIndex="1" />
-            <TextField fx:id="duration" maxWidth="180.0" prefHeight="26.0" prefWidth="150.0" promptText="hh:mm" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="duration" maxWidth="180.0" prefHeight="26.0" prefWidth="150.0" promptText="hh:mm" stylesheets="@style.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label text="Distance:" GridPane.rowIndex="2" />
-            <TextField fx:id="distance" maxWidth="180.0" prefHeight="26.0" prefWidth="150.0" promptText="meters" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="distance" maxWidth="180.0" prefHeight="26.0" prefWidth="150.0" promptText="meters" stylesheets="@style.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Rating:" GridPane.rowIndex="3" />
-            <ChoiceBox fx:id="rating" minWidth="172.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ChoiceBox fx:id="rating" minWidth="172.0" stylesheets="@style.css" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Maximum heartrate:" GridPane.rowIndex="4" />
             <TextField fx:id="maxHr" promptText="bpm" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label text="Average heartrate:" GridPane.rowIndex="5" />
@@ -72,7 +72,7 @@
         </rowConstraints>
          <children>
             <Button fx:id="cancel" minWidth="100.0" mnemonicParsing="false" onAction="#quit" text="Cancel" />
-            <Button fx:id="save" minWidth="100.0" mnemonicParsing="false" text="Save" GridPane.columnIndex="1" />
+            <Button fx:id="save" minWidth="100.0" mnemonicParsing="false" onAction="#save" text="Save" GridPane.columnIndex="1" />
          </children>
       </GridPane>
       <Separator prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
