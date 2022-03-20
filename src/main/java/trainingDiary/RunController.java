@@ -135,7 +135,7 @@ public class RunController {
             validator.validateDuration(hours * 60 + minutes);
 
             validInput(duration);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             invalidInput(duration);
         }
     }
@@ -144,7 +144,7 @@ public class RunController {
         try {
             validator.validateDuration(Integer.valueOf(ratingVal));
             validInput(rating);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             invalidInput(rating);
         }
     }
