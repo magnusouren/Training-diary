@@ -2,9 +2,7 @@ package trainingDiary;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
-import javafx.animation.FillTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
@@ -15,8 +13,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Background;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class RunController {
