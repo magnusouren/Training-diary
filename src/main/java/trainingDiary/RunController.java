@@ -1,5 +1,9 @@
 package trainingDiary;
 
+import java.time.LocalDate;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -20,7 +24,7 @@ public class RunController {
     TextField distance;
 
     @FXML
-    ChoiceBox<Integer> rating;
+    ChoiceBox<String> rating;
 
     @FXML
     TextField maxHr;
@@ -39,6 +43,12 @@ public class RunController {
 
     @FXML
     private void initialize() {
+
+        date.setValue(LocalDate.now());
+
+        ObservableList<String> ratings = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6");
+        rating.setItems(ratings);
+        rating.setValue("-- Set rating --");
 
     }
 
