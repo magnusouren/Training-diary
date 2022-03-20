@@ -104,6 +104,9 @@ public class trainingDiaryController {
     @FXML
     public Text monthText;
 
+    /**
+     * Metode som kjører når app initialiseres. Kaller på metoder som bygger vinduet
+     */
     @FXML
     public void initialize() {
         initializetestData();
@@ -112,6 +115,9 @@ public class trainingDiaryController {
         generateCalendar();
     }
 
+    /**
+     * Henter ut alle økter som er innenfor den satte måneden
+     */
     private void getWorkouts() {
         this.workouts = diary.getDiary().stream()
                 .filter(workout -> workout.getDate().getMonthValue() == this.month
@@ -119,6 +125,10 @@ public class trainingDiaryController {
                 .toList();
     }
 
+    /**
+     * Henter tekstverdien til satt månede og endrer feltet øverst i vinduet til
+     * satt månede i tekst (med stor forbokstav) + årstall
+     */
     private void updateDateField() {
         String month = Month.of(this.month).name();
         month = month.substring(0, 1) + month.substring(1).toLowerCase();
@@ -126,6 +136,11 @@ public class trainingDiaryController {
         monthText.setText(month + " " + year);
     }
 
+    /**
+     * Fjerner eventuelle elementer i calendar.
+     * Kalkulerer hvilken ukedag den 1. denne måneden faller på.
+     * Genererer TitledPanes med datoverdier for hver dag i måneden.
+     */
     private void generateCalendar() {
         calendar.getChildren().clear();
         LocalDate date = LocalDate.of(year, month, 1);
