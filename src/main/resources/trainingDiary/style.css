@@ -1,0 +1,22 @@
+.text-field:error {
+    -fx-background-color: rgba(255, 225, 225), rgb(0, 0, 0), rgb(255, 225, 225);
+}
+.date-picker:error {
+    -fx-date-pickper-background-color: red, rgb(0, 0, 0), rgb(252, 196, 196);
+    -fx-date-picker-border: red;
+}
+
+.choice-box:error {
+    -fx-background-color: rgba(255, 225, 225), rgba(255, 225, 225),
+        rgba(255, 225, 225);
+    -fx-border-color: rgba(255, 255, 255, 0);
+}
+.text-field:valid {
+    -fx-background-color: rgb(198, 255, 184), rgb(198, 255, 184),
+        rgb(198, 255, 184);
+}
+
+.choice-box:valid {
+    -fx-background-color: rgb(198, 255, 184), rgb(198, 255, 184),
+        rgb(198, 255, 184);
+}
