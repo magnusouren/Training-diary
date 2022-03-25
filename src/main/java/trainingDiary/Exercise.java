@@ -51,7 +51,7 @@ public class Exercise {
     public String toString() {
         String res = name + ": ";
 
-        if (new HashSet<Integer>(reps).size() == 1) {
+        if (reps.stream().distinct().toList().size() == 1) {
             res += reps.size() + " x " + reps.get(0);
         } else {
             res += reps.stream()
