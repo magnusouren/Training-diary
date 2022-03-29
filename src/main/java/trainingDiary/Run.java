@@ -14,6 +14,8 @@ public class Run implements Workout {
     private int maxHeartRate;
     private double averageSpeed;
 
+    private WorkoutValidate validator = new WorkoutValidate();
+
     /**
      * Konstruktør til å sette tilstand til Run-objektet. Tar inn parameterverdier,
      * validerer og setter disse.
@@ -29,27 +31,17 @@ public class Run implements Workout {
     public Run(LocalDateTime date, int duration, int distance, char rating, String content, int averageHeartRate,
             int maxHeartRate) {
 
-        WorkoutValidate validator = new WorkoutValidate();
-
-        validator.ValidateDate(date);
-        validator.validateDuration(duration);
-        validator.validateRating(rating);
-
-        validateDistance(distance);
-        validateContent(content);
-        validateHeartRate(averageHeartRate);
-        validateHeartRate(maxHeartRate);
-
-        this.date = date;
-        this.duration = duration;
-        this.distance = distance;
-        this.content = content;
-        this.avaerageHeartRate = averageHeartRate;
-        this.maxHeartRate = maxHeartRate;
-        this.rating = rating;
-
+        setDate(date);
+        setDuration(duration);
+        setDistance(distance);
+        setRating(rating);
+        setContent(content);
+        setAvaerageHeartRate(averageHeartRate);
+        setMaxHeartRate(maxHeartRate);
         setAverageSpeed(duration, distance);
+    }
 
+    public Run() {
     }
 
     /**
@@ -66,6 +58,41 @@ public class Run implements Workout {
 
     private void validateContent(String content) {
         // TO-DO
+    }
+
+    public void setDate(LocalDateTime date) {
+        validator.ValidateDate(date);
+        this.date = date;
+    }
+
+    public void setContent(String content) {
+        validateContent(content);
+        this.content = content;
+    }
+
+    public void setRating(char rating) {
+        validator.validateRating(rating);
+        this.rating = rating;
+    }
+
+    public void setDuration(int duration) {
+        validator.validateDuration(duration);
+        this.duration = duration;
+    }
+
+    public void setDistance(int distance) {
+        validateDistance(distance);
+        this.distance = distance;
+    }
+
+    public void setAvaerageHeartRate(int avaerageHeartRate) {
+        validateHeartRate(avaerageHeartRate);
+        this.avaerageHeartRate = avaerageHeartRate;
+    }
+
+    public void setMaxHeartRate(int maxHeartRate) {
+        validateHeartRate(maxHeartRate);
+        this.maxHeartRate = maxHeartRate;
     }
 
     /**
@@ -132,6 +159,11 @@ public class Run implements Workout {
         return "Run: Date: " + date + ", " + distance + "m, " + duration + " min, | Rating: " + rating + " | Content: "
                 + content + " | Max HR: " + maxHeartRate + " Av. HR: " + avaerageHeartRate + " | Av. speed: "
                 + averageSpeed;
+    }
+
+    public static void main(String[] args) {
+        Workout run1 = new Run(LocalDateTime.of(2022, 03, 1, 12, 00), 60, 5000, '5', "Løp 1", 150, 200);
+        System.out.println(run1);
     }
 
 }
