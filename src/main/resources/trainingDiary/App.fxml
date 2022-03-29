@@ -154,9 +154,70 @@
       <TabPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black;" tabClosingPolicy="UNAVAILABLE" GridPane.columnIndex="4" GridPane.rowIndex="4">
         <tabs>
           <Tab text="Strength">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
+               <content>
+                  <GridPane>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="143.7401123046875" minWidth="0.0" prefWidth="45.6611328125" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="361.56201171875" minWidth="10.0" prefWidth="359.8106689453125" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.994384765625" minWidth="10.0" prefWidth="42.6893310546875" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="156.48590087890625" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="425.88677978515625" minHeight="10.0" prefHeight="48.33087158203125" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="425.88677978515625" minHeight="10.0" prefHeight="275.6221923828125" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="420.0" minHeight="10.0" prefHeight="147.3782958984375" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="67.1217041015625" minHeight="10.0" prefHeight="67.1217041015625" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <columnConstraints>
+                              <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="330.0" minWidth="10.0" prefWidth="124.9774169921875" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="291.0" minWidth="10.0" prefWidth="237.0225830078125" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints maxHeight="39.475555419921875" minHeight="30.768325805664062" prefHeight="36.98777770996094" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="41.451141357421875" minHeight="23.585540771484375" prefHeight="38.963348388671875" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="58.414459228515625" minHeight="36.048858642578125" prefHeight="38.536651611328125" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="73.63394165039062" minHeight="30.536651611328125" prefHeight="38.219451904296875" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="62.43890380859375" minHeight="26.366058349609375" prefHeight="45.719451904296875" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="82.92669677734375" minHeight="41.56109619140625" prefHeight="46.280548095703125" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="97.82894897460938" minHeight="39.280548095703125" prefHeight="43.012237548828125" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label text="Date:" />
+                              <Label text="Time:" GridPane.rowIndex="1" />
+                              <DatePicker fx:id="strengthDate" maxWidth="1.7976931348623157E308" showWeekNumbers="true" stylesheets="@style.css" GridPane.columnIndex="1" />
+                              <TextField fx:id="strengthTime" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="150.0" promptText="hh:mm" stylesheets="@style.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label text="Duration:" GridPane.rowIndex="2" />
+                              <TextField fx:id="strengthDuration" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="150.0" promptText="hh:mm" stylesheets="@style.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label text="Rating:" GridPane.rowIndex="3" />
+                              <ChoiceBox fx:id="strengthRating" maxWidth="1.7976931348623157E308" minWidth="172.0" stylesheets="@style.css" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                           </children>
+                        </GridPane>
+                        <TextArea fx:id="strengthComments" prefHeight="200.0" prefWidth="200.0" promptText="Comments" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <GridPane>
+                           <columnConstraints>
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                        <GridPane GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <columnConstraints>
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Button maxWidth="1.7976931348623157E308" minWidth="100.0" mnemonicParsing="false" onAction="#addStrength" text="Save workout" />
+                           </children>
+                        </GridPane>
+                     </children>
+                  </GridPane>
+               </content>
           </Tab>
           <Tab text="Run">
                <content>
