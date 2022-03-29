@@ -190,7 +190,9 @@
                            </rowConstraints>
                            <children>
                               <Label text="Date:" />
+                              <Label text="Time:" GridPane.rowIndex="1" />
                               <DatePicker fx:id="runDate" maxWidth="1.7976931348623157E308" showWeekNumbers="true" stylesheets="@style.css" GridPane.columnIndex="1" />
+                              <TextField fx:id="runTime" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="150.0" promptText="hh:mm" stylesheets="@style.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <Label text="Duration:" GridPane.rowIndex="2" />
                               <TextField fx:id="runDuration" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="150.0" promptText="hh:mm" stylesheets="@style.css" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <Label text="Distance:" GridPane.rowIndex="3" />
@@ -201,8 +203,6 @@
                               <TextField fx:id="runMaxHr" promptText="bpm" stylesheets="@style.css" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                               <Label text="Average heartrate:" GridPane.rowIndex="6" />
                               <TextField fx:id="runAvgHr" promptText="bpm" stylesheets="@style.css" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                              <Label text="Time:" GridPane.rowIndex="1" />
-                              <TextField fx:id="runTime" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="150.0" promptText="hh:mm" stylesheets="@style.css" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                         <TextArea fx:id="runComments" prefHeight="200.0" prefWidth="200.0" promptText="Comments" GridPane.columnIndex="1" GridPane.rowIndex="3" />
