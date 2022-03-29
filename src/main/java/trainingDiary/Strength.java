@@ -13,6 +13,11 @@ public class Strength implements Workout {
     private String content;
     private List<Exercise> exercises = new ArrayList<>();
 
+    private WorkoutValidate validator = new WorkoutValidate();
+
+    public Strength() {
+    }
+
     /**
      * Konstrukøtr som innitialiserer en ny økt, med data tilknyttet økten.
      * 
@@ -65,6 +70,25 @@ public class Strength implements Workout {
     @Override
     public String getContent() {
         return content;
+    }
+
+    public void setDate(LocalDateTime date) {
+        validator.ValidateDate(date);
+        this.date = date;
+    }
+
+    public void setDuration(int duration) {
+        validator.validateDuration(duration);
+        this.duration = duration;
+    }
+
+    public void setRating(char rating) {
+        validator.validateRating(rating);
+        this.rating = rating;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public List<Exercise> getExercises() {
