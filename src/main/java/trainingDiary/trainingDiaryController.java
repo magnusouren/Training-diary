@@ -27,20 +27,21 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import trainingDiary.addWorkout.AddRun;
+import trainingDiary.addWorkout.AddStrength;
 
 public class trainingDiaryController {
 
     @FXML
-    private DatePicker runDate;
+    private DatePicker runDate, strengthDate;
 
     @FXML
-    private TextField runDuration, runDistance, runMaxHr, runAvgHr, runTime;
+    private TextField runDuration, strengthDuration, runDistance, runMaxHr, runAvgHr, runTime, strengthTime;
 
     @FXML
-    private ChoiceBox<String> runRating;
+    private ChoiceBox<String> runRating, strengthRating;
 
     @FXML
-    private TextArea runComments;
+    private TextArea runComments, strengthComments;
 
     @FXML
     private GridPane calendar;
@@ -249,6 +250,8 @@ public class trainingDiaryController {
         ObservableList<String> ratings = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6");
         runRating.setItems(ratings);
         runRating.setValue("-- Set rating --");
+        strengthRating.setItems(ratings);
+        strengthRating.setValue("-- Set rating --");
     }
 
     /**
@@ -320,7 +323,15 @@ public class trainingDiaryController {
     }
 
     public void addStrength() {
-        System.out.println("Add strength");
+        AddStrength addStrength = new AddStrength();
+        if (addStrength.save(strengthDate, strengthTime, strengthDuration, strengthRating, strengthComments)) {
+
+            diary.addWorkout(addStrength.getStrength());
+
+            initialize();
+            // clearRunInput();
+
+        }
     }
 
     /**
