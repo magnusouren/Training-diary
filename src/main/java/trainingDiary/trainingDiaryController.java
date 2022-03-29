@@ -1,33 +1,62 @@
 package trainingDiary;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
-import javafx.scene.Scene;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
+import trainingDiary.addWorkout.AddRun;
 
 public class trainingDiaryController {
 
+    @FXML
+    private DatePicker runDate;
+
+    @FXML
+    private TextField runDuration, runDistance, runMaxHr, runAvgHr, runTime;
+
+    @FXML
+    private ChoiceBox<String> runRating;
+
+    @FXML
+    private TextArea runComments;
+
+    @FXML
+    private GridPane calendar;
+
+    @FXML
+    private Text monthText;
+
+    private Collection<javafx.scene.control.Control> runFields;
+
     private Diary diary = new Diary();
+    private List<Workout> workouts;
+
     private int year = LocalDate.now().getYear();
     private int month = LocalDate.now().getMonthValue();
 
-    private List<Workout> workouts;
-
-    public void initializetestData() {
+    private void initializetestData() {
 
         Workout strength1 = new Strength(LocalDateTime.of(2022, 02, 1, 12, 00), 90, '6', "Veldig bra økt");
         Workout strength2 = new Strength(LocalDateTime.of(2022, 02, 2, 13, 30), 30, '2', "Ble syk dro tidlig...");
@@ -98,12 +127,6 @@ public class trainingDiaryController {
         diary.addWorkout(run9);
     }
 
-    @FXML
-    public GridPane calendar;
-
-    @FXML
-    public Text monthText;
-
     /**
      * Metode som kjører når app initialiseres. Kaller på metoder som bygger vinduet
      */
@@ -113,6 +136,22 @@ public class trainingDiaryController {
         updateDateField();
         getWorkouts();
         generateCalendar();
+        initializeRatings();
+        initializeRunFields();
+    }
+
+    /**
+     * Henter tekstverdien til satt månede og endrer feltet øverst i vinduet til
+     * satt månede i tekst (med stor forbokstav) + årstall
+     */
+    private void updateDateField() {
+        String month = Month.of(this.month).name();
+        month = month.substring(0, 1) + month.substring(1).toLowerCase();
+
+        monthText.setText(month + " " + year);
+
+        runDate.setValue(LocalDate.now()); // Denne kan med fordel flyttes på senere
+
     }
 
     /**
@@ -126,23 +165,13 @@ public class trainingDiaryController {
     }
 
     /**
-     * Henter tekstverdien til satt månede og endrer feltet øverst i vinduet til
-     * satt månede i tekst (med stor forbokstav) + årstall
-     */
-    private void updateDateField() {
-        String month = Month.of(this.month).name();
-        month = month.substring(0, 1) + month.substring(1).toLowerCase();
-
-        monthText.setText(month + " " + year);
-    }
-
-    /**
      * Fjerner eventuelle elementer i calendar.
      * Kalkulerer hvilken ukedag den 1. denne måneden faller på.
      * Genererer TitledPanes med datoverdier for hver dag i måneden.
      */
     private void generateCalendar() {
         calendar.getChildren().clear();
+
         LocalDate date = LocalDate.of(year, month, 1);
         int dateVal = date.getDayOfWeek().getValue() - 1;
 
@@ -156,7 +185,7 @@ public class trainingDiaryController {
     }
 
     /**
-     * Metode som lager et TitledPane med datoverdi pluss eventiuel knapp for økt
+     * Metode som lager et TitledPane med dato pluss eventuel knapp for treningsøkt
      * tilhørende den dagen
      * 
      * @param date Dato som skal få tilordnet TitledPane
@@ -164,9 +193,9 @@ public class trainingDiaryController {
      */
     private TitledPane createTitledPane(LocalDate date) {
 
-        String dateValue = String.valueOf(date.getDayOfMonth());
+        String dateValue = String.valueOf(date.getDayOfMonth());//
 
-        TitledPane dateView = new TitledPane(dateValue + ".", createWorkoutButton(date));
+        TitledPane dateView = new TitledPane(dateValue + ".", content(date));
         dateView.collapsibleProperty().set(false);
         dateView.setMaxHeight(Double.MAX_VALUE);
 
@@ -180,25 +209,14 @@ public class trainingDiaryController {
      * @param date Dato som skal få tildelt knapp
      * @return Button med økt/tomt innhold
      */
-    private Button createWorkoutButton(LocalDate date) {
+    private Node content(LocalDate date) {
 
         List<Workout> stream = workouts.stream()
                 .filter(w -> w.getDate().getDayOfMonth() == date.getDayOfMonth())
                 .toList();
 
-        if (stream.isEmpty()) {
-            Button button = new Button("");
+        return (stream.isEmpty()) ? new Pane() : workoutButton(stream.get(0));
 
-            button.wrapTextProperty().setValue(true);
-            button.setStyle("-fx-text-alignment: center;-fx-background-color: white;");
-            button.setMaxWidth(Double.MAX_VALUE);
-            button.setMaxHeight(Double.MAX_VALUE);
-
-            return button;
-        }
-
-        else
-            return createButton(stream.get(0));
     }
 
     /**
@@ -208,12 +226,14 @@ public class trainingDiaryController {
      * @param workout Workout økt som skal få tildelt knapp
      * @return Button med innhold tilknyttet økt
      */
-    private Button createButton(Workout workout) {
-        Button button = new Button(
-                workout.getDate().format(DateTimeFormatter.ofPattern("HH:mm")) + " "
-                        + String.valueOf(workout.getClass().getSimpleName()));
+    private Button workoutButton(Workout workout) {
+        String content = workout.getDate().format(DateTimeFormatter.ofPattern("HH:mm")) + " "
+                + String.valueOf(workout.getClass().getSimpleName());
+
+        Button button = new Button(content);
 
         Font font = new Font("System", 12);
+
         button.setFont(font);
         button.wrapTextProperty().setValue(true);
         button.setStyle("-fx-text-alignment: center;-fx-background-color: white;");
@@ -223,6 +243,94 @@ public class trainingDiaryController {
         button.setMaxHeight(Double.MAX_VALUE);
 
         return button;
+    }
+
+    private void initializeRatings() {
+        ObservableList<String> ratings = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6");
+        runRating.setItems(ratings);
+        runRating.setValue("-- Set rating --");
+    }
+
+    /**
+     * Metode som legger til alle input-felt tilhørende run i en Collection
+     */
+    private void initializeRunFields() {
+        runFields = new ArrayList<>(
+                Arrays.asList(
+                        runTime,
+                        runDuration,
+                        runDistance,
+                        runMaxHr,
+                        runAvgHr,
+                        runDate,
+                        runRating,
+                        runComments));
+    }
+
+    /**
+     * Metode som kalles når bruker legger til ny løpeøkt. Henter opp filen Run.fxml
+     * og viser denne i nytt vindu.
+     * 
+     * @param event
+     */
+    public void addRun(ActionEvent event) {
+        AddRun addRun = new AddRun();
+        if (addRun.save(runDate, runTime, runDuration, runDistance, runRating, runMaxHr, runAvgHr,
+                runComments)) {
+
+            diary.addWorkout(addRun.getRun());
+
+            initialize();
+            clearRunInput();
+
+        }
+    }
+
+    /**
+     * Tar inn en liste med Controll-objekter.
+     * Ittererer over alle elementene i Collectionen og:
+     * 1) Fjerner eventuelle psuedoklasser som er gitt til objektet
+     * 2) Sjekker instansen til objektet og behandler det deretter
+     * 
+     * Om TextField eller TextArea => fjern innhold
+     * 
+     * Om DatePicker set verdi til dagens dato
+     */
+    private void clearRunInput() {
+        final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
+        final PseudoClass validClass = PseudoClass.getPseudoClass("valid");
+
+        for (javafx.scene.control.Control field : runFields) {
+            field.pseudoClassStateChanged(validClass, false);
+            field.pseudoClassStateChanged(errorClass, false);
+
+            if (field instanceof TextField) {
+                TextField textField = (TextField) field;
+                textField.clear();
+            } else if (field instanceof TextArea) {
+                TextArea textArea = (TextArea) field;
+                textArea.clear();
+            } else if (field instanceof DatePicker) {
+                DatePicker datePicker = (DatePicker) field;
+                datePicker.setValue(LocalDate.now());
+            }
+
+        }
+
+    }
+
+    public void addStrength() {
+        System.out.println("Add strength");
+    }
+
+    /**
+     * Setter feltene månede og år tilsvarende dagens månede og årstall
+     */
+    public void today() {
+        year = LocalDate.now().getYear();
+        month = LocalDate.now().getMonthValue();
+
+        initialize();
     }
 
     /**
@@ -252,41 +360,6 @@ public class trainingDiaryController {
 
         initialize();
 
-    }
-
-    /**
-     * Metode som kalles når bruker legger til ny løpeøkt. Henter opp filen Run.fxml
-     * og viser denne i nytt vindu.
-     * 
-     * @param event
-     */
-    public void addRun(ActionEvent event) {
-        Stage primaryStage = new Stage();
-        try {
-            primaryStage.setTitle("Add new Workout");
-            primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("Run.fxml"))));
-            primaryStage.show();
-        } catch (IOException e) {
-            System.out.println("Not abel to open Run.Fxml in a new window");
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Mulig denne kan slås sammen med metoden ovenfor.
-     */
-    public void addStrength() {
-        System.out.println("Add strength");
-    }
-
-    /**
-     * Setter feltene månede og år tilsvarende dagens månede og årstall
-     */
-    public void today() {
-        year = LocalDate.now().getYear();
-        month = LocalDate.now().getMonthValue();
-
-        initialize();
     }
 
     /**
