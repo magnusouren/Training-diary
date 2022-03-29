@@ -18,6 +18,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -49,7 +50,8 @@ public class trainingDiaryController {
     @FXML
     private Text monthText;
 
-    private Collection<javafx.scene.control.Control> runFields;
+    private Collection<Control> runFields;
+    private Collection<Control> strengthFields;
 
     private Diary diary = new Diary();
     private List<Workout> workouts;
@@ -139,6 +141,7 @@ public class trainingDiaryController {
         generateCalendar();
         initializeRatings();
         initializeRunFields();
+        initializeStrengthFields();
     }
 
     /**
@@ -271,6 +274,19 @@ public class trainingDiaryController {
     }
 
     /**
+     * Metode som legger til alle input-felt tilhørende run i en Collection
+     */
+    private void initializeStrengthFields() {
+        strengthFields = new ArrayList<>(
+                Arrays.asList(
+                        strengthTime,
+                        strengthDuration,
+                        strengthDate,
+                        strengthRating,
+                        strengthComments));
+    }
+
+    /**
      * Metode som kalles når bruker legger til ny løpeøkt. Henter opp filen Run.fxml
      * og viser denne i nytt vindu.
      * 
@@ -284,7 +300,19 @@ public class trainingDiaryController {
             diary.addWorkout(addRun.getRun());
 
             initialize();
-            clearRunInput();
+            clearInput(runFields);
+
+        }
+    }
+
+    public void addStrength() {
+        AddStrength addStrength = new AddStrength();
+        if (addStrength.save(strengthDate, strengthTime, strengthDuration, strengthRating, strengthComments)) {
+
+            diary.addWorkout(addStrength.getStrength());
+
+            initialize();
+            clearInput(strengthFields);
 
         }
     }
@@ -299,11 +327,11 @@ public class trainingDiaryController {
      * 
      * Om DatePicker set verdi til dagens dato
      */
-    private void clearRunInput() {
+    private void clearInput(Collection<Control> fields) {
         final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
         final PseudoClass validClass = PseudoClass.getPseudoClass("valid");
 
-        for (javafx.scene.control.Control field : runFields) {
+        for (javafx.scene.control.Control field : fields) {
             field.pseudoClassStateChanged(validClass, false);
             field.pseudoClassStateChanged(errorClass, false);
 
@@ -320,18 +348,6 @@ public class trainingDiaryController {
 
         }
 
-    }
-
-    public void addStrength() {
-        AddStrength addStrength = new AddStrength();
-        if (addStrength.save(strengthDate, strengthTime, strengthDuration, strengthRating, strengthComments)) {
-
-            diary.addWorkout(addStrength.getStrength());
-
-            initialize();
-            // clearRunInput();
-
-        }
     }
 
     /**
