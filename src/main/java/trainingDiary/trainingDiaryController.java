@@ -309,7 +309,7 @@ public class trainingDiaryController {
 
     /**
      * Metode som kalles når bruker legger til ny styrkeøkt. Bruker metoder fra
-     * AddWorkout for å validere og sette tilstandene
+     * AddWorkout for å validere og sette tilstandene.
      */
     public void addStrength() {
         AddStrength addStrength = new AddStrength();
