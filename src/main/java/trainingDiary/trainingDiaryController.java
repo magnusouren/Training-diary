@@ -12,7 +12,6 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -155,6 +154,7 @@ public class trainingDiaryController {
         monthText.setText(month + " " + year);
 
         runDate.setValue(LocalDate.now()); // Denne kan med fordel flyttes på senere
+        strengthDate.setValue(LocalDate.now()); // Denne kan med fordel flyttes på senere
 
     }
 
@@ -249,10 +249,14 @@ public class trainingDiaryController {
         return button;
     }
 
+    /**
+     * Gir hvert av rating-input-elementene innhold med tall 1-6 og standardverdi
+     */
     private void initializeRatings() {
         ObservableList<String> ratings = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6");
         runRating.setItems(ratings);
         runRating.setValue("-- Set rating --");
+
         strengthRating.setItems(ratings);
         strengthRating.setValue("-- Set rating --");
     }
@@ -287,12 +291,10 @@ public class trainingDiaryController {
     }
 
     /**
-     * Metode som kalles når bruker legger til ny løpeøkt. Henter opp filen Run.fxml
-     * og viser denne i nytt vindu.
-     * 
-     * @param event
+     * Metode som kalles når bruker legger til ny løpeøkt. Bruker metoder fra AddRun
+     * for å validere og sette tilstandene
      */
-    public void addRun(ActionEvent event) {
+    public void addRun() {
         AddRun addRun = new AddRun();
         if (addRun.save(runDate, runTime, runDuration, runDistance, runRating, runMaxHr, runAvgHr,
                 runComments)) {
@@ -305,6 +307,10 @@ public class trainingDiaryController {
         }
     }
 
+    /**
+     * Metode som kalles når bruker legger til ny styrkeøkt. Bruker metoder fra
+     * AddWorkout for å validere og sette tilstandene
+     */
     public void addStrength() {
         AddStrength addStrength = new AddStrength();
         if (addStrength.save(strengthDate, strengthTime, strengthDuration, strengthRating, strengthComments)) {
