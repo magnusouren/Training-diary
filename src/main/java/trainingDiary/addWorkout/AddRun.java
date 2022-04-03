@@ -16,9 +16,9 @@ public class AddRun {
 
     private boolean validationStatus;
 
-    Run run = new Run();
+    private Run run = new Run();
 
-    public boolean save(DatePicker date, TextField time, TextField duration, TextField distance,
+    public boolean validate(DatePicker date, TextField time, TextField duration, TextField distance,
             ChoiceBox<String> rating,
             TextField maxHr,
             TextField avgHr,
@@ -87,7 +87,7 @@ public class AddRun {
             run.setDuration(hours * 60 + minutes);
 
             styleInput(duration, true);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             styleInput(duration, false);
         }
     }
@@ -151,7 +151,7 @@ public class AddRun {
             styleInput(time, true);
             return localTime;
 
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             styleInput(time, false);
             return null;
         }
