@@ -10,15 +10,14 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import trainingDiary.Strength;
-import trainingDiary.Workout;
 
 public class AddStrength {
 
     private boolean validationStatus;
 
-    Strength strength = new Strength();
+    private Strength strength = new Strength();
 
-    public boolean save(DatePicker date, TextField time, TextField duration, ChoiceBox<String> rating,
+    public boolean validate(DatePicker date, TextField time, TextField duration, ChoiceBox<String> rating,
             TextArea comments) {
 
         validationStatus = true;
@@ -41,9 +40,8 @@ public class AddStrength {
      * 
      * @return Workout
      */
-    public Workout getStrength() {
-        Workout res = strength;
-        return res;
+    public Strength getStrength() {
+        return strength;
     }
 
     /**
@@ -81,7 +79,7 @@ public class AddStrength {
             strength.setDuration(hours * 60 + minutes);
 
             styleInput(duration, true);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             styleInput(duration, false);
         }
     }
@@ -117,9 +115,7 @@ public class AddStrength {
             strength.setDate(dateTime);
             styleInput(date, true);
 
-        } catch (IllegalArgumentException e) {
-            styleInput(date, false);
-        } catch (NullPointerException e) {
+        } catch (RuntimeException e) {
             styleInput(date, false);
         }
     }
@@ -145,7 +141,7 @@ public class AddStrength {
             styleInput(time, true);
             return localTime;
 
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             styleInput(time, false);
             return null;
         }

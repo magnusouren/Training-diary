@@ -1,22 +1,30 @@
 package trainingDiary;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Exercise {
 
-    String name;
-    List<Integer> reps = new ArrayList<>();
+    private String name;
+    private int weight;
+    private List<Integer> reps = new ArrayList<>();
 
-    /**
-     * Konstruktør til å sette en øvelse
-     * 
-     * @param name String øvelsesnavn
-     */
-    public Exercise(String name) {
+    public Exercise() {
+    }
+
+    public void setName(String name) {
+        if (name.length() == 0)
+            throw new IllegalArgumentException("Ugyldig verdi");
         this.name = name;
+    }
+
+    public void setWeigth(int weigth) {
+        if (weigth < 0)
+            throw new IllegalArgumentException("Ugyldig verdi");
+        if (weigth > 300)
+            throw new IllegalArgumentException("Ugyldig verdi");
+        this.weight = weigth;
     }
 
     /**
@@ -25,26 +33,25 @@ public class Exercise {
      * 
      * @param rep Int antall repetisjoner
      */
-    void addRep(List<Integer> reps) {
-        for (Integer rep : reps) {
-            if (rep <= 0) {
-                throw new IllegalArgumentException("Ugyldig verdi på rep");
-            } else {
-                this.reps.add(rep);
-            }
+    public void addRep(int rep) {
+        if (rep <= 0) {
+            throw new IllegalArgumentException("Ugyldig verdi på rep");
+        } else {
+            this.reps.add(rep);
         }
+
     }
 
     public String getName() {
         return name;
     }
 
-    public int getSets() {
-        return reps.size();
-    }
-
     public List<Integer> getReps() {
         return new ArrayList<>(reps);
+    }
+
+    public int getWeight() {
+        return weight;
     }
 
     @Override
@@ -58,6 +65,8 @@ public class Exercise {
                     .map(r -> String.valueOf(r))
                     .collect(Collectors.joining(", "));
         }
+        if (weight != 0)
+            res += " - " + weight + "kg";
 
         return res;
     }

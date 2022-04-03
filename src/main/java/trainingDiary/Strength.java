@@ -46,10 +46,8 @@ public class Strength implements Workout {
      * @param name String navn på øvelse
      * @param rep  Int[] med de ulike tallverdiene over reppetisjoner
      */
-    void addExercise(String name, Integer... rep) {
-        Exercise newEx = new Exercise(name);
-        newEx.addRep(List.of(rep));
-        exercises.add(newEx);
+    public void addExercise(Exercise exercise) {
+        exercises.add(exercise);
     }
 
     @Override
@@ -105,11 +103,4 @@ public class Strength implements Workout {
         return res;
     }
 
-    public static void main(String[] args) {
-        Strength test = new Strength(LocalDateTime.now(), 60, '4', "BRa");
-
-        test.addExercise("Benk", 3, 3, 3, 3, 3);
-
-        System.out.println(test);
-    }
 }
