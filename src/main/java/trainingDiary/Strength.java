@@ -1,6 +1,7 @@
 package trainingDiary;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -95,11 +96,38 @@ public class Strength implements Workout {
 
     @Override
     public String toString() {
-        String res = "Strength: Date: " + date + ", " + duration + " min, | Rating: " + rating + " | Content: "
-                + content + "\n";
-        res += exercises.stream()
+        String res = String.format("""
+
+                \t%25s
+                \t________________________________________
+
+                \tDate:%35s
+                \tTime:%35s
+                \tDuration:%27d min
+                \tRating:%33c
+                \t________________________________________
+
+                \tExercises:
+                """,
+                this.getClass().getSimpleName(),
+                getDate().format(DateTimeFormatter.ofPattern("dd.MM")),
+                getDate().format(DateTimeFormatter.ofPattern("HH:mm")),
+                getDuration(),
+                getRating());
+
+        res += "\t" + exercises.stream()
                 .map(exercise -> exercise.toString())
-                .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining("\n\t"));
+
+        res += String.format("""
+
+                \t________________________________________
+
+                \tComments:
+                \t%s
+                """,
+                getContent());
+
         return res;
     }
 

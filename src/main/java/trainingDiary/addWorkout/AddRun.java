@@ -38,6 +38,9 @@ public class AddRun {
             return false;
         }
 
+        run.setContent(comments.getText());
+        run.setAverageSpeed();
+
         return true;
 
     }

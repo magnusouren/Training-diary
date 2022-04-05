@@ -25,6 +25,7 @@ public class AddStrength {
         setDate(date, validateTime(time));
         setDuration(duration);
         setRating(rating);
+        strength.setContent(comments.getText());
 
         if (!validationStatus) {
             strength = null;

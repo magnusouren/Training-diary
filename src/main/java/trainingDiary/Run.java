@@ -1,6 +1,7 @@
 package trainingDiary;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Run implements Workout {
 
@@ -38,7 +39,7 @@ public class Run implements Workout {
         setContent(content);
         setAvaerageHeartRate(averageHeartRate);
         setMaxHeartRate(maxHeartRate);
-        setAverageSpeed(duration, distance);
+        setAverageSpeed();
     }
 
     public Run() {
@@ -111,11 +112,9 @@ public class Run implements Workout {
     /**
      * Beregner gjennomsnittsfart ut ifra lengden og varighet.
      * 
-     * @param duration int minutter varighet
-     * @param distance int distanse i km
      */
-    private void setAverageSpeed(double duration, double km) {
-        this.averageSpeed = (km / 1000) / (duration / 60);
+    public void setAverageSpeed() {
+        this.averageSpeed = (this.distance / 1000) / (this.duration / 60);
     }
 
     @Override
@@ -156,13 +155,44 @@ public class Run implements Workout {
 
     @Override
     public String toString() {
-        return "Run: Date: " + date + ", " + distance + "m, " + duration + " min, | Rating: " + rating + " | Content: "
-                + content + " | Max HR: " + maxHeartRate + " Av. HR: " + avaerageHeartRate + " | Av. speed: "
-                + averageSpeed;
+        System.out.println(averageSpeed);
+        String res = String.format("""
+                \n
+                \t%22s
+                \t________________________________________
+
+                \tDate:%35s
+                \tTime:%35s
+                \tDuration:%27d min
+                \tRating:%33c
+                \t________________________________________
+
+                \tDistance(meter):%24d
+                \tAvereage speed: %24.2f
+                \tMaximum heartrate: %21d
+                \tAverage heartrate: %21d
+                \t________________________________________
+
+                \tComments:
+                \t%s
+
+
+                """,
+                this.getClass().getSimpleName(),
+                getDate().format(DateTimeFormatter.ofPattern("dd.MM")),
+                getDate().format(DateTimeFormatter.ofPattern("HH:mm")),
+                getDuration(),
+                getRating(),
+                getDistance(),
+                getAverageSpeed(),
+                getMaxHeartRate(),
+                getAvaerageHeartRate(),
+                getContent());
+        return res;
     }
 
     public static void main(String[] args) {
-        Workout run1 = new Run(LocalDateTime.of(2022, 03, 1, 12, 00), 60, 5000, '5', "Løp 1", 150, 200);
+        Workout run1 = new Run(LocalDateTime.of(2022, 03, 1, 12, 00), 30, 5000, '5', "Løp 1", 150, 200);
         System.out.println(run1);
     }
 
