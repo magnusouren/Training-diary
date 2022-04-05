@@ -1,6 +1,7 @@
 package trainingDiary;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -9,8 +10,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,6 +17,7 @@ import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Control;
@@ -31,6 +31,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
 import trainingDiary.addWorkout.AddExercise;
 import trainingDiary.addWorkout.AddRun;
 import trainingDiary.addWorkout.AddStrength;
@@ -93,6 +95,7 @@ public class trainingDiaryController {
         initializeRatings();
         if (Objects.isNull(runFields))
             initializeInputElements();
+
     }
 
     /**
@@ -467,8 +470,16 @@ public class trainingDiaryController {
      * @param workout Workout økt som skal vises
      */
     private void handleWorkoutSelect(Workout workout) {
-        System.out.println(workout);
-        // +++++
+        Stage stage = new Stage();
+
+        Text text = new Text(workout.toString());
+        text.setStyle("-fx-font-family: 'monospaced';");
+
+        TextFlow flow = new TextFlow(text);
+
+        stage.setScene(new Scene(flow, 430, 360));
+        stage.show();
+
     }
 
 }
