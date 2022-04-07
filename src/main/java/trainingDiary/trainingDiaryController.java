@@ -1,7 +1,8 @@
 package trainingDiary;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -10,6 +11,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +24,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -36,6 +41,8 @@ import javafx.stage.Stage;
 import trainingDiary.addWorkout.AddExercise;
 import trainingDiary.addWorkout.AddRun;
 import trainingDiary.addWorkout.AddStrength;
+import trainingDiary.fileManagement.IfileManager;
+import trainingDiary.fileManagement.TxtFile;
 
 public class trainingDiaryController {
 
@@ -56,7 +63,7 @@ public class trainingDiaryController {
     private GridPane calendar;
 
     @FXML
-    private Text monthText, exerciseFeedback;
+    private Text monthText, exerciseFeedback, feedbackSave, feedbackLoad;
 
     @FXML
     private Button btnAddExercise, btnSaveStrength, btnAddStrength, btnCancelStrength;
@@ -66,18 +73,18 @@ public class trainingDiaryController {
             exerciseLabelWeight, exerciseLabelSet1, exerciseLabelSet2, exerciseLabelSet3,
             exerciseLabelSet4;
 
-    private Collection<Control> runFields;
-    private Collection<Control> strengthFields;
-    private Collection<Control> exerciseFields;
-    private Collection<Label> exerciseLabels;
-    private Collection<Label> strengthLabels;
+    @FXML
+    private ComboBox<String> filenameSave, filenameLoad;
 
-    private Diary diary = new Diary();
-    private Collection<Workout> workouts; // TODO - bruk collection
+    private Collection<Control> runFields, strengthFields, exerciseFields;
+    private Collection<Label> exerciseLabels, strengthLabels;
+
+    private Collection<Workout> workouts;
 
     private int year = LocalDate.now().getYear();
     private int month = LocalDate.now().getMonthValue();
 
+    private Diary diary = new Diary();
     private Strength tempStrength;
 
     /**
@@ -93,6 +100,7 @@ public class trainingDiaryController {
         getWorkouts();
         generateCalendar();
         initializeRatings();
+        setFiles();
         if (Objects.isNull(runFields))
             initializeInputElements();
 
@@ -480,6 +488,81 @@ public class trainingDiaryController {
         stage.setScene(new Scene(flow, 430, 360));
         stage.show();
 
+    }
+
+    /**
+     * Saves diary to file. If filename is not according to requirements changes
+     * file type to .txt. Provides user with necessary feedback
+     */
+    @FXML
+    private void handleSave() {
+        IfileManager fileManager = new TxtFile();
+        String file = filenameSave.getValue();
+
+        if (!Objects.isNull(file) && !file.isBlank()) {
+            if (!file.endsWith(".txt"))
+                file = file + ".txt";
+
+            try {
+                fileManager.write(file, diary);
+                feedbackSave.setText("'" + file + "' was saved!");
+                initialize();
+
+            } catch (FileNotFoundException e) {
+                feedbackSave.setText(
+                        "A problem occurder when tryin to save '" + file + "' \nTry again with a new filename");
+            } catch (RuntimeException e) {
+                System.out.println("Invalid values in diary, couldn't save");
+            }
+
+        } else {
+            feedbackSave.setText("Enter filename!");
+        }
+
+        feedbackLoad.setText("");
+
+    }
+
+    /**
+     * Method to load file and display that file in window.
+     * Gets chosen file from user and uses methods from TxtFile (extends ManageFile)
+     * Prints message to user if file wasn1t found.
+     * Sets value of filenameSave to chosen file for easier saving later
+     */
+    @FXML
+    private void handleLoad() {
+        IfileManager fileManager = new TxtFile();
+        String file = filenameLoad.getValue();
+        try {
+            diary = fileManager.read(file);
+            feedbackLoad.setText("'" + file + "' was loaded");
+            initialize();
+        } catch (FileNotFoundException e) {
+            feedbackLoad.setText("Choose a file!");
+        } catch (RuntimeException e) {
+            feedbackLoad.setText("Error, improper values!");
+        }
+
+        filenameSave.setValue(file);
+        feedbackSave.setText("");
+    }
+
+    /**
+     * Method to add existing files in directory to the input fields, this will make
+     * it easier for the user to save/load files
+     */
+    private void setFiles() {
+
+        Set<String> files = Stream.of(new File("src/main/resources/trainingDiary/saves/").listFiles())
+                .filter(file -> !file.isDirectory())
+                .map(File::getName)
+                .collect(Collectors.toSet());
+
+        filenameSave.getItems().clear();
+        filenameLoad.getItems().clear();
+
+        filenameSave.getItems().addAll(files);
+        filenameLoad.getItems().addAll(files);
     }
 
 }

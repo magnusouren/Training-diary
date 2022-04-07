@@ -16,6 +16,7 @@ public class trainingDiaryApp extends Application {
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("Training Diary");
         primaryStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("App.fxml"))));
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 }

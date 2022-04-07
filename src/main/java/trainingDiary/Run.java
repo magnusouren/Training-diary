@@ -5,14 +5,10 @@ import java.time.format.DateTimeFormatter;
 
 public class Run implements Workout {
 
-    private LocalDateTime date;
-    private String content;
+    private LocalDateTime dateTime;
+    private String comments;
     private char rating;
-    private int duration;
-
-    private int distance;
-    private int avaerageHeartRate;
-    private int maxHeartRate;
+    private int duration, distance, averageHeartRate, maxHeartRate;
     private double averageSpeed;
 
     private WorkoutValidate validator = new WorkoutValidate();
@@ -21,7 +17,7 @@ public class Run implements Workout {
      * Konstruktør til å sette tilstand til Run-objektet. Tar inn parameterverdier,
      * validerer og setter disse.
      * 
-     * @param date             LocalDateTime tilhørende datoen til økten
+     * @param dateTime         LocalDateTime tilhørende datoen til økten
      * @param duration         Int varighet på økt
      * @param distance         Int lengde på løpetur i kilometer
      * @param rating           Char tallverdi for karrakter på økten
@@ -29,10 +25,10 @@ public class Run implements Workout {
      * @param averageHeartRate Int gjennomsnitt puls
      * @param maxHeartRate     Int makspuls
      */
-    public Run(LocalDateTime date, int duration, int distance, char rating, String content, int averageHeartRate,
+    public Run(LocalDateTime dateTime, int duration, int distance, char rating, String content, int averageHeartRate,
             int maxHeartRate) {
 
-        setDate(date);
+        setDate(dateTime);
         setDuration(duration);
         setDistance(distance);
         setRating(rating);
@@ -63,12 +59,12 @@ public class Run implements Workout {
 
     public void setDate(LocalDateTime date) {
         validator.ValidateDate(date);
-        this.date = date;
+        this.dateTime = date;
     }
 
     public void setContent(String content) {
         validateContent(content);
-        this.content = content;
+        this.comments = content;
     }
 
     public void setRating(char rating) {
@@ -88,7 +84,7 @@ public class Run implements Workout {
 
     public void setAvaerageHeartRate(int avaerageHeartRate) {
         validateHeartRate(avaerageHeartRate);
-        this.avaerageHeartRate = avaerageHeartRate;
+        this.averageHeartRate = avaerageHeartRate;
     }
 
     public void setMaxHeartRate(int maxHeartRate) {
@@ -119,7 +115,7 @@ public class Run implements Workout {
 
     @Override
     public LocalDateTime getDate() {
-        return date;
+        return dateTime;
     }
 
     @Override
@@ -134,7 +130,7 @@ public class Run implements Workout {
 
     @Override
     public String getContent() {
-        return content;
+        return comments;
     }
 
     public int getDistance() {
@@ -142,7 +138,7 @@ public class Run implements Workout {
     }
 
     public int getAvaerageHeartRate() {
-        return avaerageHeartRate;
+        return averageHeartRate;
     }
 
     public double getAverageSpeed() {
@@ -155,7 +151,6 @@ public class Run implements Workout {
 
     @Override
     public String toString() {
-        System.out.println(averageSpeed);
         String res = String.format("""
                 \n
                 \t%22s
