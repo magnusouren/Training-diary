@@ -8,14 +8,14 @@ public class Diary {
 
     private List<Workout> diary = new ArrayList<>();
 
-    void addWorkout(Workout workout) {
+    public void addWorkout(Workout workout) {
         if (!diary.contains(workout))
             diary.add(workout);
         else
             throw new IllegalArgumentException("Workout already exists");
     }
 
-    void removeWorkout(Workout workout) {
+    public void removeWorkout(Workout workout) {
         if (diary.contains(workout))
             diary.remove(workout);
         else
@@ -30,7 +30,7 @@ public class Diary {
      * @param name     String navn på type øvelse
      * @param reps     int[] tallrepresentasjon av antall repetisjoner
      */
-    void addExercise(Workout strength, Exercise exercise, String name, int weigth, List<Integer> reps) {
+    public void addExercise(Workout strength, Exercise exercise, String name, int weigth, List<Integer> reps) {
         if (strength instanceof Strength) {
             Strength castStrength = (Strength) strength;
             castStrength.addExercise(exercise);

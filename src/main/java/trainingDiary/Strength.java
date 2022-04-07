@@ -8,12 +8,11 @@ import java.util.stream.Collectors;
 
 public class Strength implements Workout {
 
-    private LocalDateTime date;
+    private LocalDateTime dateTime;
     private int duration;
     private char rating;
-    private String content;
+    private String comments;
     private List<Exercise> exercises = new ArrayList<>();
-
     private WorkoutValidate validator = new WorkoutValidate();
 
     public Strength() {
@@ -22,22 +21,22 @@ public class Strength implements Workout {
     /**
      * Konstrukøtr som innitialiserer en ny økt, med data tilknyttet økten.
      * 
-     * @param date     Date til øktens dato
+     * @param dateTime Date til øktens dato
      * @param duration Int varighet på økten i minutter
      * @param rating   char terningkastverdi på økten
      * @param content  String kommentarer til økten
      */
-    public Strength(LocalDateTime date, int duration, char rating, String content) {
+    public Strength(LocalDateTime dateTime, int duration, char rating, String content) {
         WorkoutValidate validator = new WorkoutValidate();
 
-        validator.ValidateDate(date);
+        validator.ValidateDate(dateTime);
         validator.validateDuration(duration);
         validator.validateRating(rating);
 
-        this.date = date;
+        this.dateTime = dateTime;
         this.duration = duration;
         this.rating = rating;
-        this.content = content;
+        this.comments = content;
     }
 
     /**
@@ -53,7 +52,7 @@ public class Strength implements Workout {
 
     @Override
     public LocalDateTime getDate() {
-        return date;
+        return dateTime;
     }
 
     @Override
@@ -68,12 +67,12 @@ public class Strength implements Workout {
 
     @Override
     public String getContent() {
-        return content;
+        return comments;
     }
 
     public void setDate(LocalDateTime date) {
         validator.ValidateDate(date);
-        this.date = date;
+        this.dateTime = date;
     }
 
     public void setDuration(int duration) {
@@ -87,7 +86,7 @@ public class Strength implements Workout {
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.comments = content;
     }
 
     public List<Exercise> getExercises() {
