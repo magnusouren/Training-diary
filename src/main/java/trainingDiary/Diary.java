@@ -43,6 +43,14 @@ public class Diary {
         return new ArrayList<>(diary);
     }
 
+    public List<IWorkout> getWorkoutsPerMonth(int month, int year) {
+        return diary.stream()
+                .filter(w -> w.getDate().getMonthValue() == month
+                        && w.getDate().getYear() == year)
+                .toList();
+
+    }
+
     @Override
     public String toString() {
         return diary.stream()

@@ -99,13 +99,14 @@ public class trainingDiaryController {
      */
     @FXML
     public void initialize() {
+        workouts = diary.getWorkoutsPerMonth(month, year);
+        if (Objects.isNull(runFields))
+            initializeInputElements();
+
         updateDateField();
-        getWorkouts();
         generateCalendar();
         initializeRatings();
         setFiles();
-        if (Objects.isNull(runFields))
-            initializeInputElements();
 
     }
 
@@ -121,17 +122,6 @@ public class trainingDiaryController {
 
         runDate.setValue(LocalDate.now()); // Denne kan med fordel flyttes på senere
         strengthDate.setValue(LocalDate.now()); // Denne kan med fordel flyttes på senere
-
-    }
-
-    /**
-     * Henter ut alle økter som er innenfor den satte måneden
-     */
-    private void getWorkouts() {
-        this.workouts = diary.getDiary().stream()
-                .filter(w -> w.getDate().getMonthValue() == this.month
-                        && w.getDate().getYear() == this.year)
-                .toList();
 
     }
 
