@@ -1,7 +1,9 @@
 package trainingDiary;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Diary {
@@ -51,11 +53,45 @@ public class Diary {
 
     }
 
+    public Map<String, Integer> getTotalSummary() {
+        Map<String, Integer> res = new HashMap<>();
+
+        res.put("totDuration", (int) (diary.stream()
+                .mapToInt(w -> w.getDuration())
+                .summaryStatistics()
+                .getSum()));
+
+        res.put("totAvgRating", (int) (diary.stream()
+                .mapToInt(w -> Character.getNumericValue(w.getRating()))
+                .summaryStatistics()
+                .getAverage()));
+
+        return res;
+
+    }
+
+    public Map<String, Integer> getTypeSummary(Class<?> type) {
+        Map<String, Integer> res = new HashMap<>();
+
+        res.put("typeTotDuration", (int) (diary.stream()
+                .filter(w -> type.isInstance(w))
+                .mapToInt(w -> w.getDuration())
+                .summaryStatistics()
+                .getSum()));
+
+        res.put("totAvgRating", (int) (diary.stream()
+                .filter(w -> type.isInstance(w))
+                .mapToInt(w -> Character.getNumericValue(w.getRating()))
+                .summaryStatistics()
+                .getAverage()));
+
+        return res;
+    }
+
     @Override
     public String toString() {
         return diary.stream()
                 .map(diary -> diary.toString())
                 .collect(Collectors.joining("\n"));
     }
-
 }
