@@ -8,7 +8,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -41,6 +43,7 @@ import javafx.stage.Stage;
 import trainingDiary.Diary;
 import trainingDiary.Strength;
 import trainingDiary.IWorkout;
+import trainingDiary.Run;
 import trainingDiary.addWorkout.AddExercise;
 import trainingDiary.addWorkout.AddRun;
 import trainingDiary.addWorkout.AddStrength;
@@ -107,7 +110,24 @@ public class trainingDiaryController {
         generateCalendar();
         initializeRatings();
         setFiles();
+        setSummary();
 
+    }
+
+    private void setSummary() {
+
+        Map<String, Integer> sTotal = diary.getTotalSummary();
+        Map<String, Integer> sRun = new HashMap<>();
+        Map<String, Integer> sStrength = new HashMap<>();
+
+        try {
+            sRun = diary.getTypeSummary(Class.forName("trainingDiary.Run"));
+            sStrength = diary.getTypeSummary(Class.forName("trainingDiary.Strength"));
+
+        } catch (ClassNotFoundException e) {
+            System.out.println("Error during calculation of summary, class not found");
+            e.printStackTrace();
+        }
     }
 
     /**
