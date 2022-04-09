@@ -2,7 +2,7 @@ package trainingDiary;
 
 import java.time.LocalDateTime;
 
-public interface Workout {
+public interface IWorkout {
 
     public LocalDateTime getDate();
 

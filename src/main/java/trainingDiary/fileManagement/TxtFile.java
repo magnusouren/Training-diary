@@ -18,7 +18,7 @@ import trainingDiary.Diary;
 import trainingDiary.Exercise;
 import trainingDiary.Run;
 import trainingDiary.Strength;
-import trainingDiary.Workout;
+import trainingDiary.IWorkout;
 
 public class TxtFile implements IfileManager {
 
@@ -34,7 +34,7 @@ public class TxtFile implements IfileManager {
     public void write(String filename, Diary diary) throws FileNotFoundException, RuntimeException {
         try (PrintWriter writer = new PrintWriter(
                 new File("src/main/resources/trainingDiary/saves/" + filename))) {
-            for (Workout workout : diary.getDiary()) {
+            for (IWorkout workout : diary.getDiary()) {
                 printWorkout(writer, workout);
             }
         }
@@ -112,7 +112,7 @@ public class TxtFile implements IfileManager {
      * @param workout Workout to be written
      * @throws IllegalFormatException Throws if some of the data is invalid
      */
-    private void printWorkout(PrintWriter writer, Workout workout) throws IllegalFormatException {
+    private void printWorkout(PrintWriter writer, IWorkout workout) throws IllegalFormatException {
 
         String commonFields = String.format("%s,%s,%s,%s,%s,",
                 workout.getClass().getSimpleName(),

@@ -6,16 +6,16 @@ import java.util.stream.Collectors;
 
 public class Diary {
 
-    private List<Workout> diary = new ArrayList<>();
+    private List<IWorkout> diary = new ArrayList<>();
 
-    public void addWorkout(Workout workout) {
+    public void addWorkout(IWorkout workout) {
         if (!diary.contains(workout))
             diary.add(workout);
         else
             throw new IllegalArgumentException("Workout already exists");
     }
 
-    public void removeWorkout(Workout workout) {
+    public void removeWorkout(IWorkout workout) {
         if (diary.contains(workout))
             diary.remove(workout);
         else
@@ -30,7 +30,7 @@ public class Diary {
      * @param name     String navn på type øvelse
      * @param reps     int[] tallrepresentasjon av antall repetisjoner
      */
-    public void addExercise(Workout strength, Exercise exercise, String name, int weigth, List<Integer> reps) {
+    public void addExercise(IWorkout strength, Exercise exercise, String name, int weigth, List<Integer> reps) {
         if (strength instanceof Strength) {
             Strength castStrength = (Strength) strength;
             castStrength.addExercise(exercise);
@@ -39,7 +39,7 @@ public class Diary {
         }
     }
 
-    public List<Workout> getDiary() {
+    public List<IWorkout> getDiary() {
         return new ArrayList<>(diary);
     }
 

@@ -3,7 +3,9 @@ package trainingDiary;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Run implements Workout {
+import trainingDiary.validation.WorkoutValidate;
+
+public class Run implements IWorkout {
 
     private LocalDateTime dateTime;
     private String comments;
@@ -187,7 +189,7 @@ public class Run implements Workout {
     }
 
     public static void main(String[] args) {
-        Workout run1 = new Run(LocalDateTime.of(2022, 03, 1, 12, 00), 30, 5000, '5', "Løp 1", 150, 200);
+        IWorkout run1 = new Run(LocalDateTime.of(2022, 03, 1, 12, 00), 30, 5000, '5', "Løp 1", 150, 200);
         System.out.println(run1);
     }
 

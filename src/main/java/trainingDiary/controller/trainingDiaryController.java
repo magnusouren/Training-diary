@@ -1,4 +1,4 @@
-package trainingDiary;
+package trainingDiary.controller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,6 +38,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import trainingDiary.Diary;
+import trainingDiary.Strength;
+import trainingDiary.IWorkout;
 import trainingDiary.addWorkout.AddExercise;
 import trainingDiary.addWorkout.AddRun;
 import trainingDiary.addWorkout.AddStrength;
@@ -79,7 +82,7 @@ public class trainingDiaryController {
     private Collection<Control> runFields, strengthFields, exerciseFields;
     private Collection<Label> exerciseLabels, strengthLabels;
 
-    private Collection<Workout> workouts;
+    private Collection<IWorkout> workouts;
 
     private int year = LocalDate.now().getYear();
     private int month = LocalDate.now().getMonthValue();
@@ -191,7 +194,7 @@ public class trainingDiaryController {
      */
     private Node createContent(LocalDate date) {
 
-        Optional<Workout> workout = workouts.stream()
+        Optional<IWorkout> workout = workouts.stream()
                 .filter(w -> w.getDate().getDayOfMonth() == date.getDayOfMonth())
                 .findFirst();
 
@@ -206,7 +209,7 @@ public class trainingDiaryController {
      * @param workout Workout økt som skal få tildelt knapp
      * @return Button med innhold tilknyttet økt
      */
-    private Button workoutButton(Workout workout) {
+    private Button workoutButton(IWorkout workout) {
         String content = workout.getDate().format(DateTimeFormatter.ofPattern("HH:mm")) + " "
                 + String.valueOf(workout.getClass().getSimpleName());
 
@@ -485,7 +488,7 @@ public class trainingDiaryController {
      * 
      * @param workout Workout økt som skal vises
      */
-    private void handleWorkoutSelect(Workout workout) {
+    private void handleWorkoutSelect(IWorkout workout) {
         Stage stage = new Stage();
 
         Text text = new Text(workout.toString());

@@ -1,4 +1,4 @@
-package trainingDiary;
+package trainingDiary.validation;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ public class WorkoutValidate {
      * 
      * @param date
      */
-    void ValidateDate(LocalDateTime date) {
+    public void ValidateDate(LocalDateTime date) {
 
         LocalDateTime today = LocalDateTime.now();
 
@@ -28,7 +28,7 @@ public class WorkoutValidate {
      * 
      * @param duration int varighet i minutter på økt.
      */
-    void validateDuration(int duration) {
+    public void validateDuration(int duration) {
         if (duration < 0)
             throw new IllegalArgumentException("Duration must be greater than 0");
         if (duration > 300)
@@ -41,7 +41,7 @@ public class WorkoutValidate {
      * 
      * @param rating char rating som skal være tallverdi fra 1-6
      */
-    void validateRating(char rating) {
+    public void validateRating(char rating) {
         Collection<Character> values = new ArrayList<>();
         values.addAll(Arrays.asList('1', '2', '3', '4', '5', '6'));
 

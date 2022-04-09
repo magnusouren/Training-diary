@@ -10,7 +10,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import trainingDiary.Run;
-import trainingDiary.Workout;
+import trainingDiary.IWorkout;
 
 public class AddRun {
 
@@ -50,8 +50,8 @@ public class AddRun {
      * 
      * @return Workout
      */
-    public Workout getRun() {
-        Workout res = run;
+    public IWorkout getRun() {
+        IWorkout res = run;
         return res;
     }
 

@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Strength implements Workout {
+import trainingDiary.validation.WorkoutValidate;
+
+public class Strength implements IWorkout {
 
     private LocalDateTime dateTime;
     private int duration;
