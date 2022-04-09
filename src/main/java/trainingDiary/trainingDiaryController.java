@@ -175,7 +175,7 @@ public class trainingDiaryController {
 
         String dateValue = String.valueOf(date.getDayOfMonth());//
 
-        TitledPane dateView = new TitledPane(dateValue + ".", content(date));
+        TitledPane dateView = new TitledPane(dateValue + ".", createContent(date));
         dateView.collapsibleProperty().set(false);
         dateView.setMaxHeight(Double.MAX_VALUE);
 
@@ -189,7 +189,7 @@ public class trainingDiaryController {
      * @param date Dato som skal få tildelt knapp
      * @return Button med økt/tomt innhold
      */
-    private Node content(LocalDate date) {
+    private Node createContent(LocalDate date) {
 
         Optional<Workout> workout = workouts.stream()
                 .filter(w -> w.getDate().getDayOfMonth() == date.getDayOfMonth())
@@ -306,7 +306,8 @@ public class trainingDiaryController {
      * Metode som kalles når bruker legger til ny løpeøkt. Bruker metoder fra AddRun
      * for å validere og sette tilstandene
      */
-    public void addRun() {
+    @FXML
+    private void addRun() {
         AddRun addRun = new AddRun();
 
         if (addRun.validate(runDate, runTime, runDuration, runDistance, runRating, runMaxHr, runAvgHr,
@@ -324,7 +325,8 @@ public class trainingDiaryController {
      * Metode som kalles når bruker legger til ny styrkeøkt. Bruker metoder fra
      * AddWorkout for å validere og sette tilstandene.
      */
-    public void addStrength() {
+    @FXML
+    private void addStrength() {
         AddStrength addStrength = new AddStrength();
 
         if (addStrength.validate(strengthDate, strengthTime, strengthDuration, strengthRating, strengthComments)) {
@@ -340,7 +342,8 @@ public class trainingDiaryController {
      * strength-workout. If values are invalid, the object are being set equals
      * null, and feedback displayed to the user
      */
-    public void addExercise() {
+    @FXML
+    private void addExercise() {
         AddExercise addExercise = new AddExercise();
 
         if (addExercise.validate(exerciseName, exerciseWeight,
@@ -361,8 +364,9 @@ public class trainingDiaryController {
      * When user desides to save the workout, the workout are added to the diary,
      * and the method that clears the inputfields are called
      */
-    public void saveStrength() {
-        diary.addWorkout((Workout) tempStrength);
+    @FXML
+    private void saveStrength() {
+        diary.addWorkout(tempStrength);
         clearStrength();
 
     }
@@ -372,7 +376,8 @@ public class trainingDiaryController {
      * strength inputfields, and sets the disabilty on the inputfields to default.
      * Clears the feedbackfield with feedback to user
      */
-    public void clearStrength() {
+    @FXML
+    private void clearStrength() {
         tempStrength = null;
 
         clearInput(exerciseFields);
@@ -436,7 +441,8 @@ public class trainingDiaryController {
     /**
      * Setter feltene månede og år tilsvarende dagens månede og årstall
      */
-    public void today() {
+    @FXML
+    private void today() {
         year = LocalDate.now().getYear();
         month = LocalDate.now().getMonthValue();
 
@@ -447,7 +453,8 @@ public class trainingDiaryController {
      * Dekrementerer verdien til månede, hvis januar senkes årstallet med 1 og
      * månede settes til desember
      */
-    public void prevMonth() {
+    @FXML
+    private void prevMonth() {
         if (month == 1) {
             month = 12;
             year--;
@@ -461,7 +468,8 @@ public class trainingDiaryController {
      * Inkrementerer verdien til månede, hvis desember øker årstall med 1 og månede
      * settes til januar
      */
-    public void nextMonth() {
+    @FXML
+    private void nextMonth() {
         if (month == 12) {
             month = 1;
             year++;
@@ -535,8 +543,8 @@ public class trainingDiaryController {
         String file = filenameLoad.getValue();
         try {
             diary = fileManager.read(file);
-            feedbackLoad.setText("'" + file + "' was loaded");
             initialize();
+            feedbackLoad.setText("'" + file + "' was loaded");
         } catch (FileNotFoundException e) {
             feedbackLoad.setText("Choose a file!");
         } catch (RuntimeException e) {
