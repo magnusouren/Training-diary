@@ -1,21 +1,28 @@
 .text-field:error {
+    background-color: rgba(255, 225, 225), rgb(0, 0, 0), rgb(255, 225, 225);
     -fx-background-color: rgba(255, 225, 225), rgb(0, 0, 0), rgb(255, 225, 225);
 }
 .date-picker:error {
+    background-color: red, rgb(0, 0, 0), rgb(252, 196, 196);
     -fx-background-color: red, rgb(0, 0, 0), rgb(252, 196, 196);
 }
 
 .choice-box:error {
+    background-color: rgba(255, 225, 225), rgba(255, 225, 225),
+        rgba(255, 225, 225);
     -fx-background-color: rgba(255, 225, 225), rgba(255, 225, 225),
         rgba(255, 225, 225);
+    border-color: rgba(255, 255, 255, 0);
     -fx-border-color: rgba(255, 255, 255, 0);
 }
 .text-field:valid {
+    background-color: rgb(198, 255, 184), rgb(198, 255, 184), rgb(198, 255, 184);
     -fx-background-color: rgb(198, 255, 184), rgb(198, 255, 184),
         rgb(198, 255, 184);
 }
 
 .choice-box:valid {
+    background-color: rgb(198, 255, 184), rgb(198, 255, 184), rgb(198, 255, 184);
     -fx-background-color: rgb(198, 255, 184), rgb(198, 255, 184),
         rgb(198, 255, 184);
 }
