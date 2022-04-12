@@ -8,7 +8,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -69,7 +68,9 @@ public class trainingDiaryController {
     private GridPane calendar;
 
     @FXML
-    private Text monthText, exerciseFeedback, feedbackSave, feedbackLoad;
+    private Text monthText, exerciseFeedback, feedbackSave, feedbackLoad, StotalDuration, SavgRating, StotalNumW,
+            SrunDuration, SavgRunRating, SrunDistance, StotalNumRun, SstrengthDuration, SavgStrengthRating, SkgLifted,
+            StotalNumStrength;
 
     @FXML
     private Button btnAddExercise, btnSaveStrength, btnAddStrength, btnCancelStrength;
@@ -103,31 +104,15 @@ public class trainingDiaryController {
     @FXML
     public void initialize() {
         workouts = diary.getWorkoutsPerMonth(month, year);
-        if (Objects.isNull(runFields))
-            initializeInputElements();
 
         updateDateField();
         generateCalendar();
         initializeRatings();
         setFiles();
         setSummary();
+        if (Objects.isNull(runFields))
+            initializeInputElements();
 
-    }
-
-    private void setSummary() {
-
-        Map<String, Integer> sTotal = diary.getTotalSummary();
-        Map<String, Integer> sRun = new HashMap<>();
-        Map<String, Integer> sStrength = new HashMap<>();
-
-        try {
-            sRun = diary.getTypeSummary(Class.forName("trainingDiary.Run"));
-            sStrength = diary.getTypeSummary(Class.forName("trainingDiary.Strength"));
-
-        } catch (ClassNotFoundException e) {
-            System.out.println("Error during calculation of summary, class not found");
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -249,6 +234,57 @@ public class trainingDiaryController {
 
         strengthRating.setItems(ratings);
         strengthRating.setValue("-- Set rating --");
+    }
+
+    /**
+     * Method to add existing files in directory to the input fields, this will make
+     * it easier for the user to save/load files
+     */
+    private void setFiles() {
+
+        Set<String> files = Stream.of(new File("src/main/resources/trainingDiary/saves/").listFiles())
+                .filter(file -> !file.isDirectory())
+                .map(File::getName)
+                .collect(Collectors.toSet());
+
+        filenameSave.getItems().clear();
+        filenameLoad.getItems().clear();
+
+        filenameSave.getItems().addAll(files);
+        filenameLoad.getItems().addAll(files);
+    }
+
+    private void setSummary() {
+        summaryTotal();
+        summaryRun();
+        summaryStrength();
+
+    }
+
+    /**
+     * Sets textvalues from map to the text-element in summary-tab element in app.
+     */
+    private void summaryStrength() {
+        Map<String, String> sStrength = diary.getStrengthSummary();
+        SstrengthDuration.setText(sStrength.getOrDefault("strengthTotDuration", "?"));
+        SavgStrengthRating.setText(sStrength.getOrDefault("strengthAvgRating", "?"));
+        SkgLifted.setText(sStrength.getOrDefault("kgLifted", "?"));
+        StotalNumStrength.setText(sStrength.getOrDefault("totStrengths", "?"));
+    }
+
+    private void summaryTotal() {
+        Map<String, String> sTotal = diary.getTotalSummary();
+        StotalDuration.setText(sTotal.getOrDefault("totDuration", "?"));
+        SavgRating.setText(sTotal.getOrDefault("totAvgRating", "?"));
+        StotalNumW.setText(sTotal.getOrDefault("totWorkouts", "?"));
+    }
+
+    private void summaryRun() {
+        Map<String, String> sRun = diary.getRunSummary();
+        SrunDuration.setText(sRun.getOrDefault("runTotDuration", "?"));
+        SavgRunRating.setText(sRun.getOrDefault("runAvgRating", "?"));
+        SrunDistance.setText(sRun.getOrDefault("runTotDistance", "?"));
+        StotalNumRun.setText(sRun.getOrDefault("totRuns", "?"));
     }
 
     /**
@@ -566,24 +602,6 @@ public class trainingDiaryController {
 
         filenameSave.setValue(file);
         feedbackSave.setText("");
-    }
-
-    /**
-     * Method to add existing files in directory to the input fields, this will make
-     * it easier for the user to save/load files
-     */
-    private void setFiles() {
-
-        Set<String> files = Stream.of(new File("src/main/resources/trainingDiary/saves/").listFiles())
-                .filter(file -> !file.isDirectory())
-                .map(File::getName)
-                .collect(Collectors.toSet());
-
-        filenameSave.getItems().clear();
-        filenameLoad.getItems().clear();
-
-        filenameSave.getItems().addAll(files);
-        filenameLoad.getItems().addAll(files);
     }
 
 }
