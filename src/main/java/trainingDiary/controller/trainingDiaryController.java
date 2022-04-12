@@ -42,7 +42,6 @@ import javafx.stage.Stage;
 import trainingDiary.Diary;
 import trainingDiary.Strength;
 import trainingDiary.IWorkout;
-import trainingDiary.Run;
 import trainingDiary.addWorkout.AddExercise;
 import trainingDiary.addWorkout.AddRun;
 import trainingDiary.addWorkout.AddStrength;
