@@ -23,6 +23,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
@@ -32,6 +33,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -42,6 +44,7 @@ import javafx.stage.Stage;
 import trainingDiary.Diary;
 import trainingDiary.Strength;
 import trainingDiary.IWorkout;
+import trainingDiary.Run;
 import trainingDiary.addWorkout.AddExercise;
 import trainingDiary.addWorkout.AddRun;
 import trainingDiary.addWorkout.AddStrength;
@@ -361,11 +364,16 @@ public class trainingDiaryController {
         if (addRun.validate(runDate, runTime, runDuration, runDistance, runRating, runMaxHr, runAvgHr,
                 runComments)) {
 
-            diary.addWorkout(addRun.getRun());
+            addWorkout(addRun.getRun());
 
             clearInput(runFields);
             initialize();
 
+        } else {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setHeaderText("Invalid inputs on new run");
+            alert.setContentText(addRun.getMessage());
+            alert.showAndWait();
         }
     }
 
@@ -414,9 +422,20 @@ public class trainingDiaryController {
      */
     @FXML
     private void saveStrength() {
-        diary.addWorkout(tempStrength);
+        addWorkout(tempStrength);
         clearStrength();
 
+    }
+
+    private void addWorkout(IWorkout workout) {
+        try {
+            diary.addWorkout(workout);
+        } catch (IllegalArgumentException e) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setHeaderText("Your workout could not be saved");
+            alert.setContentText("One and only one workout allowed per day");
+            alert.showAndWait();
+        }
     }
 
     /**

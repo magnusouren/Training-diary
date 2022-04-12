@@ -2,6 +2,7 @@ package trainingDiary.addWorkout;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.regex.PatternSyntaxException;
 
 import javafx.css.PseudoClass;
 import javafx.scene.Node;
@@ -15,6 +16,7 @@ import trainingDiary.IWorkout;
 public class AddRun {
 
     private boolean validationStatus;
+    private String message;
 
     private Run run = new Run();
 
@@ -24,9 +26,10 @@ public class AddRun {
             TextField avgHr,
             TextArea comments) {
 
+        message = "";
         validationStatus = true;
 
-        setDate(date, validateTime(time));
+        setDate(date, validateTime(time), time);
         setDuration(duration);
         setDistance(distance);
         setRating(rating);
@@ -53,6 +56,10 @@ public class AddRun {
     public IWorkout getRun() {
         IWorkout res = run;
         return res;
+    }
+
+    public String getMessage() {
+        return this.message;
     }
 
     /**
@@ -90,8 +97,15 @@ public class AddRun {
             run.setDuration(hours * 60 + minutes);
 
             styleInput(duration, true);
-        } catch (Exception e) {
+        } catch (PatternSyntaxException e) {
             styleInput(duration, false);
+            message += "Invalid duration, must be on the format 'hh:mm'\n";
+        } catch (NumberFormatException e) {
+            styleInput(duration, false);
+            message += "Invalid duration, must contains valid numbers on the format hh:mm\n";
+        } catch (IllegalArgumentException e) {
+            styleInput(duration, false);
+            message += "Invalid duration, must be less than 5:00\n";
         }
     }
 
@@ -108,6 +122,7 @@ public class AddRun {
             styleInput(rating, true);
         } catch (IllegalArgumentException e) {
             styleInput(rating, false);
+            message += "Invalid rating, pick a number\n";
         }
     }
 
@@ -119,17 +134,17 @@ public class AddRun {
      * @param date    DatePicker med tilhørende datoverdi
      * @param timeVal LocalTime med tidspunkt
      */
-    private void setDate(DatePicker date, LocalTime timeVal) {
+    private void setDate(DatePicker date, LocalTime timeVal, TextField time) {
         try {
             LocalDateTime dateTime = LocalDateTime.of(date.getValue(), timeVal);
 
             run.setDate(dateTime);
             styleInput(date, true);
 
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             styleInput(date, false);
-        } catch (NullPointerException e) {
-            styleInput(date, false);
+            styleInput(time, false);
+            message += "Invalid date, date couldn't be in the future\n";
         }
     }
 
@@ -156,6 +171,7 @@ public class AddRun {
 
         } catch (Exception e) {
             styleInput(time, false);
+            message += "Invalid timevalue, must be on the format 'hh:mm'\n";
             return null;
         }
 
@@ -175,6 +191,7 @@ public class AddRun {
 
         } catch (IllegalArgumentException e) {
             styleInput(distance, false);
+            message += "Invalid distance, must be greater than 0 and less than 100000\n";
         }
     }
 
@@ -192,6 +209,7 @@ public class AddRun {
 
         } catch (IllegalArgumentException e) {
             styleInput(avgHr, false);
+            message += "Invalid average heartrate, must be between 0 and 225\n";
         }
     }
 
@@ -209,7 +227,7 @@ public class AddRun {
 
         } catch (IllegalArgumentException e) {
             styleInput(maxHr, false);
-
+            message += "Invalid maximum heartrate, must be between 0 and 225\n";
         }
     }
 }
