@@ -27,8 +27,8 @@ public class AddRun {
             TextField avgHr,
             TextArea comments) {
 
-        message = "";
         validationStatus = true;
+        message = "";
 
         setDate(date, validateTime(time), time);
         setDuration(duration);
