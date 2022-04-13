@@ -1,5 +1,6 @@
 package trainingDiary.validation;
 
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +18,7 @@ public class WorkoutValidate {
         LocalDateTime today = LocalDateTime.now();
 
         if (date.isAfter(today)) {
-            throw new IllegalArgumentException("Date could not be in the future");
+            throw new IllegalArgumentException("Illegal date, date can not be in the future");
         }
 
     }
@@ -30,9 +31,9 @@ public class WorkoutValidate {
      */
     public void validateDuration(int duration) {
         if (duration < 0)
-            throw new IllegalArgumentException("Duration must be greater than 0");
+            throw new IllegalArgumentException("Illegal duration, must be greater than 0:00");
         if (duration > 300)
-            throw new IllegalArgumentException("A workout canot be longer than 5 hours");
+            throw new IllegalArgumentException("Illegal duration, must be less than 5:00");
     }
 
     /**
@@ -46,6 +47,6 @@ public class WorkoutValidate {
         values.addAll(Arrays.asList('1', '2', '3', '4', '5', '6'));
 
         if (!values.contains(rating))
-            throw new IllegalArgumentException("Illegal rating, must be in the interval 1-6");
+            throw new IllegalArgumentException("Illegal rating, pick a number in the interval [1-6]");
     }
 }
