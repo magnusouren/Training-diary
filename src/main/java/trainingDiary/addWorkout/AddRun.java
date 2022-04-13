@@ -36,16 +36,12 @@ public class AddRun {
         setRating(rating);
         setMaxHr(maxHr);
         setAvgHr(avgHr);
-
-        if (!validationStatus) {
-            run = null;
-            return false;
-        }
-
         run.setContent(comments.getText());
-        run.setAverageSpeed();
 
-        return true;
+        if (validationStatus)
+            run.setAverageSpeed();
+
+        return validationStatus;
 
     }
 

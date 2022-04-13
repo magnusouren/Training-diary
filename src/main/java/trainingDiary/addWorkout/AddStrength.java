@@ -31,12 +31,7 @@ public class AddStrength {
         setRating(rating);
         strength.setContent(comments.getText());
 
-        if (!validationStatus) {
-            strength = null;
-            return false;
-        }
-
-        return true;
+        return validationStatus;
 
     }
 
