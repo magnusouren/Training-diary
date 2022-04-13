@@ -90,20 +90,19 @@ public class AddStrength {
             strength.setDuration(min);
 
             styleInput(duration, true);
+            return;
 
         } catch (PatternSyntaxException e) {
-            styleInput(duration, false);
             message += "Invalid duration, must be on the format 'hh:mm'\n";
         } catch (NumberFormatException e) {
-            styleInput(duration, false);
             message += "Invalid duration, must contains numbers on the format hh:mm\n";
         } catch (DateTimeException e) {
-            styleInput(duration, false);
             message += "Invalid duration, invalid values for hours and/or minutes\n";
         } catch (IllegalArgumentException e) {
-            styleInput(duration, false);
             message += e.getLocalizedMessage() + "\n";
         }
+        styleInput(duration, false);
+
     }
 
     /**
@@ -137,16 +136,15 @@ public class AddStrength {
 
             strength.setDate(dateTime);
             styleInput(date.getEditor(), true);
-
+            return;
         } catch (IllegalArgumentException e) {
-            styleInput(date.getEditor(), false);
             styleInput(time, false);
             message += e.getLocalizedMessage() + "\n";
         } catch (NullPointerException e) {
-            styleInput(date.getEditor(), false);
-            styleInput(time, false);
             message += "Invalid date, can not set date with illegal time\n";
         }
+        styleInput(date.getEditor(), false);
+
     }
 
     /**
