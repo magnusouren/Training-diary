@@ -2,10 +2,6 @@
     background-color: rgba(255, 225, 225), rgb(0, 0, 0), rgb(255, 225, 225);
     -fx-background-color: rgba(255, 225, 225), rgb(0, 0, 0), rgb(255, 225, 225);
 }
-.date-picker:error {
-    background-color: red, rgb(0, 0, 0), rgb(252, 196, 196);
-    -fx-background-color: red, rgb(0, 0, 0), rgb(252, 196, 196);
-}
 
 .choice-box:error {
     background-color: rgba(255, 225, 225), rgba(255, 225, 225),

@@ -1,5 +1,6 @@
 package trainingDiary.addWorkout;
 
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.regex.PatternSyntaxException;
@@ -102,7 +103,7 @@ public class AddRun {
             message += "Invalid duration, must be on the format 'hh:mm'\n";
         } catch (NumberFormatException e) {
             styleInput(duration, false);
-            message += "Invalid duration, must contains valid numbers on the format hh:mm\n";
+            message += "Invalid duration, must contains numbers on the format hh:mm\n";
         } catch (IllegalArgumentException e) {
             styleInput(duration, false);
             message += "Invalid duration, must be less than 5:00\n";
@@ -139,10 +140,11 @@ public class AddRun {
             LocalDateTime dateTime = LocalDateTime.of(date.getValue(), timeVal);
 
             run.setDate(dateTime);
-            styleInput(date, true);
+            styleInput(date.getEditor(), true);
 
         } catch (Exception e) {
-            styleInput(date, false);
+            // TODO DateTimeException
+            styleInput(date.getEditor(), false);
             styleInput(time, false);
             message += "Invalid date, date couldn't be in the future\n";
         }
