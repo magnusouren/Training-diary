@@ -10,27 +10,33 @@ import trainingDiary.Exercise;
 public class AddExercise {
 
     private boolean validationStatus;
+    private String message;
 
     private Exercise exercise = new Exercise();
 
     public boolean validate(TextField name, TextField weight, List<TextField> reps) {
 
         validationStatus = true;
+        message = "";
 
         setName(name);
         setWeight(weight);
 
+        boolean containsRep = false;
+
         for (TextField field : reps) {
-            if (!field.getText().equals(""))
+            if (!field.getText().equals("")) {
                 addRep(field);
+                containsRep = true;
+            }
         }
 
-        if (!validationStatus) {
-            exercise = null;
-            return false;
+        if (!containsRep) {
+            message += "Invalid sets, must contain at least one set";
+            validationStatus = containsRep;
         }
 
-        return true;
+        return validationStatus;
 
     }
 
@@ -41,6 +47,10 @@ public class AddExercise {
      */
     public Exercise getExercise() {
         return exercise;
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     /**
@@ -75,6 +85,7 @@ public class AddExercise {
             styleInput(name, true);
         } catch (IllegalArgumentException e) {
             styleInput(name, false);
+            message += e.getLocalizedMessage();
         }
     }
 
@@ -86,17 +97,20 @@ public class AddExercise {
     private void setWeight(TextField weight) {
         try {
             int weightVal = Integer.parseInt(weight.getText());
-            exercise.setWeigth(weightVal);
+            exercise.setWeight(weightVal);
             styleInput(weight, true);
+            return;
         } catch (NumberFormatException e) {
-            if (weight.getText().equals("")) {
-                exercise.setWeigth(0);
+            if (weight.getText().isBlank()) {
+                exercise.setWeight(0);
                 styleInput(weight, true);
             } else {
                 styleInput(weight, false);
+                message += "Illegal weight, must be a number!";
             }
         } catch (IllegalArgumentException e) {
             styleInput(weight, false);
+            message += e.getLocalizedMessage() + "\n";
         }
     }
 
@@ -110,9 +124,14 @@ public class AddExercise {
             int repVal = Integer.parseInt(rep.getText());
             exercise.addRep(repVal);
             styleInput(rep, true);
+            return;
+        } catch (NumberFormatException e) {
+            message += "Invalid set, must consists of numbers only";
         } catch (IllegalArgumentException e) {
-            styleInput(rep, false);
+            message += e.getLocalizedMessage() + "\n";
         }
+        styleInput(rep, false);
+
     }
 
 }
