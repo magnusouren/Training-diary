@@ -44,7 +44,6 @@ import javafx.stage.Stage;
 import trainingDiary.Diary;
 import trainingDiary.Strength;
 import trainingDiary.IWorkout;
-import trainingDiary.Run;
 import trainingDiary.addWorkout.AddExercise;
 import trainingDiary.addWorkout.AddRun;
 import trainingDiary.addWorkout.AddStrength;
@@ -374,6 +373,7 @@ public class trainingDiaryController {
             alert.setHeaderText("Invalid inputs on new run");
             alert.setContentText(addRun.getMessage());
             alert.showAndWait();
+            addRun = null;
         }
     }
 
@@ -389,6 +389,12 @@ public class trainingDiaryController {
             switchStrengthInput(false);
             tempStrength = addStrength.getStrength();
 
+        } else {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setHeaderText("Invalid inputs on new strength");
+            alert.setContentText(addStrength.getMessage());
+            alert.showAndWait();
+            addStrength = null;
         }
     }
 
@@ -410,8 +416,11 @@ public class trainingDiaryController {
             clearInput(exerciseFields);
 
         } else {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setHeaderText("Invalid inputs on exercise");
+            alert.setContentText(addExercise.getMessage());
+            alert.showAndWait();
             addExercise = null;
-            exerciseFeedback.setText("Illegal value(s) on this exercise");
         }
 
     }
@@ -499,8 +508,11 @@ public class trainingDiaryController {
                 ((TextField) f).clear();
             else if (f instanceof TextArea)
                 ((TextArea) f).clear();
-            else if (f instanceof DatePicker)
+            else if (f instanceof DatePicker) {
                 ((DatePicker) f).setValue(LocalDate.now());
+                ((DatePicker) f).getEditor().pseudoClassStateChanged(errorClass, false);
+                ((DatePicker) f).getEditor().pseudoClassStateChanged(validClass, false);
+            }
         });
 
     }
