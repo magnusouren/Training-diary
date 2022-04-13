@@ -14,16 +14,16 @@ public class Exercise {
     }
 
     public void setName(String name) {
-        if (name.length() == 0)
-            throw new IllegalArgumentException("Ugyldig verdi");
+        if (!name.matches("[a-zA-Z]+"))
+            throw new IllegalArgumentException("Illegal name, must contain letters");
         this.name = name;
     }
 
-    public void setWeigth(int weigth) {
+    public void setWeight(int weigth) {
         if (weigth < 0)
-            throw new IllegalArgumentException("Ugyldig verdi");
+            throw new IllegalArgumentException("Illegal weight, must be greater than 0");
         if (weigth > 300)
-            throw new IllegalArgumentException("Ugyldig verdi");
+            throw new IllegalArgumentException("Illegal weight, must be less than 300");
         this.weight = weigth;
     }
 
@@ -35,7 +35,7 @@ public class Exercise {
      */
     public void addRep(int rep) {
         if (rep <= 0) {
-            throw new IllegalArgumentException("Ugyldig verdi på rep");
+            throw new IllegalArgumentException("Illegal set, must be greater than 0");
         } else {
             this.reps.add(rep);
         }
