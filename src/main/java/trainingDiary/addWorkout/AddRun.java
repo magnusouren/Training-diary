@@ -91,9 +91,11 @@ public class AddRun {
             int hours = Integer.valueOf(values[0]);
             int minutes = Integer.valueOf(values[1]);
 
-            int min = LocalTime.of(hours, minutes).getMinute();
+            LocalTime t = LocalTime.of(hours, minutes);
+            hours = t.getHour() * 60;
+            minutes = t.getMinute();
 
-            run.setDuration(min);
+            run.setDuration(hours + minutes);
 
             styleInput(duration, true);
             return;
@@ -182,7 +184,7 @@ public class AddRun {
         } catch (ArrayIndexOutOfBoundsException e) {
             message += "Invalid duration, must be on the format 'hh:mm'\n";
         } catch (DateTimeException e) {
-            message += "Invalid time, must be numbers on the format hh:mm\n";
+            message += "Invalid time, invalid values for hours and/or minutes\n";
         }
         styleInput(time, false);
         return null;
@@ -203,7 +205,7 @@ public class AddRun {
 
         } catch (IllegalArgumentException e) {
             styleInput(distance, false);
-            message += "Invalid distance, must be greater than 0 and less than 100000\n";
+            message += "Invalid distance, must a number be greater than 0 and less than 100000\n";
         }
     }
 
@@ -218,11 +220,14 @@ public class AddRun {
             String avgHrVal = avgHr.getText();
             run.setAvaerageHeartRate(Integer.valueOf(avgHrVal));
             styleInput(avgHr, true);
-
+            return;
+        } catch (NumberFormatException e) {
+            message += "Invalid average heartrate, enter value\n";
         } catch (IllegalArgumentException e) {
-            styleInput(avgHr, false);
-            message += "Invalid average heartrate, must be between 0 and 225\n";
+            message += "Invalid average heartrate, " + e.getLocalizedMessage() + "\n";
         }
+        styleInput(avgHr, false);
+
     }
 
     /**
@@ -236,10 +241,13 @@ public class AddRun {
             String maxHrVal = maxHr.getText();
             run.setMaxHeartRate(Integer.valueOf(maxHrVal));
             styleInput(maxHr, true);
-
+            return;
+        } catch (NumberFormatException e) {
+            message += "Invalid maximum heartrate, enter value\n";
         } catch (IllegalArgumentException e) {
-            styleInput(maxHr, false);
-            message += "Invalid maximum heartrate, must be between 0 and 225\n";
+            message += "Invalid average heartrate, " + e.getLocalizedMessage() + "\n";
         }
+        styleInput(maxHr, false);
+
     }
 }

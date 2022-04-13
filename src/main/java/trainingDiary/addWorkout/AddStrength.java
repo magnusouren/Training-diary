@@ -80,9 +80,11 @@ public class AddStrength {
             int hours = Integer.valueOf(values[0]);
             int minutes = Integer.valueOf(values[1]);
 
-            int min = LocalTime.of(hours, minutes).getMinute();
+            LocalTime t = LocalTime.of(hours, minutes);
+            hours = t.getHour() * 60;
+            minutes = t.getMinute();
 
-            strength.setDuration(min);
+            strength.setDuration(hours + minutes);
 
             styleInput(duration, true);
             return;
@@ -170,7 +172,7 @@ public class AddStrength {
         } catch (ArrayIndexOutOfBoundsException e) {
             message += "Invalid duration, must be on the format 'hh:mm'\n";
         } catch (DateTimeException e) {
-            message += "Invalid time, must be numbers on the format hh:mm\n";
+            message += "Invalid time, invalid values for hours and/or minutes\n";
         }
         styleInput(time, false);
         return null;
