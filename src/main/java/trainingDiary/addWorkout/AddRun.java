@@ -100,6 +100,8 @@ public class AddRun {
 
         } catch (PatternSyntaxException e) {
             message += "Invalid duration, must be on the format 'hh:mm'\n";
+        } catch (ArrayIndexOutOfBoundsException e) {
+            message += "Invalid duration, must be on the format 'hh:mm'\n";
         } catch (NumberFormatException e) {
             message += "Invalid duration, must contains numbers on the format hh:mm\n";
         } catch (DateTimeException e) {
@@ -177,6 +179,8 @@ public class AddRun {
 
         } catch (IllegalArgumentException e) {
             message += "Invalid time, must contain numbers on the format hh:mm\n";
+        } catch (ArrayIndexOutOfBoundsException e) {
+            message += "Invalid duration, must be on the format 'hh:mm'\n";
         } catch (DateTimeException e) {
             message += "Invalid time, must be numbers on the format hh:mm\n";
         }
