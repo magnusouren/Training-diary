@@ -95,7 +95,7 @@ public class TxtFile implements IfileManager {
         while (exercises.hasNext()) {
             Exercise ex = new Exercise();
             ex.setName(exercises.next());
-            ex.setWeigth(Integer.parseInt(exercises.next()));
+            ex.setWeight(Integer.parseInt(exercises.next()));
             Arrays.stream(exercises.next().split("/"))
                     .map(Integer::parseInt)
                     .forEach(r -> ex.addRep(r));
