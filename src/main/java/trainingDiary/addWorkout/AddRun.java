@@ -30,7 +30,7 @@ public class AddRun {
         validationStatus = true;
         message = "";
 
-        setDate(date, validateTime(time), time);
+        setDate(date, time);
         setDuration(duration);
         setDistance(distance);
         setRating(rating);
@@ -95,19 +95,24 @@ public class AddRun {
             int hours = Integer.valueOf(values[0]);
             int minutes = Integer.valueOf(values[1]);
 
-            run.setDuration(hours * 60 + minutes);
+            int min = LocalTime.of(hours, minutes).getMinute();
+
+            run.setDuration(min);
 
             styleInput(duration, true);
+            return;
+
         } catch (PatternSyntaxException e) {
-            styleInput(duration, false);
             message += "Invalid duration, must be on the format 'hh:mm'\n";
         } catch (NumberFormatException e) {
-            styleInput(duration, false);
             message += "Invalid duration, must contains numbers on the format hh:mm\n";
+        } catch (DateTimeException e) {
+            message += "Invalid duration, invalid values for hours and/or minutes\n";
         } catch (IllegalArgumentException e) {
-            styleInput(duration, false);
-            message += "Invalid duration, must be less than 5:00\n";
+            message += e.getLocalizedMessage() + "\n";
         }
+        styleInput(duration, false);
+
     }
 
     /**
@@ -123,7 +128,7 @@ public class AddRun {
             styleInput(rating, true);
         } catch (IllegalArgumentException e) {
             styleInput(rating, false);
-            message += "Invalid rating, pick a number\n";
+            message += e.getLocalizedMessage() + "\n";
         }
     }
 
@@ -135,19 +140,22 @@ public class AddRun {
      * @param date    DatePicker med tilhørende datoverdi
      * @param timeVal LocalTime med tidspunkt
      */
-    private void setDate(DatePicker date, LocalTime timeVal, TextField time) {
+    private void setDate(DatePicker date, TextField time) {
         try {
-            LocalDateTime dateTime = LocalDateTime.of(date.getValue(), timeVal);
+            LocalDateTime dateTime = LocalDateTime.of(date.getValue(), validateTime(time));
 
             run.setDate(dateTime);
             styleInput(date.getEditor(), true);
+            return;
 
-        } catch (Exception e) {
-            // TODO DateTimeException
-            styleInput(date.getEditor(), false);
+        } catch (IllegalArgumentException e) {
             styleInput(time, false);
-            message += "Invalid date, date couldn't be in the future\n";
+            message += e.getLocalizedMessage() + "\n";
+        } catch (NullPointerException e) {
+            message += "Invalid date, can not set date with illegal time\n";
         }
+        styleInput(date.getEditor(), false);
+
     }
 
     /**
@@ -171,11 +179,13 @@ public class AddRun {
             styleInput(time, true);
             return localTime;
 
-        } catch (Exception e) {
-            styleInput(time, false);
-            message += "Invalid timevalue, must be on the format 'hh:mm'\n";
-            return null;
+        } catch (IllegalArgumentException e) {
+            message += "Invalid time, must contain numbers on the format hh:mm\n";
+        } catch (DateTimeException e) {
+            message += "Invalid time, must be numbers on the format hh:mm\n";
         }
+        styleInput(time, false);
+        return null;
 
     }
 
