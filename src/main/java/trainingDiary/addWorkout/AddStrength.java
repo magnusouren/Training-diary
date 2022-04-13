@@ -1,7 +1,9 @@
 package trainingDiary.addWorkout;
 
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.regex.PatternSyntaxException;
 
 import javafx.css.PseudoClass;
 import javafx.scene.Node;
@@ -14,6 +16,7 @@ import trainingDiary.Strength;
 public class AddStrength {
 
     private boolean validationStatus;
+    private String message;
 
     private Strength strength = new Strength();
 
@@ -21,8 +24,9 @@ public class AddStrength {
             TextArea comments) {
 
         validationStatus = true;
+        message = "";
 
-        setDate(date, validateTime(time));
+        setDate(date, time);
         setDuration(duration);
         setRating(rating);
         strength.setContent(comments.getText());
@@ -43,6 +47,10 @@ public class AddStrength {
      */
     public Strength getStrength() {
         return strength;
+    }
+
+    public String getMessage() {
+        return this.message;
     }
 
     /**
@@ -77,11 +85,24 @@ public class AddStrength {
             int hours = Integer.valueOf(values[0]);
             int minutes = Integer.valueOf(values[1]);
 
-            strength.setDuration(hours * 60 + minutes);
+            int min = LocalTime.of(hours, minutes).getMinute();
+
+            strength.setDuration(min);
 
             styleInput(duration, true);
-        } catch (Exception e) {
+
+        } catch (PatternSyntaxException e) {
             styleInput(duration, false);
+            message += "Invalid duration, must be on the format 'hh:mm'\n";
+        } catch (NumberFormatException e) {
+            styleInput(duration, false);
+            message += "Invalid duration, must contains numbers on the format hh:mm\n";
+        } catch (DateTimeException e) {
+            styleInput(duration, false);
+            message += "Invalid duration, invalid values for hours and/or minutes\n";
+        } catch (IllegalArgumentException e) {
+            styleInput(duration, false);
+            message += e.getLocalizedMessage() + "\n";
         }
     }
 
@@ -98,6 +119,7 @@ public class AddStrength {
             styleInput(rating, true);
         } catch (IllegalArgumentException e) {
             styleInput(rating, false);
+            message += e.getLocalizedMessage() + "\n";
         }
     }
 
@@ -109,15 +131,21 @@ public class AddStrength {
      * @param date    DatePicker med tilhørende datoverdi
      * @param timeVal LocalTime med tidspunkt
      */
-    private void setDate(DatePicker date, LocalTime timeVal) {
+    private void setDate(DatePicker date, TextField time) {
         try {
-            LocalDateTime dateTime = LocalDateTime.of(date.getValue(), timeVal);
+            LocalDateTime dateTime = LocalDateTime.of(date.getValue(), validateTime(time));
 
             strength.setDate(dateTime);
-            styleInput(date, true);
+            styleInput(date.getEditor(), true);
 
-        } catch (RuntimeException e) {
-            styleInput(date, false);
+        } catch (IllegalArgumentException e) {
+            styleInput(date.getEditor(), false);
+            styleInput(time, false);
+            message += e.getLocalizedMessage() + "\n";
+        } catch (NullPointerException e) {
+            styleInput(date.getEditor(), false);
+            styleInput(time, false);
+            message += "Invalid date, can not set date with illegal time\n";
         }
     }
 
@@ -142,10 +170,13 @@ public class AddStrength {
             styleInput(time, true);
             return localTime;
 
-        } catch (Exception e) {
-            styleInput(time, false);
-            return null;
+        } catch (IllegalArgumentException e) {
+            message += "Invalid time, must contain numbers on the format hh:mm\n";
+        } catch (DateTimeException e) {
+            message += "Invalid time, must be numbers on the format hh:mm\n";
         }
+        styleInput(time, false);
+        return null;
 
     }
 }
