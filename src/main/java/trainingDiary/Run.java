@@ -50,9 +50,9 @@ public class Run implements IWorkout {
      */
     private void validateDistance(int distance) {
         if (distance < 0)
-            throw new IllegalArgumentException("Km must be grater than 0");
+            throw new IllegalArgumentException("Invalid distance, must be grater than 0");
         if (distance > 100000)
-            throw new IllegalArgumentException("Distance cannot be greater than 100km");
+            throw new IllegalArgumentException("invalid distance, cannot be greater than 100km");
     }
 
     private void validateContent(String content) {
@@ -86,6 +86,8 @@ public class Run implements IWorkout {
 
     public void setAvaerageHeartRate(int avaerageHeartRate) {
         validateHeartRate(avaerageHeartRate);
+        if (avaerageHeartRate > maxHeartRate)
+            throw new IllegalArgumentException("Inavlid average heartrate, cannot be greater than maximum heartrate");
         this.averageHeartRate = avaerageHeartRate;
     }
 
@@ -102,9 +104,9 @@ public class Run implements IWorkout {
      */
     private void validateHeartRate(int heartRate) {
         if (heartRate < 0)
-            throw new IllegalArgumentException("Heartrate sholud be grater than 0");
+            throw new IllegalArgumentException("heartrate should be grater than 0");
         if (heartRate > 225)
-            throw new IllegalArgumentException("Heartrate cannot be grater than 225");
+            throw new IllegalArgumentException("heartrate cannot be grater than 225");
     }
 
     /**
