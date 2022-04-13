@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class RunTest {
@@ -15,51 +14,88 @@ public class RunTest {
 
     @BeforeEach
     public void setup() {
-        run = new Run(LocalDateTime.now(), 60, 5000, '3', "Test", 150, 200);
+        run = new Run();
     }
 
     @Test
-    public void testConstructor() {
+    public void tesSetDate() {
+        LocalDateTime now = LocalDateTime.now();
+        run.setDate(now);
+        assertEquals(now, run.getDate(), "Dates should be equal when date is sat");
 
-        assertEquals(5000, run.getDistance());
-        assertEquals('3', run.getRating(), "Rating should be '3'");
-        assertEquals("Test", run.getContent());
-        assertEquals(150, run.getAvaerageHeartRate());
-        assertEquals(200, run.getMaxHeartRate());
-
-    }
-
-    @Test
-    public void testDate() {
-
-        // Sjekker satt dato opp mot nå, nøyaktig nok i denne sammenhengen
-        LocalDateTime date = LocalDateTime.now();
-        assertEquals(date.getYear(), run.getDate().getYear(), "Workout should have same year-value as today");
-        assertEquals(date.getMonth(), run.getDate().getMonth(), "Workout should have same month-value as today");
-        assertEquals(date.getDayOfMonth(), run.getDate().getDayOfMonth(),
-                "Workout should have same day-value as today");
-        assertEquals(date.getHour(), run.getDate().getHour(), "Workout should have same hour-value as today");
-        assertEquals(date.getMinute(), run.getDate().getMinute(), "Workout should have same minute-value as today");
-
-        run = new Run(LocalDateTime.of(2021, 3, 2, 12, 00), 60, 5000, '3', "Test", 150, 200);
-
-        // Sjekker datoer opp mot hverandre
-        date = LocalDateTime.of(2021, 3, 2, 12, 00);
-        assertEquals(date.getYear(), run.getDate().getYear(), "Workout should have same year-value as date set");
-        assertEquals(date.getMonth(), run.getDate().getMonth(), "Workout should have same month-value as date set");
-        assertEquals(date.getDayOfMonth(), run.getDate().getDayOfMonth(),
-                "Workout should have same day-value as today");
-        assertEquals(date.getHour(), run.getDate().getHour(), "Workout should have same hour-value as date set");
-        assertEquals(date.getMinute(), run.getDate().getMinute(), "Workout should have same minute-value as date set");
+        LocalDateTime date = LocalDateTime.of(2022, 01, 01, 12, 00);
+        run.setDate(date);
+        assertEquals(date, run.getDate(), "Dates should be equals when sat");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            run = new Run(LocalDateTime.of(2023, 3, 2, 12, 00), 60, 5000, '3', "Test", 150, 200);
-        }, "Datoer frem i tid skal ikke kunne settes?");
+            run.setDate(LocalDateTime.now().plusDays(1));
+        }, "Date should not be allowed to be set to the future");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            run.setDate(LocalDateTime.now().plusMinutes(1));
+        }, "Time should not be allowed to be set to the future");
     }
 
     @Test
-    public void testDuration() {
-        assertEquals(60, run.getDuration(), "Duration should be 60 when sat to 60");
+    public void testSetDuration() {
+        for (int i = 30; i < 300; i += 30) {
+            run.setDuration(i);
+            assertEquals(i, run.getDuration(), "Duration should be " + i + " when sat to " + i);
+        }
+        assertThrows(IllegalArgumentException.class, () -> {
+            run.setDuration(0);
+        }, "Date should not be allowed to be set to 0");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            run.setDuration(-10);
+        }, "Date should not be allowed to be set to 0");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            run.setDuration(1000);
+        }, "Date should not be allowed to be set to 1000");
 
     }
+
+    @Test
+    public void testSetDistance() {
+
+        for (int i = 1000; i < 100000; i += 500) {
+            run.setDistance(i);
+            assertEquals(i, run.getDistance(), "Distance should be" + i + " when sat to" + i);
+        }
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            run.setDistance(0);
+        }, "Distance should not be allowed to be set to 0");
+        assertThrows(IllegalArgumentException.class, () -> {
+            run.setDistance(-10);
+        }, "Distance should not be allowed to be set to -10");
+        assertThrows(IllegalArgumentException.class, () -> {
+            run.setDistance(200000);
+        }, "Distance should not be allowed to be set to 200000");
+    }
+
+    @Test
+    public void testSetRating() {
+        char[] values = { '1', '2', '3', '4', '5', '6' };
+
+        for (int i = 0; i < values.length; i++) {
+            run.setRating(values[i]);
+            assertEquals(values[i], run.getRating(), "Ratin should be " + values[i] + " when sat");
+        }
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            run.setRating('0');
+        }, "Rating should not be allowed to be set to 0");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            run.setRating('7');
+        }, "Rating should not be allowed to be set to 7");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            run.setRating('A');
+        }, "Rating should not be allowed to be set to A");
+
+    }
+
 }

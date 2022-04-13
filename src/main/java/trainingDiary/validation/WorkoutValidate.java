@@ -29,7 +29,7 @@ public class WorkoutValidate {
      * @param duration int varighet i minutter på økt.
      */
     public void validateDuration(int duration) {
-        if (duration < 0)
+        if (duration <= 0)
             throw new IllegalArgumentException("Illegal duration, must be greater than 0:00");
         if (duration > 300)
             throw new IllegalArgumentException("Illegal duration, must be less than 5:00");

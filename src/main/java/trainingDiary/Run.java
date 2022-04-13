@@ -49,7 +49,7 @@ public class Run implements IWorkout {
      * @param distance Int tallverdi som representerer lengden på løpetur.
      */
     private void validateDistance(int distance) {
-        if (distance < 0)
+        if (distance <= 0)
             throw new IllegalArgumentException("Invalid distance, must be grater than 0");
         if (distance > 100000)
             throw new IllegalArgumentException("invalid distance, cannot be greater than 100km");
