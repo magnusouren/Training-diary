@@ -18,7 +18,7 @@ public class RunTest {
     }
 
     @Test
-    public void tesSetDate() {
+    public void testSetDate() {
         LocalDateTime now = LocalDateTime.now();
         run.setDate(now);
         assertEquals(now, run.getDate(), "Dates should be equal when date is sat");
@@ -95,6 +95,83 @@ public class RunTest {
         assertThrows(IllegalArgumentException.class, () -> {
             run.setRating('A');
         }, "Rating should not be allowed to be set to A");
+
+    }
+
+    @Test
+    public void testMaxHr() {
+        for (int i = 10; i < 225; i += 10) {
+            run.setMaxHeartRate(i);
+            assertEquals(i, run.getMaxHeartRate(), "Maximum heartRate Should be " + i + " when sat");
+        }
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            run.setMaxHeartRate(0);
+        }, "Max hr should not be allowed to be set to 0");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            run.setMaxHeartRate(226);
+        }, "Max hr should not be allowed to be set to 226");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            run.setMaxHeartRate(1000);
+        }, "Max hr should not be allowed to be set to 1000");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            run.setMaxHeartRate(-10);
+        }, "Max hr should not be allowed to be negative");
+    }
+
+    @Test
+    public void testAvgHr() {
+        run.setMaxHeartRate(225);
+
+        for (int i = 10; i < 225; i += 10) {
+            run.setAvaerageHeartRate(i);
+            assertEquals(i, run.getAvaerageHeartRate(), "Average heartRate Should be " + i + " when sat");
+        }
+
+        run.setMaxHeartRate(150);
+
+        for (int i = 10; i < 150; i += 10) {
+            run.setAvaerageHeartRate(i);
+            assertEquals(i, run.getAvaerageHeartRate(), "Average heartRate Should be " + i + " when sat");
+        }
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            for (int i = 155; i < 225; i += 10) {
+                run.setAvaerageHeartRate(i);
+            }
+        }, "Avg hr should not be allowed to be set greater than max hr");
+
+    }
+
+    @Test
+    public void testAverageSpeed() {
+        run.setDistance(10000);
+        run.setDuration(60);
+        run.setAverageSpeed();
+
+        assertEquals(10, run.getAverageSpeed());
+
+        for (int i = 1000; i < 20000; i += 1000) {
+            run.setDistance(i);
+            run.setAverageSpeed();
+            assertEquals(i / 1000, run.getAverageSpeed(), "Average speed should be " + i / 1000 + " when sat");
+        }
+
+        run.setDistance(10000);
+        run.setDuration(30);
+        run.setAverageSpeed();
+
+        assertEquals(20, run.getAverageSpeed());
+
+        for (int i = 30; i < 300; i += 30) {
+            run.setDuration(i);
+            run.setAverageSpeed();
+            assertEquals((600 / (double) i), run.getAverageSpeed(), 0.00001,
+                    "Average speed should be " + 600 / ((double) i) + " when sat");
+        }
 
     }
 
