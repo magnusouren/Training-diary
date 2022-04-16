@@ -67,9 +67,11 @@ public class RunTest {
         assertThrows(IllegalArgumentException.class, () -> {
             run.setDistance(0);
         }, "Distance should not be allowed to be set to 0");
+
         assertThrows(IllegalArgumentException.class, () -> {
             run.setDistance(-10);
         }, "Distance should not be allowed to be set to -10");
+
         assertThrows(IllegalArgumentException.class, () -> {
             run.setDistance(200000);
         }, "Distance should not be allowed to be set to 200000");
@@ -148,11 +150,7 @@ public class RunTest {
 
     @Test
     public void testAverageSpeed() {
-        run.setDistance(10000);
         run.setDuration(60);
-        run.setAverageSpeed();
-
-        assertEquals(10, run.getAverageSpeed());
 
         for (int i = 1000; i < 20000; i += 1000) {
             run.setDistance(i);
@@ -161,10 +159,6 @@ public class RunTest {
         }
 
         run.setDistance(10000);
-        run.setDuration(30);
-        run.setAverageSpeed();
-
-        assertEquals(20, run.getAverageSpeed());
 
         for (int i = 30; i < 300; i += 30) {
             run.setDuration(i);
