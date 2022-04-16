@@ -103,7 +103,7 @@ public class Run implements IWorkout {
      * @param heartRate Int pulsverdi
      */
     private void validateHeartRate(int heartRate) {
-        if (heartRate < 0)
+        if (heartRate <= 0)
             throw new IllegalArgumentException("heartrate should be grater than 0");
         if (heartRate > 225)
             throw new IllegalArgumentException("heartrate cannot be grater than 225");
@@ -114,7 +114,7 @@ public class Run implements IWorkout {
      * 
      */
     public void setAverageSpeed() {
-        this.averageSpeed = (this.distance / 1000) / (this.duration / 60);
+        this.averageSpeed = (((double) this.distance / 1000) / ((double) this.duration / 60));
     }
 
     @Override
