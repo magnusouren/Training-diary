@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -15,34 +16,14 @@ public class Diary {
 
                 Predicate<IWorkout> p = w -> w.getDate().toLocalDate().equals(workout.getDate().toLocalDate());
 
-                if (diary.stream().noneMatch(p))
-                        diary.add(workout);
-                else
-                        throw new IllegalArgumentException("Couldn't add two workouts at same day");
-        }
+                if (!Objects.isNull(workout)) {
+                        if (diary.stream().noneMatch(p))
+                                diary.add(workout);
+                        else
+                                throw new IllegalArgumentException("Couldn't add two workouts at same day");
+                } else
+                        throw new NullPointerException("Workout cannot be null");
 
-        public void removeWorkout(IWorkout workout) {
-                if (diary.contains(workout))
-                        diary.remove(workout);
-                else
-                        throw new IllegalArgumentException("Workout doesn't exist in diary");
-        }
-
-        /**
-         * Legger til en øvelse til økten hvis økten er av type Strength. Utløser unntak
-         * hvis ikke.
-         * 
-         * @param strength Workout som skal få øvelse lagt til
-         * @param name     String navn på type øvelse
-         * @param reps     int[] tallrepresentasjon av antall repetisjoner
-         */
-        public void addExercise(IWorkout strength, Exercise exercise, String name, int weigth, List<Integer> reps) {
-                if (strength instanceof Strength) {
-                        Strength castStrength = (Strength) strength;
-                        castStrength.addExercise(exercise);
-                } else {
-                        throw new IllegalArgumentException("Workout is not a strength-workout, couldn't add exercise");
-                }
         }
 
         public List<IWorkout> getDiary() {
