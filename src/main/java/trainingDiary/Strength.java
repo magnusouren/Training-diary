@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import trainingDiary.validation.WorkoutValidate;
@@ -49,7 +50,14 @@ public class Strength implements IWorkout {
      * @param rep  Int[] med de ulike tallverdiene over reppetisjoner
      */
     public void addExercise(Exercise exercise) {
-        exercises.add(exercise);
+        if (!Objects.isNull(exercise)) {
+            if (!exercises.contains(exercise))
+                exercises.add(exercise);
+            else
+                throw new IllegalArgumentException("Exercise exists");
+        } else
+            throw new NullPointerException("Exercise cannot be null");
+
     }
 
     @Override
