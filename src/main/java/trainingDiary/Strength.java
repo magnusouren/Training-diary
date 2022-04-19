@@ -30,16 +30,10 @@ public class Strength implements IWorkout {
      * @param content  String kommentarer til økten
      */
     public Strength(LocalDateTime dateTime, int duration, char rating, String content) {
-        WorkoutValidate validator = new WorkoutValidate();
-
-        validator.ValidateDate(dateTime);
-        validator.validateDuration(duration);
-        validator.validateRating(rating);
-
-        this.dateTime = dateTime;
-        this.duration = duration;
-        this.rating = rating;
-        this.comments = content;
+        setDate(dateTime);
+        setDuration(duration);
+        setRating(rating);
+        setContent(content);
     }
 
     /**
