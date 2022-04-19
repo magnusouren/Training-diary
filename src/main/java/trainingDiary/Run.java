@@ -35,8 +35,8 @@ public class Run implements IWorkout {
         setDistance(distance);
         setRating(rating);
         setContent(content);
-        setAvaerageHeartRate(averageHeartRate);
         setMaxHeartRate(maxHeartRate);
+        setAvaerageHeartRate(averageHeartRate);
         setAverageSpeed();
     }
 
