@@ -13,6 +13,14 @@ public class Exercise {
     public Exercise() {
     }
 
+    public Exercise(String name, int weight, int... reps) {
+        setName(name);
+        setWeight(weight);
+        for (int i : reps) {
+            addRep(i);
+        }
+    }
+
     public void setName(String name) {
         if (!name.matches("[a-zA-Z]+"))
             throw new IllegalArgumentException("Illegal name, must contain letters");
