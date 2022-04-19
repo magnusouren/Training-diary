@@ -13,7 +13,6 @@ public class DiaryTest {
     private Diary diary;
     private Run run;
     private Strength strength;
-    private Exercise exercise;
 
     @BeforeEach
     public void setup() {
@@ -21,7 +20,6 @@ public class DiaryTest {
         diary = new Diary();
         run = new Run(LocalDateTime.now().minusDays(1), 60, 10, '4', "TestRun", 150, 200);
         strength = new Strength(LocalDateTime.now(), 90, '4', "TestStrength");
-        exercise = new Exercise("TestExercise", 100, 8, 7, 6, 5);
 
     }
 
