@@ -1,7 +1,6 @@
 package trainingDiary;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDateTime;
@@ -14,114 +13,53 @@ public class DiaryTest {
     private Diary diary;
     private Run run;
     private Strength strength;
+    private Exercise exercise;
 
     @BeforeEach
     public void setup() {
 
         diary = new Diary();
-        run = new Run(LocalDateTime.now(), 60, 10, '4', "TestLøp", 150, 200);
-        strength = new Strength(LocalDateTime.now(), 90, '4', "TestStyrke");
+        run = new Run(LocalDateTime.now().minusDays(1), 60, 10, '4', "TestRun", 150, 200);
+        strength = new Strength(LocalDateTime.now(), 90, '4', "TestStrength");
+        exercise = new Exercise("TestExercise", 100, 8, 7, 6, 5);
 
     }
 
     @Test
     public void testAddWorkout() {
 
+        assertEquals(0, diary.getDiary().size(), "Diary should be empty when initialized");
+
         diary.addWorkout(run);
-        assertEquals(1, diary.getDiary().size());
-        assertEquals(run, diary.getDiary().get(0));
+        assertEquals(1, diary.getDiary().size(), "Size of diary should increase when workout is added");
+        assertEquals(run, diary.getDiary().get(0), "Workout from the diary should be equal to the workout added");
 
         diary.addWorkout(strength);
-        assertEquals(2, diary.getDiary().size());
-        assertEquals(run, diary.getDiary().get(0));
-        assertEquals(strength, diary.getDiary().get(1));
+        assertEquals(2, diary.getDiary().size(), "Size of diary should increase when workout is added");
+        assertEquals(run, diary.getDiary().get(0), "Workout from the diary should be equal to the workout added");
+        assertEquals(strength, diary.getDiary().get(1), "Workout from the diary should be equal to the workout added");
 
-        for (int i = 0; i < 3; i++) {
-            run = new Run(LocalDateTime.now(), 60 + i, 10, '4', "TestLøp", 150, 200);
-            diary.addWorkout(run);
-            assertEquals(3 + i, diary.getDiary().size());
-            assertEquals(run, diary.getDiary().get(diary.getDiary().size() - 1));
-        }
-
-        assertNotEquals(run, diary.getDiary().get(0));
     }
 
     @Test
-    public void testExceptionAddWorkout() {
+    public void testExceptionsAddWorkout() {
 
         diary.addWorkout(run);
+
         assertThrows(IllegalArgumentException.class, () -> {
             diary.addWorkout(run);
-        }, "One workout can't be added twice");
+        }, "Workout cannot be added if workout already exists in diary");
 
-    }
-
-    @Test
-    public void testRemoveWorkout() {
-
-        diary.addWorkout(run);
-        assertEquals(1, diary.getDiary().size());
-        assertEquals(run, diary.getDiary().get(0));
-
-        diary.removeWorkout(run);
-        assertEquals(0, diary.getDiary().size());
-
-        diary.addWorkout(strength);
-        assertEquals(1, diary.getDiary().size());
-        assertEquals(strength, diary.getDiary().get(0));
-
-        diary.removeWorkout(strength);
-        assertEquals(0, diary.getDiary().size());
-
-    }
-
-    @Test
-    public void testExceptionRemoveWorkout() {
+        strength.setDate(LocalDateTime.now().minusDays(1));
 
         assertThrows(IllegalArgumentException.class, () -> {
-            diary.removeWorkout(run);
-        }, "Workout not in diary can't be removed");
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            diary.removeWorkout(strength);
-        }, "Workout not in diary can't be removed");
-
-    }
-
-    @Test
-    public void testAddExercise() {
-
-        diary.addExercise(strength, "benk", 1, 2, 3, 4);
-
-        assertEquals("benk", strength.getExercises().get(0).getName());
-        assertEquals(1, strength.getExercises().get(0).getReps().get(0));
-        assertEquals(2, strength.getExercises().get(0).getReps().get(1));
-        assertEquals(3, strength.getExercises().get(0).getReps().get(2));
-        assertEquals(4, strength.getExercises().get(0).getReps().get(3));
-
-        diary.addExercise(strength, "benk", 1, 2, 3, 4);
-        assertNotEquals(strength.getExercises().get(0), strength.getExercises().get(1));
-
-    }
-
-    @Test
-    public void testExceptionAddExercise() {
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            diary.addExercise(strength, "benk", -1);
-        }, "Rep must be greater than 0");
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            diary.addExercise(strength, "Benk", 1, 0);
-        }, "Rep must be greater than 0");
-
-        assertThrows(IllegalArgumentException.class, () -> {
-            diary.addExercise(run, "Benk", 1);
-        }, "Run can't get exercise");
+            diary.addWorkout(strength);
+        }, "Two workouts cannot be added at the same day");
 
         assertThrows(NullPointerException.class, () -> {
-            diary.addExercise(strength, "Benk", null);
-        }, "Addworkout must get at least 1 Integer 'rep'");
+            diary.addWorkout(null);
+        }, "Null should not be allowed to be added to diary");
 
     }
+
 }
