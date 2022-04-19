@@ -36,6 +36,25 @@ public class Strength implements IWorkout {
         setContent(content);
     }
 
+    public void setDate(LocalDateTime date) {
+        validator.ValidateDate(date);
+        this.dateTime = date;
+    }
+
+    public void setDuration(int duration) {
+        validator.validateDuration(duration);
+        this.duration = duration;
+    }
+
+    public void setRating(char rating) {
+        validator.validateRating(rating);
+        this.rating = rating;
+    }
+
+    public void setContent(String content) {
+        this.comments = content;
+    }
+
     /**
      * Legger til en øvelse i listen over øvelser til økten. Tar inn navn og antall
      * repetisjoner
@@ -72,25 +91,6 @@ public class Strength implements IWorkout {
     @Override
     public String getContent() {
         return comments;
-    }
-
-    public void setDate(LocalDateTime date) {
-        validator.ValidateDate(date);
-        this.dateTime = date;
-    }
-
-    public void setDuration(int duration) {
-        validator.validateDuration(duration);
-        this.duration = duration;
-    }
-
-    public void setRating(char rating) {
-        validator.validateRating(rating);
-        this.rating = rating;
-    }
-
-    public void setContent(String content) {
-        this.comments = content;
     }
 
     public List<Exercise> getExercises() {
