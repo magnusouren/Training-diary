@@ -17,10 +17,12 @@ public class Diary {
                 Predicate<IWorkout> p = w -> w.getDate().toLocalDate().equals(workout.getDate().toLocalDate());
 
                 if (!Objects.isNull(workout)) {
-                        if (diary.stream().noneMatch(p))
+                        if (diary.contains(workout))
+                                throw new IllegalArgumentException("Same workout couldn't be added twice");
+                        else if (diary.stream().noneMatch(p))
                                 diary.add(workout);
                         else
-                                throw new IllegalArgumentException("Couldn't add two workouts at same day");
+                                throw new IllegalArgumentException("Couldn't add two workouts at  the same day");
                 } else
                         throw new NullPointerException("Workout cannot be null");
 
@@ -53,20 +55,19 @@ public class Diary {
          * 
          * @return Map<String, String> with keyvalues and summary data
          */
-        public Map<String, String> getTotalSummary() {
-                Map<String, String> res = new HashMap<>();
-
-                res.put("totDuration", String.valueOf(diary.stream()
+        public Map<String, Number> getTotalSummary() {
+                Map<String, Number> res = new HashMap<>();
+                res.put("totDuration", (int) diary.stream()
                                 .mapToInt(w -> w.getDuration())
                                 .summaryStatistics()
-                                .getSum()));
+                                .getSum());
 
-                res.put("totAvgRating", String.format("%.1f", diary.stream()
+                res.put("totAvgRating", diary.stream()
                                 .mapToInt(w -> Character.getNumericValue(w.getRating()))
                                 .summaryStatistics()
-                                .getAverage()));
+                                .getAverage());
 
-                res.put("totWorkouts", String.valueOf(diary.size()));
+                res.put("totWorkouts", diary.size());
 
                 return res;
 
@@ -81,8 +82,8 @@ public class Diary {
          * 
          * @return Map<String, String> with data and keys.
          */
-        public Map<String, String> getStrengthSummary() {
-                Map<String, String> res = new HashMap<>();
+        public Map<String, Number> getStrengthSummary() {
+                Map<String, Number> res = new HashMap<>();
 
                 List<Strength> strengths = diary.stream()
                                 .filter(w -> w instanceof Strength)
@@ -92,26 +93,24 @@ public class Diary {
                                 .map(s -> (List<Exercise>) s.getExercises())
                                 .toList();
 
-                res.put("strengthTotDuration", String.valueOf(strengths.stream()
+                res.put("strengthTotDuration", strengths.stream()
                                 .mapToInt(s -> s.getDuration())
-                                .summaryStatistics()
-                                .getSum()));
+                                .sum());
 
-                res.put("strengthAvgRating", String.format("%.1f", strengths.stream()
+                res.put("strengthAvgRating", strengths.stream()
                                 .mapToInt(s -> Character.getNumericValue(s.getRating()))
                                 .summaryStatistics()
-                                .getAverage()));
+                                .getAverage());
 
-                res.put("kgLifted", String.valueOf(exercises.stream()
+                res.put("kgLifted", exercises.stream()
                                 .mapToInt(l -> l.stream()
                                                 .mapToInt(e -> e.getWeight() * e.getReps()
                                                                 .stream()
                                                                 .reduce(0, Integer::sum))
                                                 .sum())
-                                .summaryStatistics()
-                                .getSum()));
+                                .sum());
 
-                res.put("totStrengths", String.valueOf(strengths.size()));
+                res.put("totStrengths", strengths.size());
 
                 return res;
         }
@@ -125,30 +124,28 @@ public class Diary {
          * 
          * @return Map<String, String> with data and keys.
          */
-        public Map<String, String> getRunSummary() {
-                Map<String, String> res = new HashMap<>();
+        public Map<String, Number> getRunSummary() {
+                Map<String, Number> res = new HashMap<>();
 
                 List<Run> runs = diary.stream()
                                 .filter(w -> w instanceof Run)
                                 .map(w -> (Run) w)
                                 .toList();
 
-                res.put("runTotDuration", String.valueOf(runs.stream()
+                res.put("runTotDuration", runs.stream()
                                 .mapToInt(r -> r.getDuration())
-                                .summaryStatistics()
-                                .getSum()));
+                                .sum());
 
-                res.put("runAvgRating", String.format("%.1f", runs.stream()
+                res.put("runAvgRating", runs.stream()
                                 .mapToInt(r -> Character.getNumericValue(r.getRating()))
                                 .summaryStatistics()
-                                .getAverage()));
+                                .getAverage());
 
-                res.put("runTotDistance", String.valueOf(runs.stream()
+                res.put("runTotDistance", runs.stream()
                                 .mapToInt(r -> r.getDistance())
-                                .summaryStatistics()
-                                .getSum()));
+                                .sum());
 
-                res.put("totRuns", String.valueOf(runs.size()));
+                res.put("totRuns", runs.size());
 
                 return res;
         }
