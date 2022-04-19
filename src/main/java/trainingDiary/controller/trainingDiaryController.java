@@ -266,26 +266,26 @@ public class trainingDiaryController {
      * Sets textvalues from map to the text-element in summary-tab element in app.
      */
     private void summaryStrength() {
-        Map<String, String> sStrength = diary.getStrengthSummary();
-        SstrengthDuration.setText(sStrength.getOrDefault("strengthTotDuration", "?"));
-        SavgStrengthRating.setText(sStrength.getOrDefault("strengthAvgRating", "?"));
-        SkgLifted.setText(sStrength.getOrDefault("kgLifted", "?"));
-        StotalNumStrength.setText(sStrength.getOrDefault("totStrengths", "?"));
+        Map<String, Number> sStrength = diary.getStrengthSummary();
+        SstrengthDuration.setText(sStrength.get("strengthTotDuration").toString());
+        SavgStrengthRating.setText(sStrength.get("strengthAvgRating").toString());
+        SkgLifted.setText(sStrength.get("kgLifted").toString());
+        StotalNumStrength.setText(sStrength.get("totStrengths").toString());
     }
 
     private void summaryTotal() {
-        Map<String, String> sTotal = diary.getTotalSummary();
-        StotalDuration.setText(sTotal.getOrDefault("totDuration", "?"));
-        SavgRating.setText(sTotal.getOrDefault("totAvgRating", "?"));
-        StotalNumW.setText(sTotal.getOrDefault("totWorkouts", "?"));
+        Map<String, Number> sTotal = diary.getTotalSummary();
+        StotalDuration.setText(sTotal.get("totDuration").toString());
+        SavgRating.setText(sTotal.get("totAvgRating").toString());
+        StotalNumW.setText(sTotal.get("totWorkouts").toString());
     }
 
     private void summaryRun() {
-        Map<String, String> sRun = diary.getRunSummary();
-        SrunDuration.setText(sRun.getOrDefault("runTotDuration", "?"));
-        SavgRunRating.setText(sRun.getOrDefault("runAvgRating", "?"));
-        SrunDistance.setText(sRun.getOrDefault("runTotDistance", "?"));
-        StotalNumRun.setText(sRun.getOrDefault("totRuns", "?"));
+        Map<String, Number> sRun = diary.getRunSummary();
+        SrunDuration.setText(sRun.get("runTotDuration").toString());
+        SavgRunRating.setText(sRun.get("runAvgRating").toString());
+        SrunDistance.setText(sRun.get("runTotDistance").toString());
+        StotalNumRun.setText(sRun.get("totRuns").toString());
     }
 
     /**
