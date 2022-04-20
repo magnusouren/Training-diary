@@ -17,7 +17,7 @@ public class WorkoutValidate {
         LocalDateTime today = LocalDateTime.now();
 
         if (date.isAfter(today)) {
-            throw new IllegalArgumentException("Illegal date, date can not be in the future");
+            throw new IllegalArgumentException("Illegal date, date can not be in the future\n");
         }
 
     }
@@ -30,9 +30,9 @@ public class WorkoutValidate {
      */
     public void validateDuration(int duration) {
         if (duration <= 0)
-            throw new IllegalArgumentException("Illegal duration, must be greater than 0:00");
+            throw new IllegalArgumentException("Illegal duration, must be greater than 0:00\n");
         if (duration > 300)
-            throw new IllegalArgumentException("Illegal duration, must be less than 5:00");
+            throw new IllegalArgumentException("Illegal duration, must be less than 5:00\n");
     }
 
     /**
