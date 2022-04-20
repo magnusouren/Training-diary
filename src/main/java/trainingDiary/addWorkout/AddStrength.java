@@ -59,16 +59,8 @@ public class AddStrength extends Commons {
             super.valDuration(duration, strength);
             return;
 
-        } catch (PatternSyntaxException e) {
-            message += "Invalid duration, must be on the format 'hh:mm'\n";
-        } catch (ArrayIndexOutOfBoundsException e) {
-            message += "Invalid duration, must be on the format 'hh:mm'\n";
-        } catch (NumberFormatException e) {
-            message += "Invalid duration, must contains numbers on the format hh:mm\n";
-        } catch (DateTimeException e) {
-            message += "Invalid duration, invalid values for hours and/or minutes\n";
-        } catch (IllegalArgumentException e) {
-            message += e.getLocalizedMessage() + "\n";
+        } catch (Exception e) {
+            message += e.getLocalizedMessage();
         }
         validationStatus = false;
 

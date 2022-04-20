@@ -46,9 +46,7 @@ public class Commons {
      * @throws IllegalArgumentException       If duration on workout is invalid due
      *                                        to the conditions sat.
      */
-    protected IWorkout valDuration(TextField duration, IWorkout workout)
-            throws PatternSyntaxException, ArrayIndexOutOfBoundsException, NumberFormatException, DateTimeException,
-            IllegalArgumentException {
+    protected IWorkout valDuration(TextField duration, IWorkout workout) {
 
         try {
             styleInput(duration, false);
@@ -108,24 +106,15 @@ public class Commons {
      *                                  LocalDateTime is set
      * @throws DateTimeException        If time is invalid
      */
-    protected IWorkout valDate(DatePicker date, TextField time, IWorkout workout)
-            throws IllegalArgumentException, NullPointerException, DateTimeException {
+    protected IWorkout valDate(DatePicker date, TextField time, IWorkout workout) {
 
         LocalTime timeValue;
-        String message = "Illegal date, cannot set date with illegal time\n";
 
         styleInput(date.getEditor(), false);
         styleInput(time, false);
 
         try {
             timeValue = valTime(time);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(message + "Invalid time, must contain numbers on the format hh:mm\n");
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new ArrayIndexOutOfBoundsException(message + "Invalid time, must be on the format 'hh:mm'\n");
-        } catch (DateTimeException e) {
-            throw new DateTimeException(message + "Invalid time, invalid values for hours and/or minutes\n");
-        }
 
         try {
 
@@ -164,16 +153,24 @@ public class Commons {
      */
     private LocalTime valTime(TextField time)
             throws IllegalArgumentException, ArrayIndexOutOfBoundsException, DateTimeException {
+        try {
 
-        String timeVal = time.getText();
-        String[] timeValues = timeVal.split(":");
+            String timeVal = time.getText();
+            String[] timeValues = timeVal.split(":");
 
-        int hours = Integer.valueOf(timeValues[0]);
-        int minutes = Integer.valueOf(timeValues[1]);
+            int hours = Integer.valueOf(timeValues[0]);
+            int minutes = Integer.valueOf(timeValues[1]);
 
-        LocalTime localTime = LocalTime.of(hours, minutes);
+            LocalTime localTime = LocalTime.of(hours, minutes);
 
-        return localTime;
+            return localTime;
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid time, must contain numbers on the format hh:mm\n");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new ArrayIndexOutOfBoundsException("Invalid time, must be on the format 'hh:mm'\n");
+        } catch (DateTimeException e) {
+            throw new DateTimeException("Invalid time, invalid values for hours and/or minutes\n");
+        }
     }
 
 }
