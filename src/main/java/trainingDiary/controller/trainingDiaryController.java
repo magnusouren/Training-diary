@@ -371,7 +371,7 @@ public class trainingDiaryController {
         } else {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setHeaderText("Invalid inputs on new run");
-            alert.setContentText(addRun.getMessage());
+            alert.setContentText(addRun.getErrorMessage());
             alert.showAndWait();
             addRun = null;
         }
