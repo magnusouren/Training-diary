@@ -25,7 +25,7 @@ public class AddExercise {
         boolean containsRep = false;
 
         for (TextField field : reps) {
-            if (!field.getText().equals("")) {
+            if (!field.getText().isBlank()) {
                 addRep(field);
                 containsRep = true;
             }
@@ -133,5 +133,4 @@ public class AddExercise {
         styleInput(rep, false);
 
     }
-
 }
