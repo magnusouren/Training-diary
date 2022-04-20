@@ -9,7 +9,7 @@ import trainingDiary.Strength;
 public class AddStrength extends Commons {
 
     private boolean validationStatus = true;
-    private String message = "";
+    private String errorMessage = "";
 
     private Strength strength = new Strength();
 
@@ -39,7 +39,7 @@ public class AddStrength extends Commons {
         try {
             super.valDate(date, time, strength);
         } catch (Exception e) {
-            message += e.getLocalizedMessage();
+            errorMessage += e.getLocalizedMessage();
             validationStatus = false;
         }
     }
@@ -55,7 +55,7 @@ public class AddStrength extends Commons {
         try {
             super.valDuration(duration, strength);
         } catch (Exception e) {
-            message += e.getLocalizedMessage();
+            errorMessage += e.getLocalizedMessage();
             validationStatus = false;
         }
 
@@ -72,7 +72,7 @@ public class AddStrength extends Commons {
         try {
             super.valRating(rating, strength);
         } catch (IllegalArgumentException e) {
-            message += e.getLocalizedMessage();
+            errorMessage += e.getLocalizedMessage();
             validationStatus = false;
         }
     }
@@ -87,6 +87,6 @@ public class AddStrength extends Commons {
     }
 
     public String getMessage() {
-        return this.message;
+        return this.errorMessage;
     }
 }

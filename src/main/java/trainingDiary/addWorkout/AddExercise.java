@@ -7,23 +7,28 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import trainingDiary.Exercise;
 
-public class AddExercise {
+public class AddExercise extends Commons {
 
-    private boolean validationStatus;
-    private String message;
+    private boolean validationStatus = true;
+    private String message = "";
 
     private Exercise exercise = new Exercise();
 
+    /**
+     * Calls on methods that validates and sets values that need to be valid to
+     * initialize a valid exercise-object
+     * 
+     * @param name   String name on exercise
+     * @param weight int weight on exercise
+     * @param reps   List<TextField> with values of reps
+     * @return boolean validationStatus
+     */
     public boolean validate(TextField name, TextField weight, List<TextField> reps) {
-
-        validationStatus = true;
-        message = "";
 
         setName(name);
         setWeight(weight);
 
         boolean containsRep = false;
-
         for (TextField field : reps) {
             if (!field.getText().isBlank()) {
                 addRep(field);
@@ -33,7 +38,7 @@ public class AddExercise {
 
         if (!containsRep) {
             message += "Invalid sets, must contain at least one set";
-            validationStatus = containsRep;
+            validationStatus = false;
         }
 
         return validationStatus;
@@ -41,41 +46,26 @@ public class AddExercise {
     }
 
     /**
-     * Returnerer Workout som er initilaisert med gyldige verdier
-     * 
-     * @return Exercise
+     * @return Exercise with valid fields only
      */
     public Exercise getExercise() {
         return exercise;
     }
 
+    /**
+     * @return String with errormessages
+     */
     public String getMessage() {
         return message;
     }
 
     /**
-     * Stilsetter Input-field i forhold til gyldigheten på input. Setter validation
-     * false om ugyldig verdi.
+     * Validates name and sets name if value is valid.
+     * Styles inutfield acoording to validity.
+     * Sets correct errormessage if name is invalid.
+     * If name is invalid, validattionstatus is set to false.
      * 
-     * @param field  Node input-felt
-     * @param status boolean gyldig/ugyldig verdi på feltet
-     */
-    private void styleInput(Node field, boolean status) {
-
-        final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
-        final PseudoClass validClass = PseudoClass.getPseudoClass("valid");
-
-        field.pseudoClassStateChanged(validClass, status);
-        field.pseudoClassStateChanged(errorClass, !status);
-        if (validationStatus == true)
-            validationStatus = status;
-
-    }
-
-    /**
-     * Validerer name og stilsetter input-feltet etter gylidhet på input
-     * 
-     * @param name TextField med navn
+     * @param name
      */
     private void setName(TextField name) {
         try {
@@ -86,13 +76,14 @@ public class AddExercise {
         } catch (IllegalArgumentException e) {
             styleInput(name, false);
             message += e.getLocalizedMessage();
+            validationStatus = false;
         }
     }
 
     /**
-     * Setter weight på øvelsen, stilsetter weight etter gyldighet
+     * Validates weight and sets weight if it value is valid.
      * 
-     * @param weight TextField med nummerverdi for vekt
+     * @param weight
      */
     private void setWeight(TextField weight) {
         try {
@@ -107,10 +98,12 @@ public class AddExercise {
             } else {
                 styleInput(weight, false);
                 message += "Illegal weight, must be a number!";
+                validationStatus = false;
             }
         } catch (IllegalArgumentException e) {
             styleInput(weight, false);
             message += e.getLocalizedMessage() + "\n";
+            validationStatus = false;
         }
     }
 

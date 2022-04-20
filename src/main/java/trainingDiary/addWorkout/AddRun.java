@@ -1,8 +1,5 @@
 package trainingDiary.addWorkout;
 
-import java.time.DateTimeException;
-import java.util.regex.PatternSyntaxException;
-
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
@@ -18,7 +15,8 @@ public class AddRun extends Commons {
     private Run run = new Run();
 
     /**
-     * Method that calls on all validations that it necessary to initialize a valid
+     * Method that calls on all methods the inputs that needs to be validatetd to
+     * initialize a valid
      * Run-object.
      * 
      * @param date     DatePicker with datevalue
@@ -55,8 +53,8 @@ public class AddRun extends Commons {
     /**
      * Uses valDate from super to validate date and time and set date if date and
      * time has valid values.
-     * 
      * Sets correct errormessage if exception is thrown during validation.
+     * If date is invalid, validationStatus is set to false
      * 
      * @param date DatePicker with datevalue
      * @param time TextField with timevalue
@@ -75,6 +73,7 @@ public class AddRun extends Commons {
      * Uses valDuration from super to validate and set duration if duration is
      * valid.
      * Sets correct errormessage if exception throws during validation.
+     * If duration is invalid, validationStatus is set to false
      * 
      * @param duration TextField with duration-value
      */
@@ -92,6 +91,7 @@ public class AddRun extends Commons {
      * Uses valRating from super to validate rating and set rating if rating has a
      * valid value.
      * Sets correct errormessage is exception is thrown during validation.
+     * If rating is invalid, validationStatus is set to false.
      * 
      * @param rating ChoiceBox<String> with value chosen by user
      */
@@ -106,8 +106,8 @@ public class AddRun extends Commons {
 
     /**
      * Validates and sets distance if distance has a valid value.
-     * 
-     * Sets correct errormessage if distance is invalid
+     * Sets correct errormessage if distance is invalid.
+     * If distance is invalid, validationStatus is set to false.
      * 
      * @param distance TextField with distance-value
      */
@@ -130,9 +130,9 @@ public class AddRun extends Commons {
     }
 
     /**
-     * Validates and sets maximum heartrate if maxHr has a valid value
-     * 
-     * Sets correct errormessage if value is invalid
+     * Validates and sets maximum heartrate if maxHr has a valid value.
+     * Sets correct errormessage if value is invalid.
+     * If maxHR is invalid, validationStatus is set to false.
      * 
      * @param maxHr TextField with average heartrate-value
      */
@@ -154,8 +154,8 @@ public class AddRun extends Commons {
 
     /**
      * Validates and sets average heartrate if avgHr has a valid value
-     * 
-     * Sets correct errormessage if value is invalid
+     * Sets correct errormessage if value is invalid.
+     * If avgHr is invalid, validationStatus is set to false.
      * 
      * @param avgHr TextField with average heartrate-value
      */

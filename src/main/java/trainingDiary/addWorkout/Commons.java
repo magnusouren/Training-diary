@@ -32,19 +32,12 @@ public class Commons {
     }
 
     /**
-     * Validates duration and styles relative to its validity
-     * Sets duration if values are valid
+     * Validates duration and styles inputfield relative to its validity.
+     * Sets duration if values are valid.
      * 
      * @param duration TextField with timevalue
      * @param workout  IWorkout that gets duration set
-     * @return IWorkout with duration sat
-     * @throws PatternSyntaxException         If timevalue doesn't contains ":"
-     * @throws ArrayIndexOutOfBoundsException If format on timevalue is invalid
-     * @throws NumberFormatException          If timevalues doesn't contains numbers
-     * @throws DateTimeException              If values doesn't represents a valid
-     *                                        time
-     * @throws IllegalArgumentException       If duration on workout is invalid due
-     *                                        to the conditions sat.
+     * @return IWorkout with valid duration
      */
     protected IWorkout valDuration(TextField duration, IWorkout workout) {
 
@@ -78,11 +71,11 @@ public class Commons {
     }
 
     /**
-     * Takes in choose of rating and sets if it's a legal value.
+     * Takes in choose of rating and sets rating if it's a legal value.
      * 
      * @param rating  ChoiceBox<String> with chosen value
      * @param workout IWorkout that gets rating set
-     * @return IWorkout with rating sat
+     * @return IWorkout with valid rating
      * @throws IllegalArgumentException If chosen value is not in the interval 1-6.
      */
     protected IWorkout valRating(ChoiceBox<String> rating, IWorkout workout) throws IllegalArgumentException {
@@ -124,15 +117,15 @@ public class Commons {
     }
 
     /**
-     * Validates timevalue
+     * Validates timevalue and returns a LocalTime value with valid value.
      * 
      * @param time TextField with timevalue
      * @return LocalTime value of the time when workout started
      * @throws IllegalArgumentException       If timevalue is not a string
      * @throws ArrayIndexOutOfBoundsException If format on time is illegal and
      *                                        values cannot be found
-     * @throws DateTimeException              If the value of any field is out of
-     *                                        range
+     * @throws DateTimeException              If the value of minutes or hours is
+     *                                        out of valid range
      */
     private LocalTime valTime(TextField time) {
         String error = "Invalid date, cannot set date with illegal time\n";
