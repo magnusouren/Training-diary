@@ -17,7 +17,7 @@ public class WorkoutValidate {
         LocalDateTime today = LocalDateTime.now();
 
         if (date.isAfter(today)) {
-            throw new IllegalArgumentException("Illegal date, date can not be in the future\n");
+            throw new IllegalArgumentException("Invalid date, date can not be in the future\n");
         }
 
     }
@@ -30,9 +30,9 @@ public class WorkoutValidate {
      */
     public void validateDuration(int duration) {
         if (duration <= 0)
-            throw new IllegalArgumentException("Illegal duration, must be greater than 0:00\n");
+            throw new IllegalArgumentException("Invalid duration, must be greater than 0:00\n");
         if (duration > 300)
-            throw new IllegalArgumentException("Illegal duration, must be less than 5:00\n");
+            throw new IllegalArgumentException("Invalid duration, must be less than 5:00\n");
     }
 
     /**
@@ -46,6 +46,6 @@ public class WorkoutValidate {
         values.addAll(Arrays.asList('1', '2', '3', '4', '5', '6'));
 
         if (!values.contains(rating))
-            throw new IllegalArgumentException("Illegal rating, pick a number in the interval [1-6]\n");
+            throw new IllegalArgumentException("Invalid rating, pick a number in the interval [1-6]\n");
     }
 }

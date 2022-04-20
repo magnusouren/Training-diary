@@ -1,8 +1,5 @@
 package trainingDiary.addWorkout;
 
-import java.time.DateTimeException;
-import java.util.regex.PatternSyntaxException;
-
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
@@ -41,9 +38,9 @@ public class AddStrength extends Commons {
     private void setDate(DatePicker date, TextField time) {
         try {
             super.valDate(date, time, strength);
-            return;
         } catch (Exception e) {
             message += e.getLocalizedMessage();
+            validationStatus = false;
         }
     }
 
@@ -57,12 +54,10 @@ public class AddStrength extends Commons {
     private void setDuration(TextField duration) {
         try {
             super.valDuration(duration, strength);
-            return;
-
         } catch (Exception e) {
             message += e.getLocalizedMessage();
+            validationStatus = false;
         }
-        validationStatus = false;
 
     }
 
@@ -76,11 +71,10 @@ public class AddStrength extends Commons {
     private void setRating(ChoiceBox<String> rating) {
         try {
             super.valRating(rating, strength);
-            return;
         } catch (IllegalArgumentException e) {
             message += e.getLocalizedMessage();
+            validationStatus = false;
         }
-        validationStatus = false;
     }
 
     /**

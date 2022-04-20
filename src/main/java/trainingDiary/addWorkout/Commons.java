@@ -101,40 +101,23 @@ public class Commons {
      * @param time    TextField with time-value
      * @param workout IWorkout to get date set
      * @return IWorkout with date sat
-     * @throws IllegalArgumentException If datetime is in the future
-     * @throws NullPointerException     If format on time is invalid when
-     *                                  LocalDateTime is set
-     * @throws DateTimeException        If time is invalid
+     * @throws IllegalArgumentException       If date i sin the future
+     * @throws PatternSyntaxExcpetion         If time is on wrong format
+     * @throws ArrayIndexOutOfBoundsException If time is on the wrong format
+     * @throws DateTimeException              If time contains invalid timevalues
+     * @throws NullPointerException           If date is sat with ilegal time
      */
-    protected IWorkout valDate(DatePicker date, TextField time, IWorkout workout) {
-
-        LocalTime timeValue;
+    protected IWorkout valDate(DatePicker date, TextField time, IWorkout workout)
+            throws IllegalArgumentException, ArrayIndexOutOfBoundsException, DateTimeException {
 
         styleInput(date.getEditor(), false);
         styleInput(time, false);
 
-        try {
-            timeValue = valTime(time);
+        LocalDateTime dateTime = LocalDateTime.of(date.getValue(), valTime(time));
+        workout.setDate(dateTime);
 
-        try {
-
-            LocalDateTime dateTime = LocalDateTime.of(date.getValue(), timeValue);
-            workout.setDate(dateTime);
-            styleInput(date.getEditor(), true);
-            styleInput(time, true);
-
-        } catch (PatternSyntaxException e) {
-            throw new PatternSyntaxException("Invalid duration, must be on the format 'hh:mm'\n",
-                    "(0?[0-9]|[1-5][0-9]):(0?[0-9]|[1-5][0-9])", -1);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new ArrayIndexOutOfBoundsException("Invalid duration, must be on the format 'hh:mm'\n");
-        } catch (NumberFormatException e) {
-            throw new NumberFormatException("Invalid duration, must contains numbers on the format hh:mm\n");
-        } catch (DateTimeException e) {
-            throw new DateTimeException("Invalid duration, invalid values for hours and/or minutes\n");
-        } catch (IllegalArgumentException e) {
-            message += e.getLocalizedMessage() + "\n";
-        }
+        styleInput(date.getEditor(), true);
+        styleInput(time, true);
 
         return workout;
 
@@ -151,10 +134,9 @@ public class Commons {
      * @throws DateTimeException              If the value of any field is out of
      *                                        range
      */
-    private LocalTime valTime(TextField time)
-            throws IllegalArgumentException, ArrayIndexOutOfBoundsException, DateTimeException {
+    private LocalTime valTime(TextField time) {
+        String error = "Invalid date, cannot set date with illegal time\n";
         try {
-
             String timeVal = time.getText();
             String[] timeValues = timeVal.split(":");
 
@@ -165,11 +147,11 @@ public class Commons {
 
             return localTime;
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid time, must contain numbers on the format hh:mm\n");
+            throw new IllegalArgumentException(error + "Invalid time, must be on the format 'hh:mm'\n");
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new ArrayIndexOutOfBoundsException("Invalid time, must be on the format 'hh:mm'\n");
+            throw new ArrayIndexOutOfBoundsException(error + "Invalid time, must be on the format 'hh:mm'\n");
         } catch (DateTimeException e) {
-            throw new DateTimeException("Invalid time, invalid values for hours and/or minutes\n");
+            throw new DateTimeException(error + "Invalid time, invalid values for hours and/or minutes\n");
         }
     }
 

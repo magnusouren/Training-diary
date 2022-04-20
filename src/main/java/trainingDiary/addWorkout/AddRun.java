@@ -39,8 +39,8 @@ public class AddRun extends Commons {
 
         valDate(date, time);
         valDuration(duration);
-        valRating(rating);
         valDistance(distance);
+        valRating(rating);
         valMaxHr(maxHr);
         valAvgHr(avgHr);
         run.setContent(comments.getText());
@@ -64,13 +64,10 @@ public class AddRun extends Commons {
     private void valDate(DatePicker date, TextField time) {
         try {
             super.valDate(date, time, run);
-            return;
-        } catch (IllegalArgumentException e) {
-            errorMessage += e.getLocalizedMessage() + "\n";
-        } catch (DateTimeException e) {
+        } catch (Exception e) {
             errorMessage += e.getLocalizedMessage();
+            validationStatus = false;
         }
-        validationStatus = false;
 
     }
 
@@ -84,20 +81,10 @@ public class AddRun extends Commons {
     private void valDuration(TextField duration) {
         try {
             super.valDuration(duration, run);
-            return;
-
-        } catch (PatternSyntaxException e) {
-            errorMessage += "Invalid duration, must be on the format 'hh:mm'\n";
-        } catch (ArrayIndexOutOfBoundsException e) {
-            errorMessage += "Invalid duration, must be on the format 'hh:mm'\n";
-        } catch (NumberFormatException e) {
-            errorMessage += "Invalid duration, must contains numbers on the format hh:mm\n";
-        } catch (DateTimeException e) {
-            errorMessage += "Invalid duration, invalid values for hours and/or minutes\n";
-        } catch (IllegalArgumentException e) {
-            errorMessage += e.getLocalizedMessage() + "\n";
+        } catch (Exception e) {
+            errorMessage += e.getLocalizedMessage();
+            validationStatus = false;
         }
-        validationStatus = false;
 
     }
 
@@ -111,11 +98,10 @@ public class AddRun extends Commons {
     private void valRating(ChoiceBox<String> rating) {
         try {
             super.valRating(rating, run);
-            return;
         } catch (IllegalArgumentException e) {
             errorMessage += e.getLocalizedMessage();
+            validationStatus = false;
         }
-        validationStatus = false;
     }
 
     /**
