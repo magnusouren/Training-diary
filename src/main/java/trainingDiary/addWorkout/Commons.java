@@ -14,14 +14,14 @@ import javafx.scene.control.TextField;
 import trainingDiary.IWorkout;
 
 public class Commons {
+
     /**
-     * Stilsetter Input-field i forhold til gyldigheten på input. Setter validation
-     * false om ugyldig verdi.
+     * Styles node dependning on it's validity
      * 
-     * @param field  Node input-felt
-     * @param status boolean gyldig/ugyldig verdi på feltet
+     * @param field  Node input-field
+     * @param status boolean valid/invalid input value
      */
-    private void styleInput(Node field, boolean status) {
+    protected void styleInput(Node field, boolean status) {
 
         final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
         final PseudoClass validClass = PseudoClass.getPseudoClass("valid");
@@ -32,9 +32,19 @@ public class Commons {
     }
 
     /**
-     * Validerer duration og stilsetter input-feltet etter gylidhet på input
+     * Validates duration and styles relative to its validity
+     * Sets duration if values are valid
      * 
-     * @param durationVal String med tidverider på formatet (HH:mm)
+     * @param duration TextField with timevalue
+     * @param workout  IWorkout that gets duration set
+     * @return IWorkout with duration sat
+     * @throws PatternSyntaxException         If timevalue doesn't contains ":"
+     * @throws ArrayIndexOutOfBoundsException If format on timevalue is invalid
+     * @throws NumberFormatException          If timevalues doesn't contains numbers
+     * @throws DateTimeException              If values doesn't represents a valid
+     *                                        time
+     * @throws IllegalArgumentException       If duration on workout is invalid due
+     *                                        to the conditions sat.
      */
     protected IWorkout setDuration(TextField duration, IWorkout workout)
             throws PatternSyntaxException, ArrayIndexOutOfBoundsException, NumberFormatException, DateTimeException,
@@ -59,10 +69,12 @@ public class Commons {
     }
 
     /**
-     * Setter rating til run, og stilsetter bakgrunn til TextField til grønn. Hvis
-     * unntak stilsettes TextField til rød bakgrunn.
+     * Takes in choose of rating and sets if it's a legal value.
      * 
-     * @param rating ChoiceBox<String> med tallverdier fra 1-6 + standardverdi
+     * @param rating  ChoiceBox<String> with chosen value
+     * @param workout IWorkout that gets rating set
+     * @return IWorkout with rating sat
+     * @throws IllegalArgumentException If chosen value is not in the interval 1-6.
      */
     protected IWorkout setRating(ChoiceBox<String> rating, IWorkout workout) throws IllegalArgumentException {
         styleInput(rating, false);
@@ -73,50 +85,59 @@ public class Commons {
     }
 
     /**
-     * Tar inn dato og tid og lager et LocalDateTime-objekt setter LocalDateTime til
-     * run til dette tidspunktet, og stilsetter ChoiceBoxen til å være grønn. Hvis
-     * unntak stilsettes ChoiceBoxen til å ha rød bakgrunn
+     * Validates date and time-values validates, styles the fields relative to its
+     * validity. Sets LocalDateTime to workout if values are valid
      * 
-     * @param date    DatePicker med tilhørende datoverdi
-     * @param timeVal LocalTime med tidspunkt
+     * @param date    DatePicker with date-value
+     * @param time    TextField with time-value
+     * @param workout IWorkout to get date set
+     * @return IWorkout with date sat
+     * @throws IllegalArgumentException If datetime is in the future
+     * @throws NullPointerException     If format on time is invalid when
+     *                                  LocalDateTime is set
+     * @throws DateTimeException        If time is invalid
      */
     protected IWorkout setDate(DatePicker date, TextField time, IWorkout workout)
             throws IllegalArgumentException, NullPointerException, DateTimeException {
 
         LocalTime timeValue;
+        String message = "Illegal date, cannot set date with illegal time\n";
+
+        styleInput(date.getEditor(), false);
+        styleInput(time, false);
 
         try {
             timeValue = validateTime(time);
         } catch (IllegalArgumentException e) {
-            throw new DateTimeException("Invalid time, must contain numbers on the format hh:mm\n");
+            throw new DateTimeException(message + "Invalid time, must contain numbers on the format hh:mm\n");
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new DateTimeException("Invalid time, must be on the format 'hh:mm'\n");
+            throw new DateTimeException(message + "Invalid time, must be on the format 'hh:mm'\n");
         } catch (DateTimeException e) {
-            throw new DateTimeException("Invalid time, invalid values for hours and/or minutes\n");
+            throw new DateTimeException(message + "Invalid time, invalid values for hours and/or minutes\n");
         }
 
-        styleInput(date, false);
         LocalDateTime dateTime = LocalDateTime.of(date.getValue(), timeValue);
         workout.setDate(dateTime);
-        styleInput(date, true);
+        styleInput(date.getEditor(), true);
+        styleInput(time, true);
 
         return workout;
 
     }
 
     /**
-     * Tar inn en textverdi (hh:mm) og gjør om dette til et klokkeslett, stilsetter
-     * TextField til å ha grønn bakgrunn. Hvis ugyldig form eller verdi settes
-     * TextField til å ha rød bakgrunn.
+     * Validates timevalue
      * 
-     * @param time Textfield med tidspunkt på formen (hh:mm)
-     * @return LocalTime klokkeslett basert på inputverdien
-     * @return null hvis ugyldig form
+     * @param time TextField with timevalue
+     * @return LocalTime value of the time when workout started
+     * @throws IllegalArgumentException       If timevalue is not a string
+     * @throws ArrayIndexOutOfBoundsException If format on time is illegal and
+     *                                        values cannot be found
+     * @throws DateTimeException              If the value of any field is out of
+     *                                        range
      */
     private LocalTime validateTime(TextField time)
             throws IllegalArgumentException, ArrayIndexOutOfBoundsException, DateTimeException {
-
-        styleInput(time, false);
 
         String timeVal = time.getText();
         String[] timeValues = timeVal.split(":");
@@ -125,7 +146,6 @@ public class Commons {
         int minutes = Integer.valueOf(timeValues[1]);
 
         LocalTime localTime = LocalTime.of(hours, minutes);
-        styleInput(time, true);
 
         return localTime;
     }

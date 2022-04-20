@@ -60,25 +60,6 @@ public class AddRun extends Commons {
     }
 
     /**
-     * Stilsetter Input-field i forhold til gyldigheten på input. Setter validation
-     * false om ugyldig verdi.
-     * 
-     * @param field  Node input-felt
-     * @param status boolean gyldig/ugyldig verdi på feltet
-     */
-    private void styleInput(Node field, boolean status) {
-
-        final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
-        final PseudoClass validClass = PseudoClass.getPseudoClass("valid");
-
-        field.pseudoClassStateChanged(validClass, status);
-        field.pseudoClassStateChanged(errorClass, !status);
-        if (validationStatus == true)
-            validationStatus = status;
-
-    }
-
-    /**
      * Validerer duration og stilsetter input-feltet etter gylidhet på input
      * 
      * @param durationVal String med tidverider på formatet (HH:mm)
@@ -86,6 +67,7 @@ public class AddRun extends Commons {
     private void setDuration(TextField duration) {
         try {
             super.setDuration(duration, run);
+            return;
 
         } catch (PatternSyntaxException e) {
             message += "Invalid duration, must be on the format 'hh:mm'\n";
@@ -98,7 +80,7 @@ public class AddRun extends Commons {
         } catch (IllegalArgumentException e) {
             message += e.getLocalizedMessage() + "\n";
         }
-        styleInput(duration, false);
+        validationStatus = false;
 
     }
 
@@ -111,10 +93,11 @@ public class AddRun extends Commons {
     private void setRating(ChoiceBox<String> rating) {
         try {
             super.setRating(rating, run);
+            return;
         } catch (IllegalArgumentException e) {
-            styleInput(rating, false);
             message += e.getLocalizedMessage() + "\n";
         }
+        validationStatus = false;
     }
 
     /**
@@ -127,52 +110,14 @@ public class AddRun extends Commons {
      */
     private void setDate(DatePicker date, TextField time) {
         try {
-            LocalDateTime dateTime = LocalDateTime.of(date.getValue(), validateTime(time));
-
-            run.setDate(dateTime);
-            styleInput(date.getEditor(), true);
+            super.setDate(date, time, run);
             return;
-
         } catch (IllegalArgumentException e) {
-            styleInput(time, false);
             message += e.getLocalizedMessage() + "\n";
-        } catch (NullPointerException e) {
-            message += "Invalid date, can not set date with illegal time\n";
-        }
-        styleInput(date.getEditor(), false);
-
-    }
-
-    /**
-     * Tar inn en textverdi (hh:mm) og gjør om dette til et klokkeslett, stilsetter
-     * TextField til å ha grønn bakgrunn. Hvis ugyldig form eller verdi settes
-     * TextField til å ha rød bakgrunn.
-     * 
-     * @param time Textfield med tidspunkt på formen (hh:mm)
-     * @return LocalTime klokkeslett basert på inputverdien
-     * @return null hvis ugyldig form
-     */
-    private LocalTime validateTime(TextField time) {
-        try {
-            String timeVal = time.getText();
-            String[] timeValues = timeVal.split(":");
-
-            int hours = Integer.valueOf(timeValues[0]);
-            int minutes = Integer.valueOf(timeValues[1]);
-
-            LocalTime localTime = LocalTime.of(hours, minutes);
-            styleInput(time, true);
-            return localTime;
-
-        } catch (IllegalArgumentException e) {
-            message += "Invalid time, must contain numbers on the format hh:mm\n";
-        } catch (ArrayIndexOutOfBoundsException e) {
-            message += "Invalid duration, must be on the format 'hh:mm'\n";
         } catch (DateTimeException e) {
-            message += "Invalid time, invalid values for hours and/or minutes\n";
+            message += e.getLocalizedMessage();
         }
-        styleInput(time, false);
-        return null;
+        validationStatus = false;
 
     }
 
@@ -191,7 +136,9 @@ public class AddRun extends Commons {
         } catch (IllegalArgumentException e) {
             styleInput(distance, false);
             message += "Invalid distance, must a number be greater than 0 and less than 100000\n";
+            validationStatus = false;
         }
+
     }
 
     /**
@@ -211,6 +158,7 @@ public class AddRun extends Commons {
         } catch (IllegalArgumentException e) {
             message += "Invalid average heartrate, " + e.getLocalizedMessage() + "\n";
         }
+        validationStatus = false;
         styleInput(avgHr, false);
 
     }
@@ -232,6 +180,7 @@ public class AddRun extends Commons {
         } catch (IllegalArgumentException e) {
             message += "Invalid average heartrate, " + e.getLocalizedMessage() + "\n";
         }
+        validationStatus = false;
         styleInput(maxHr, false);
 
     }

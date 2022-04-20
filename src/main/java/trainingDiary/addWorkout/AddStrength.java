@@ -101,8 +101,6 @@ public class AddStrength extends Commons {
             return;
         } catch (IllegalArgumentException e) {
             message += e.getLocalizedMessage() + "\n";
-        } catch (NullPointerException e) {
-            message += "Invalid date, can not set date with illegal time\n";
         } catch (DateTimeException e) {
             message += e.getLocalizedMessage();
         }
