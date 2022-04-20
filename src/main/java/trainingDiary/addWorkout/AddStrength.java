@@ -1,13 +1,8 @@
 package trainingDiary.addWorkout;
 
 import java.time.DateTimeException;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.regex.PatternSyntaxException;
 
-import javafx.application.Application;
-import javafx.css.PseudoClass;
-import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
@@ -58,6 +53,7 @@ public class AddStrength extends Commons {
     private void setDuration(TextField duration) {
         try {
             super.setDuration(duration, strength);
+            return;
 
         } catch (PatternSyntaxException e) {
             message += "Invalid duration, must be on the format 'hh:mm'\n";
@@ -70,6 +66,7 @@ public class AddStrength extends Commons {
         } catch (IllegalArgumentException e) {
             message += e.getLocalizedMessage() + "\n";
         }
+        validationStatus = false;
 
     }
 
@@ -82,9 +79,11 @@ public class AddStrength extends Commons {
     private void setRating(ChoiceBox<String> rating) {
         try {
             super.setRating(rating, strength);
+            return;
         } catch (IllegalArgumentException e) {
             message += e.getLocalizedMessage() + "\n";
         }
+        validationStatus = false;
     }
 
     /**
@@ -99,11 +98,15 @@ public class AddStrength extends Commons {
     private void setDate(DatePicker date, TextField time) {
         try {
             super.setDate(date, time, strength);
+            return;
         } catch (IllegalArgumentException e) {
             message += e.getLocalizedMessage() + "\n";
         } catch (NullPointerException e) {
             message += "Invalid date, can not set date with illegal time\n";
+        } catch (DateTimeException e) {
+            message += e.getLocalizedMessage();
         }
+        validationStatus = false;
     }
 
 }

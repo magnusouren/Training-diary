@@ -87,8 +87,12 @@ public class Commons {
 
         try {
             timeValue = validateTime(time);
-        } catch (Exception e) {
-            throw new DateTimeException(e.getLocalizedMessage());
+        } catch (IllegalArgumentException e) {
+            throw new DateTimeException("Invalid time, must contain numbers on the format hh:mm\n");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new DateTimeException("Invalid time, must be on the format 'hh:mm'\n");
+        } catch (DateTimeException e) {
+            throw new DateTimeException("Invalid time, invalid values for hours and/or minutes\n");
         }
 
         styleInput(date, false);
