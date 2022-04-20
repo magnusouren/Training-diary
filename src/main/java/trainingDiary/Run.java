@@ -59,21 +59,25 @@ public class Run implements IWorkout {
         // TO-DO
     }
 
+    @Override
     public void setDate(LocalDateTime date) {
         validator.ValidateDate(date);
         this.dateTime = date;
     }
 
+    @Override
     public void setContent(String content) {
         validateContent(content);
         this.comments = content;
     }
 
+    @Override
     public void setRating(char rating) {
         validator.validateRating(rating);
         this.rating = rating;
     }
 
+    @Override
     public void setDuration(int duration) {
         validator.validateDuration(duration);
         this.duration = duration;

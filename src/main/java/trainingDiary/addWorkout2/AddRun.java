@@ -14,7 +14,7 @@ import javafx.scene.control.TextField;
 import trainingDiary.Run;
 import trainingDiary.IWorkout;
 
-public class AddRun extends Commons {
+public class AddRun {
 
     private boolean validationStatus;
     private String message;
@@ -85,7 +85,20 @@ public class AddRun extends Commons {
      */
     private void setDuration(TextField duration) {
         try {
-            super.setDuration(duration, run);
+            String durationVal = duration.getText();
+            String[] values = durationVal.split(":");
+
+            int hours = Integer.valueOf(values[0]);
+            int minutes = Integer.valueOf(values[1]);
+
+            LocalTime t = LocalTime.of(hours, minutes);
+            hours = t.getHour() * 60;
+            minutes = t.getMinute();
+
+            run.setDuration(hours + minutes);
+
+            styleInput(duration, true);
+            return;
 
         } catch (PatternSyntaxException e) {
             message += "Invalid duration, must be on the format 'hh:mm'\n";
@@ -110,7 +123,9 @@ public class AddRun extends Commons {
      */
     private void setRating(ChoiceBox<String> rating) {
         try {
-            super.setRating(rating, run);
+            char ratingVal = rating.getValue().charAt(0);
+            run.setRating(ratingVal);
+            styleInput(rating, true);
         } catch (IllegalArgumentException e) {
             styleInput(rating, false);
             message += e.getLocalizedMessage() + "\n";

@@ -36,21 +36,25 @@ public class Strength implements IWorkout {
         setContent(content);
     }
 
+    @Override
     public void setDate(LocalDateTime date) {
         validator.ValidateDate(date);
         this.dateTime = date;
     }
 
+    @Override
     public void setDuration(int duration) {
         validator.validateDuration(duration);
         this.duration = duration;
     }
 
+    @Override
     public void setRating(char rating) {
         validator.validateRating(rating);
         this.rating = rating;
     }
 
+    @Override
     public void setContent(String content) {
         this.comments = content;
     }

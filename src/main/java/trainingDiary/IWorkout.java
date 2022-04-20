@@ -12,4 +12,12 @@ public interface IWorkout {
 
     public char getRating();
 
+    public void setDate(LocalDateTime date);
+
+    public void setDuration(int duration);
+
+    public void setContent(String comment);
+
+    public void setRating(char rating);
+
 }

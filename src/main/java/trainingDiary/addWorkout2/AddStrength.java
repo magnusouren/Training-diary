@@ -11,20 +11,16 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import trainingDiary.Run;
-import trainingDiary.IWorkout;
+import trainingDiary.Strength;
 
-public class AddRun extends Commons {
+public class AddStrength {
 
     private boolean validationStatus;
     private String message;
 
-    private Run run = new Run();
+    private Strength strength = new Strength();
 
-    public boolean validate(DatePicker date, TextField time, TextField duration, TextField distance,
-            ChoiceBox<String> rating,
-            TextField maxHr,
-            TextField avgHr,
+    public boolean validate(DatePicker date, TextField time, TextField duration, ChoiceBox<String> rating,
             TextArea comments) {
 
         validationStatus = true;
@@ -32,14 +28,8 @@ public class AddRun extends Commons {
 
         setDate(date, time);
         setDuration(duration);
-        setDistance(distance);
         setRating(rating);
-        setMaxHr(maxHr);
-        setAvgHr(avgHr);
-        run.setContent(comments.getText());
-
-        if (validationStatus)
-            run.setAverageSpeed();
+        strength.setContent(comments.getText());
 
         return validationStatus;
 
@@ -50,9 +40,8 @@ public class AddRun extends Commons {
      * 
      * @return Workout
      */
-    public IWorkout getRun() {
-        IWorkout res = run;
-        return res;
+    public Strength getStrength() {
+        return strength;
     }
 
     public String getMessage() {
@@ -85,7 +74,20 @@ public class AddRun extends Commons {
      */
     private void setDuration(TextField duration) {
         try {
-            super.setDuration(duration, run);
+            String durationVal = duration.getText();
+            String[] values = durationVal.split(":");
+
+            int hours = Integer.valueOf(values[0]);
+            int minutes = Integer.valueOf(values[1]);
+
+            LocalTime t = LocalTime.of(hours, minutes);
+            hours = t.getHour() * 60;
+            minutes = t.getMinute();
+
+            strength.setDuration(hours + minutes);
+
+            styleInput(duration, true);
+            return;
 
         } catch (PatternSyntaxException e) {
             message += "Invalid duration, must be on the format 'hh:mm'\n";
@@ -110,7 +112,9 @@ public class AddRun extends Commons {
      */
     private void setRating(ChoiceBox<String> rating) {
         try {
-            super.setRating(rating, run);
+            char ratingVal = rating.getValue().charAt(0);
+            strength.setRating(ratingVal);
+            styleInput(rating, true);
         } catch (IllegalArgumentException e) {
             styleInput(rating, false);
             message += e.getLocalizedMessage() + "\n";
@@ -129,10 +133,9 @@ public class AddRun extends Commons {
         try {
             LocalDateTime dateTime = LocalDateTime.of(date.getValue(), validateTime(time));
 
-            run.setDate(dateTime);
+            strength.setDate(dateTime);
             styleInput(date.getEditor(), true);
             return;
-
         } catch (IllegalArgumentException e) {
             styleInput(time, false);
             message += e.getLocalizedMessage() + "\n";
@@ -173,66 +176,6 @@ public class AddRun extends Commons {
         }
         styleInput(time, false);
         return null;
-
-    }
-
-    /**
-     * Tar inn en tekstverdi med distansen på økten, gjør om dette til tallverdi og
-     * setter distansen til run. Stilsetter TextField i forhold til gyldighet
-     * 
-     * @param distance TextField med distanse på turen
-     */
-    private void setDistance(TextField distance) {
-        try {
-            String distanceVal = distance.getText();
-            run.setDistance(Integer.valueOf(distanceVal));
-            styleInput(distance, true);
-
-        } catch (IllegalArgumentException e) {
-            styleInput(distance, false);
-            message += "Invalid distance, must a number be greater than 0 and less than 100000\n";
-        }
-    }
-
-    /**
-     * Tar inn tekstverdi for gjennomsnittspuls, og setter denne verdien til run.
-     * Stilsetter TextField i forhold til gyldighet
-     * 
-     * @param avgHr TextField med verdi for gjennomsnittspuls
-     */
-    private void setAvgHr(TextField avgHr) {
-        try {
-            String avgHrVal = avgHr.getText();
-            run.setAvaerageHeartRate(Integer.valueOf(avgHrVal));
-            styleInput(avgHr, true);
-            return;
-        } catch (NumberFormatException e) {
-            message += "Invalid average heartrate, enter value\n";
-        } catch (IllegalArgumentException e) {
-            message += "Invalid average heartrate, " + e.getLocalizedMessage() + "\n";
-        }
-        styleInput(avgHr, false);
-
-    }
-
-    /**
-     * Tar inn tekstverdi for makspuls, og setter denne verdien til run.
-     * Stilsetter TextField i forhold til gyldighet
-     * 
-     * @param maxHr TextField med verdi for makspuls
-     */
-    private void setMaxHr(TextField maxHr) {
-        try {
-            String maxHrVal = maxHr.getText();
-            run.setMaxHeartRate(Integer.valueOf(maxHrVal));
-            styleInput(maxHr, true);
-            return;
-        } catch (NumberFormatException e) {
-            message += "Invalid maximum heartrate, enter value\n";
-        } catch (IllegalArgumentException e) {
-            message += "Invalid average heartrate, " + e.getLocalizedMessage() + "\n";
-        }
-        styleInput(maxHr, false);
 
     }
 }
