@@ -42,12 +42,9 @@ public class AddStrength extends Commons {
         try {
             super.valDate(date, time, strength);
             return;
-        } catch (IllegalArgumentException e) {
-            message += e.getLocalizedMessage() + "\n";
-        } catch (DateTimeException e) {
+        } catch (Exception e) {
             message += e.getLocalizedMessage();
         }
-        validationStatus = false;
     }
 
     /**

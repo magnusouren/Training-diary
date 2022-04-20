@@ -50,20 +50,31 @@ public class Commons {
             throws PatternSyntaxException, ArrayIndexOutOfBoundsException, NumberFormatException, DateTimeException,
             IllegalArgumentException {
 
-        styleInput(duration, false);
-        String durationVal = duration.getText();
-        String[] values = durationVal.split(":");
+        try {
+            styleInput(duration, false);
+            String durationVal = duration.getText();
+            String[] values = durationVal.split(":");
 
-        int hours = Integer.valueOf(values[0]);
-        int minutes = Integer.valueOf(values[1]);
+            int hours = Integer.valueOf(values[0]);
+            int minutes = Integer.valueOf(values[1]);
 
-        LocalTime t = LocalTime.of(hours, minutes);
-        hours = t.getHour() * 60;
-        minutes = t.getMinute();
+            LocalTime t = LocalTime.of(hours, minutes);
+            hours = t.getHour() * 60;
+            minutes = t.getMinute();
 
-        workout.setDuration(hours + minutes);
-        styleInput(duration, true);
+            workout.setDuration(hours + minutes);
+            styleInput(duration, true);
 
+        } catch (PatternSyntaxException e) {
+            throw new PatternSyntaxException("Invalid duration, must be on the format 'hh:mm'\n",
+                    "(0?[0-9]|[1-5][0-9]):(0?[0-9]|[1-5][0-9])", -1);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new ArrayIndexOutOfBoundsException("Invalid duration, must be on the format 'hh:mm'\n");
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("Invalid duration, must contains numbers on the format hh:mm\n");
+        } catch (DateTimeException e) {
+            throw new DateTimeException("Invalid duration, invalid values for hours and/or minutes\n");
+        }
         return workout;
 
     }
@@ -109,17 +120,32 @@ public class Commons {
         try {
             timeValue = valTime(time);
         } catch (IllegalArgumentException e) {
-            throw new DateTimeException(message + "Invalid time, must contain numbers on the format hh:mm\n");
+            throw new IllegalArgumentException(message + "Invalid time, must contain numbers on the format hh:mm\n");
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new DateTimeException(message + "Invalid time, must be on the format 'hh:mm'\n");
+            throw new ArrayIndexOutOfBoundsException(message + "Invalid time, must be on the format 'hh:mm'\n");
         } catch (DateTimeException e) {
             throw new DateTimeException(message + "Invalid time, invalid values for hours and/or minutes\n");
         }
 
-        LocalDateTime dateTime = LocalDateTime.of(date.getValue(), timeValue);
-        workout.setDate(dateTime);
-        styleInput(date.getEditor(), true);
-        styleInput(time, true);
+        try {
+
+            LocalDateTime dateTime = LocalDateTime.of(date.getValue(), timeValue);
+            workout.setDate(dateTime);
+            styleInput(date.getEditor(), true);
+            styleInput(time, true);
+
+        } catch (PatternSyntaxException e) {
+            throw new PatternSyntaxException("Invalid duration, must be on the format 'hh:mm'\n",
+                    "(0?[0-9]|[1-5][0-9]):(0?[0-9]|[1-5][0-9])", -1);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new ArrayIndexOutOfBoundsException("Invalid duration, must be on the format 'hh:mm'\n");
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("Invalid duration, must contains numbers on the format hh:mm\n");
+        } catch (DateTimeException e) {
+            throw new DateTimeException("Invalid duration, invalid values for hours and/or minutes\n");
+        } catch (IllegalArgumentException e) {
+            message += e.getLocalizedMessage() + "\n";
+        }
 
         return workout;
 
