@@ -1,12 +1,8 @@
 package trainingDiary.addWorkout;
 
 import java.time.DateTimeException;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.regex.PatternSyntaxException;
 
-import javafx.css.PseudoClass;
-import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
@@ -16,26 +12,37 @@ import trainingDiary.IWorkout;
 
 public class AddRun extends Commons {
 
-    private boolean validationStatus;
-    private String message;
+    private boolean validationStatus = true;
+    private String errorMessage = "";
 
     private Run run = new Run();
 
+    /**
+     * Method that calls on all validations that it necessary to initialize a valid
+     * Run-object.
+     * 
+     * @param date     DatePicker with datevalue
+     * @param time     TextField with timevalue
+     * @param duration TextField with duration-value
+     * @param distance TextField with distance-value
+     * @param rating   ChoiceBox<String> with rating-value
+     * @param maxHr    TextField with maximum heartrate-value
+     * @param avgHr    TextField with average heartrate-value
+     * @param comments TextArea with comments to the workout
+     * @return
+     */
     public boolean validate(DatePicker date, TextField time, TextField duration, TextField distance,
             ChoiceBox<String> rating,
             TextField maxHr,
             TextField avgHr,
             TextArea comments) {
 
-        validationStatus = true;
-        message = "";
-
-        setDate(date, time);
-        setDuration(duration);
-        setDistance(distance);
-        setRating(rating);
-        setMaxHr(maxHr);
-        setAvgHr(avgHr);
+        valDate(date, time);
+        valDuration(duration);
+        valRating(rating);
+        valDistance(distance);
+        valMaxHr(maxHr);
+        valAvgHr(avgHr);
         run.setContent(comments.getText());
 
         if (validationStatus)
@@ -46,117 +53,136 @@ public class AddRun extends Commons {
     }
 
     /**
-     * Returnerer Workout som er initilaisert med gyldige verdier
+     * Uses valDate from super to validate date and time and set date if date and
+     * time has valid values.
      * 
-     * @return Workout
+     * Sets correct errormessage if exception is thrown during validation.
+     * 
+     * @param date DatePicker with datevalue
+     * @param time TextField with timevalue
      */
-    public IWorkout getRun() {
-        IWorkout res = run;
-        return res;
-    }
+    private void valDate(DatePicker date, TextField time) {
+        try {
+            super.valDate(date, time, run);
+            return;
+        } catch (IllegalArgumentException e) {
+            errorMessage += e.getLocalizedMessage() + "\n";
+        } catch (DateTimeException e) {
+            errorMessage += e.getLocalizedMessage();
+        }
+        validationStatus = false;
 
-    public String getMessage() {
-        return this.message;
     }
 
     /**
-     * Validerer duration og stilsetter input-feltet etter gylidhet på input
+     * Uses valDuration from super to validate and set duration if duration is
+     * valid.
+     * Sets correct errormessage if exception throws during validation.
      * 
-     * @param durationVal String med tidverider på formatet (HH:mm)
+     * @param duration TextField with duration-value
      */
-    private void setDuration(TextField duration) {
+    private void valDuration(TextField duration) {
         try {
-            super.setDuration(duration, run);
+            super.valDuration(duration, run);
             return;
 
         } catch (PatternSyntaxException e) {
-            message += "Invalid duration, must be on the format 'hh:mm'\n";
+            errorMessage += "Invalid duration, must be on the format 'hh:mm'\n";
         } catch (ArrayIndexOutOfBoundsException e) {
-            message += "Invalid duration, must be on the format 'hh:mm'\n";
+            errorMessage += "Invalid duration, must be on the format 'hh:mm'\n";
         } catch (NumberFormatException e) {
-            message += "Invalid duration, must contains numbers on the format hh:mm\n";
+            errorMessage += "Invalid duration, must contains numbers on the format hh:mm\n";
         } catch (DateTimeException e) {
-            message += "Invalid duration, invalid values for hours and/or minutes\n";
+            errorMessage += "Invalid duration, invalid values for hours and/or minutes\n";
         } catch (IllegalArgumentException e) {
-            message += e.getLocalizedMessage() + "\n";
+            errorMessage += e.getLocalizedMessage() + "\n";
         }
         validationStatus = false;
 
     }
 
     /**
-     * Setter rating til run, og stilsetter bakgrunn til TextField til grønn. Hvis
-     * unntak stilsettes TextField til rød bakgrunn.
+     * Uses valRating from super to validate rating and set rating if rating has a
+     * valid value.
+     * Sets correct errormessage is exception is thrown during validation.
      * 
-     * @param rating ChoiceBox<String> med tallverdier fra 1-6 + standardverdi
+     * @param rating ChoiceBox<String> with value chosen by user
      */
-    private void setRating(ChoiceBox<String> rating) {
+    private void valRating(ChoiceBox<String> rating) {
         try {
-            super.setRating(rating, run);
+            super.valRating(rating, run);
             return;
         } catch (IllegalArgumentException e) {
-            message += e.getLocalizedMessage() + "\n";
+            errorMessage += e.getLocalizedMessage();
         }
         validationStatus = false;
     }
 
     /**
-     * Tar inn dato og tid og lager et LocalDateTime-objekt setter LocalDateTime til
-     * run til dette tidspunktet, og stilsetter ChoiceBoxen til å være grønn. Hvis
-     * unntak stilsettes ChoiceBoxen til å ha rød bakgrunn
+     * Validates and sets distance if distance has a valid value.
      * 
-     * @param date    DatePicker med tilhørende datoverdi
-     * @param timeVal LocalTime med tidspunkt
-     */
-    private void setDate(DatePicker date, TextField time) {
-        try {
-            super.setDate(date, time, run);
-            return;
-        } catch (IllegalArgumentException e) {
-            message += e.getLocalizedMessage() + "\n";
-        } catch (DateTimeException e) {
-            message += e.getLocalizedMessage();
-        }
-        validationStatus = false;
-
-    }
-
-    /**
-     * Tar inn en tekstverdi med distansen på økten, gjør om dette til tallverdi og
-     * setter distansen til run. Stilsetter TextField i forhold til gyldighet
+     * Sets correct errormessage if distance is invalid
      * 
-     * @param distance TextField med distanse på turen
+     * @param distance TextField with distance-value
      */
-    private void setDistance(TextField distance) {
+    private void valDistance(TextField distance) {
         try {
             String distanceVal = distance.getText();
             run.setDistance(Integer.valueOf(distanceVal));
             styleInput(distance, true);
+            return;
 
+        } catch (NumberFormatException e) {
+            errorMessage += "Invalid distance, distance is not a number\n";
         } catch (IllegalArgumentException e) {
-            styleInput(distance, false);
-            message += "Invalid distance, must a number be greater than 0 and less than 100000\n";
-            validationStatus = false;
+            errorMessage += e.getLocalizedMessage();
         }
+
+        styleInput(distance, false);
+        validationStatus = false;
 
     }
 
     /**
-     * Tar inn tekstverdi for gjennomsnittspuls, og setter denne verdien til run.
-     * Stilsetter TextField i forhold til gyldighet
+     * Validates and sets maximum heartrate if maxHr has a valid value
      * 
-     * @param avgHr TextField med verdi for gjennomsnittspuls
+     * Sets correct errormessage if value is invalid
+     * 
+     * @param maxHr TextField with average heartrate-value
      */
-    private void setAvgHr(TextField avgHr) {
+    private void valMaxHr(TextField maxHr) {
+        try {
+            String maxHrVal = maxHr.getText();
+            run.setMaxHeartRate(Integer.valueOf(maxHrVal));
+            styleInput(maxHr, true);
+            return;
+        } catch (NumberFormatException e) {
+            errorMessage += "Invalid maximum heartrate, enter value\n";
+        } catch (IllegalArgumentException e) {
+            errorMessage += "Invalid average heartrate, " + e.getLocalizedMessage() + "\n";
+        }
+        validationStatus = false;
+        styleInput(maxHr, false);
+
+    }
+
+    /**
+     * Validates and sets average heartrate if avgHr has a valid value
+     * 
+     * Sets correct errormessage if value is invalid
+     * 
+     * @param avgHr TextField with average heartrate-value
+     */
+    private void valAvgHr(TextField avgHr) {
         try {
             String avgHrVal = avgHr.getText();
             run.setAvaerageHeartRate(Integer.valueOf(avgHrVal));
             styleInput(avgHr, true);
             return;
         } catch (NumberFormatException e) {
-            message += "Invalid average heartrate, enter value\n";
+            errorMessage += "Invalid average heartrate, enter value\n";
         } catch (IllegalArgumentException e) {
-            message += "Invalid average heartrate, " + e.getLocalizedMessage() + "\n";
+            errorMessage += "Invalid average heartrate, " + e.getLocalizedMessage() + "\n";
         }
         validationStatus = false;
         styleInput(avgHr, false);
@@ -164,24 +190,16 @@ public class AddRun extends Commons {
     }
 
     /**
-     * Tar inn tekstverdi for makspuls, og setter denne verdien til run.
-     * Stilsetter TextField i forhold til gyldighet
-     * 
-     * @param maxHr TextField med verdi for makspuls
+     * @return Run with valid fields only
      */
-    private void setMaxHr(TextField maxHr) {
-        try {
-            String maxHrVal = maxHr.getText();
-            run.setMaxHeartRate(Integer.valueOf(maxHrVal));
-            styleInput(maxHr, true);
-            return;
-        } catch (NumberFormatException e) {
-            message += "Invalid maximum heartrate, enter value\n";
-        } catch (IllegalArgumentException e) {
-            message += "Invalid average heartrate, " + e.getLocalizedMessage() + "\n";
-        }
-        validationStatus = false;
-        styleInput(maxHr, false);
+    public IWorkout getRun() {
+        return run;
+    }
 
+    /**
+     * @return String errormessage in terms of validity
+     */
+    public String getErrorMessage() {
+        return this.errorMessage;
     }
 }

@@ -11,17 +11,14 @@ import trainingDiary.Strength;
 
 public class AddStrength extends Commons {
 
-    private boolean validationStatus;
-    private String message;
+    private boolean validationStatus = true;
+    private String message = "";
 
     private Strength strength = new Strength();
 
     public boolean validate(DatePicker date, TextField time, TextField duration,
             ChoiceBox<String> rating,
             TextArea comments) {
-
-        validationStatus = true;
-        message = "";
 
         setDate(date, time);
         setDuration(duration);
@@ -33,26 +30,36 @@ public class AddStrength extends Commons {
     }
 
     /**
-     * Returnerer Workout som er initilaisert med gyldige verdier
+     * Uses valDate from super to validate date and time and set date if date and
+     * time has valid values.
      * 
-     * @return Workout
+     * Sets correct errormessage if exception is thrown during validation.
+     * 
+     * @param date DatePicker with datevalue
+     * @param time TextField with timevalue
      */
-    public Strength getStrength() {
-        return strength;
-    }
-
-    public String getMessage() {
-        return this.message;
+    private void setDate(DatePicker date, TextField time) {
+        try {
+            super.valDate(date, time, strength);
+            return;
+        } catch (IllegalArgumentException e) {
+            message += e.getLocalizedMessage() + "\n";
+        } catch (DateTimeException e) {
+            message += e.getLocalizedMessage();
+        }
+        validationStatus = false;
     }
 
     /**
-     * Validerer duration og stilsetter input-feltet etter gylidhet på input
+     * Uses valDuration from super to validate and set duration if duration is
+     * valid.
+     * Sets correct errormessage if exception throws during validation.
      * 
-     * @param durationVal String med tidverider på formatet (HH:mm)
+     * @param duration TextField with duration-value
      */
     private void setDuration(TextField duration) {
         try {
-            super.setDuration(duration, strength);
+            super.valDuration(duration, strength);
             return;
 
         } catch (PatternSyntaxException e) {
@@ -71,40 +78,32 @@ public class AddStrength extends Commons {
     }
 
     /**
-     * Setter rating til run, og stilsetter bakgrunn til TextField til grønn. Hvis
-     * unntak stilsettes TextField til rød bakgrunn.
-     *
-     * @param rating ChoiceBox<String> med tallverdier fra 1-6 + standardverdi
+     * Uses valRating from super to validate rating and set rating if rating has a
+     * valid value.
+     * Sets correct errormessage is exception is thrown during validation.
+     * 
+     * @param rating ChoiceBox<String> with value chosen by user
      */
     private void setRating(ChoiceBox<String> rating) {
         try {
-            super.setRating(rating, strength);
+            super.valRating(rating, strength);
             return;
         } catch (IllegalArgumentException e) {
-            message += e.getLocalizedMessage() + "\n";
-        }
-        validationStatus = false;
-    }
-
-    /**
-     * Tar inn dato og tid og lager et LocalDateTime-objekt setter LocalDateTime
-     * til
-     * run til dette tidspunktet, og stilsetter ChoiceBoxen til å være grønn. Hvis
-     * unntak stilsettes ChoiceBoxen til å ha rød bakgrunn
-     *
-     * @param date    DatePicker med tilhørende datoverdi
-     * @param timeVal LocalTime med tidspunkt
-     */
-    private void setDate(DatePicker date, TextField time) {
-        try {
-            super.setDate(date, time, strength);
-            return;
-        } catch (IllegalArgumentException e) {
-            message += e.getLocalizedMessage() + "\n";
-        } catch (DateTimeException e) {
             message += e.getLocalizedMessage();
         }
         validationStatus = false;
     }
 
+    /**
+     * Returnerer Workout som er initilaisert med gyldige verdier
+     * 
+     * @return Workout
+     */
+    public Strength getStrength() {
+        return strength;
+    }
+
+    public String getMessage() {
+        return this.message;
+    }
 }

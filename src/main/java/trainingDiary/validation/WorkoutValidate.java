@@ -46,6 +46,6 @@ public class WorkoutValidate {
         values.addAll(Arrays.asList('1', '2', '3', '4', '5', '6'));
 
         if (!values.contains(rating))
-            throw new IllegalArgumentException("Illegal rating, pick a number in the interval [1-6]");
+            throw new IllegalArgumentException("Illegal rating, pick a number in the interval [1-6]\n");
     }
 }

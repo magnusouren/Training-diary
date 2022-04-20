@@ -46,7 +46,7 @@ public class Commons {
      * @throws IllegalArgumentException       If duration on workout is invalid due
      *                                        to the conditions sat.
      */
-    protected IWorkout setDuration(TextField duration, IWorkout workout)
+    protected IWorkout valDuration(TextField duration, IWorkout workout)
             throws PatternSyntaxException, ArrayIndexOutOfBoundsException, NumberFormatException, DateTimeException,
             IllegalArgumentException {
 
@@ -76,7 +76,7 @@ public class Commons {
      * @return IWorkout with rating sat
      * @throws IllegalArgumentException If chosen value is not in the interval 1-6.
      */
-    protected IWorkout setRating(ChoiceBox<String> rating, IWorkout workout) throws IllegalArgumentException {
+    protected IWorkout valRating(ChoiceBox<String> rating, IWorkout workout) throws IllegalArgumentException {
         styleInput(rating, false);
         char ratingVal = rating.getValue().charAt(0);
         workout.setRating(ratingVal);
@@ -97,7 +97,7 @@ public class Commons {
      *                                  LocalDateTime is set
      * @throws DateTimeException        If time is invalid
      */
-    protected IWorkout setDate(DatePicker date, TextField time, IWorkout workout)
+    protected IWorkout valDate(DatePicker date, TextField time, IWorkout workout)
             throws IllegalArgumentException, NullPointerException, DateTimeException {
 
         LocalTime timeValue;
@@ -107,7 +107,7 @@ public class Commons {
         styleInput(time, false);
 
         try {
-            timeValue = validateTime(time);
+            timeValue = valTime(time);
         } catch (IllegalArgumentException e) {
             throw new DateTimeException(message + "Invalid time, must contain numbers on the format hh:mm\n");
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -136,7 +136,7 @@ public class Commons {
      * @throws DateTimeException              If the value of any field is out of
      *                                        range
      */
-    private LocalTime validateTime(TextField time)
+    private LocalTime valTime(TextField time)
             throws IllegalArgumentException, ArrayIndexOutOfBoundsException, DateTimeException {
 
         String timeVal = time.getText();
