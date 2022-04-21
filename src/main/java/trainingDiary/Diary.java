@@ -18,11 +18,11 @@ public class Diary {
 
                 if (!Objects.isNull(workout)) {
                         if (diary.contains(workout))
-                                throw new IllegalArgumentException("Same workout couldn't be added twice");
+                                throw new IllegalArgumentException("Same workout couldn't be added twice\n");
                         else if (diary.stream().noneMatch(p))
                                 diary.add(workout);
                         else
-                                throw new IllegalArgumentException("Couldn't add two workouts at  the same day");
+                                throw new IllegalArgumentException("Couldn't add two workouts at the same day\n");
                 } else
                         throw new NullPointerException("Workout cannot be null");
 

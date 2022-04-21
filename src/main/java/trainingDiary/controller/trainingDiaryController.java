@@ -238,12 +238,12 @@ public class trainingDiaryController {
     }
 
     /**
-     * Method to add existing files in directory to the input fields, this will make
-     * it easier for the user to save/load files
+     * Method to add existing files in directory to comboboxes, this will
+     * make it easier for the user to save/load correct files
      */
     private void setFiles() {
 
-        Set<String> files = Stream.of(new File("src/main/resources/trainingDiary/saves/").listFiles())
+        Set<String> filenames = Stream.of(new File("src/main/resources/trainingDiary/saves/").listFiles())
                 .filter(file -> !file.isDirectory())
                 .map(File::getName)
                 .collect(Collectors.toSet());
@@ -251,19 +251,21 @@ public class trainingDiaryController {
         filenameSave.getItems().clear();
         filenameLoad.getItems().clear();
 
-        filenameSave.getItems().addAll(files);
-        filenameLoad.getItems().addAll(files);
+        filenameSave.getItems().addAll(filenames);
+        filenameLoad.getItems().addAll(filenames);
     }
 
+    /**
+     * Calls methods that displays summary-data
+     */
     private void setSummary() {
         summaryTotal();
         summaryRun();
         summaryStrength();
-
     }
 
     /**
-     * Sets textvalues from map to the text-element in summary-tab element in app.
+     * Sets textvalues from map to text-element in summary-tab in app.
      */
     private void summaryStrength() {
         Map<String, Number> sStrength = diary.getStrengthSummary();
@@ -273,6 +275,9 @@ public class trainingDiaryController {
         StotalNumStrength.setText(sStrength.get("totStrengths").toString());
     }
 
+    /**
+     * Sets textvalues from map to text-element in summary-tab in app.
+     */
     private void summaryTotal() {
         Map<String, Number> sTotal = diary.getTotalSummary();
         StotalDuration.setText(sTotal.get("totDuration").toString());
@@ -280,6 +285,9 @@ public class trainingDiaryController {
         StotalNumW.setText(sTotal.get("totWorkouts").toString());
     }
 
+    /**
+     * Sets textvalues from map to text-element in summary-tab in app.
+     */
     private void summaryRun() {
         Map<String, Number> sRun = diary.getRunSummary();
         SrunDuration.setText(sRun.get("runTotDuration").toString());
@@ -299,7 +307,7 @@ public class trainingDiaryController {
                         runDistance,
                         runMaxHr,
                         runAvgHr,
-                        runDate,
+                        runDate.getEditor(),
                         runRating,
                         runComments));
     }
@@ -312,7 +320,7 @@ public class trainingDiaryController {
                 Arrays.asList(
                         strengthTime,
                         strengthDuration,
-                        strengthDate,
+                        strengthDate.getEditor(),
                         strengthRating,
                         strengthComments,
                         btnAddStrength));
@@ -369,12 +377,10 @@ public class trainingDiaryController {
             initialize();
 
         } else {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setHeaderText("Invalid inputs on new run");
-            alert.setContentText(addRun.getErrorMessage());
-            alert.showAndWait();
-            addRun = null;
+            showAlert(AlertType.ERROR, "Invalid inputs on new run", addRun.getErrorMessage());
         }
+        addRun = null;
+
     }
 
     /**
@@ -390,12 +396,10 @@ public class trainingDiaryController {
             tempStrength = addStrength.getStrength();
 
         } else {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setHeaderText("Invalid inputs on new strength");
-            alert.setContentText(addStrength.getMessage());
-            alert.showAndWait();
-            addStrength = null;
+            showAlert(AlertType.ERROR, "Invalid inputs on new strength", addStrength.getMessage());
         }
+        addStrength = null;
+
     }
 
     /**
@@ -416,13 +420,9 @@ public class trainingDiaryController {
             clearInput(exerciseFields);
 
         } else {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setHeaderText("Invalid inputs on exercise");
-            alert.setContentText(addExercise.getMessage());
-            alert.showAndWait();
-            addExercise = null;
+            showAlert(AlertType.ERROR, "Invalid inputs on exercise", addExercise.getMessage());
         }
-
+        addExercise = null;
     }
 
     /**
@@ -440,10 +440,7 @@ public class trainingDiaryController {
         try {
             diary.addWorkout(workout);
         } catch (IllegalArgumentException e) {
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setHeaderText("Your workout could not be saved");
-            alert.setContentText("One and only one workout allowed per day");
-            alert.showAndWait();
+            showAlert(AlertType.WARNING, "Your workout could not be saved", e.getLocalizedMessage());
         }
     }
 
@@ -508,11 +505,6 @@ public class trainingDiaryController {
                 ((TextField) f).clear();
             else if (f instanceof TextArea)
                 ((TextArea) f).clear();
-            else if (f instanceof DatePicker) {
-                ((DatePicker) f).setValue(LocalDate.now());
-                ((DatePicker) f).getEditor().pseudoClassStateChanged(errorClass, false);
-                ((DatePicker) f).getEditor().pseudoClassStateChanged(validClass, false);
-            }
         });
 
     }
@@ -632,6 +624,20 @@ public class trainingDiaryController {
 
         filenameSave.setValue(file);
         feedbackSave.setText("");
+    }
+
+    /**
+     * Method that shows alertbox with header and appropriate errormessage
+     * 
+     * @param alertType AlertType of the error
+     * @param header    String header to be displayed at alertbox
+     * @param message   String errormassage
+     */
+    private void showAlert(AlertType alertType, String header, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setHeaderText(header);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 }
