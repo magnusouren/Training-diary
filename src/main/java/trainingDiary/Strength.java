@@ -22,18 +22,18 @@ public class Strength implements IWorkout {
     }
 
     /**
-     * Konstrukøtr som innitialiserer en ny økt, med data tilknyttet økten.
+     * Constructor
      * 
-     * @param dateTime Date til øktens dato
-     * @param duration Int varighet på økten i minutter
-     * @param rating   char terningkastverdi på økten
-     * @param content  String kommentarer til økten
+     * @param dateTime LocalDateTime of Strength
+     * @param duration int duration of Strength in minutes
+     * @param rating   char rating of Strength
+     * @param comment  String comment to Strength
      */
-    public Strength(LocalDateTime dateTime, int duration, char rating, String content) {
+    public Strength(LocalDateTime dateTime, int duration, char rating, String comment) {
         setDate(dateTime);
         setDuration(duration);
         setRating(rating);
-        setContent(content);
+        setComment(comment);
     }
 
     @Override
@@ -55,16 +55,14 @@ public class Strength implements IWorkout {
     }
 
     @Override
-    public void setContent(String content) {
-        this.comments = content;
+    public void setComment(String comment) {
+        this.comments = comment;
     }
 
     /**
-     * Legger til en øvelse i listen over øvelser til økten. Tar inn navn og antall
-     * repetisjoner
+     * Ads exercise to list of exercises if its not already added and isn't null
      * 
-     * @param name String navn på øvelse
-     * @param rep  Int[] med de ulike tallverdiene over reppetisjoner
+     * @param exercise Exercise
      */
     public void addExercise(Exercise exercise) {
         if (!Objects.isNull(exercise)) {

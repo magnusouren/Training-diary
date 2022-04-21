@@ -22,14 +22,6 @@ import trainingDiary.IWorkout;
 
 public class TxtFile implements IfileManager {
 
-    /**
-     * 
-     * @param filename String name on file to be saved to/created
-     * @param diary    Diary that should be saved
-     * @throws FileNotFoundException throws error occurs while opening or creating
-     *                               the file
-     * @throws RuntimeException      throws if errors from reading values occurs
-     */
     @Override
     public void write(String filename, Diary diary) throws FileNotFoundException, RuntimeException {
         try (PrintWriter writer = new PrintWriter(
@@ -41,14 +33,6 @@ public class TxtFile implements IfileManager {
 
     }
 
-    /**
-     * Read from existin file. Reading depends on workouttype
-     * 
-     * @param filename String filename to be read from
-     * @return Diary with content from file
-     * @throws FileNotFoundException throws if error occurs if file don't exists or
-     *                               problems occurs while opening file
-     */
     @Override
     public Diary read(String filename) throws FileNotFoundException, RuntimeException {
         Diary diary = new Diary();

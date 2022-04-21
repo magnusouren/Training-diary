@@ -12,6 +12,12 @@ public class Diary {
 
         private List<IWorkout> diary = new ArrayList<>();
 
+        /**
+         * Adds workout to diary, throws exception if workout already exists or a
+         * workout already is added that day
+         * 
+         * @param workout IWorkout to be added
+         */
         public void addWorkout(IWorkout workout) {
 
                 Predicate<IWorkout> p = w -> w.getDate().toLocalDate().equals(workout.getDate().toLocalDate());
@@ -28,12 +34,18 @@ public class Diary {
 
         }
 
+        /**
+         * Returns a new List with exercises in diary
+         * 
+         * @return List<IWorkout> with workouts in diary
+         */
         public List<IWorkout> getDiary() {
                 return new ArrayList<>(diary);
         }
 
         /**
          * Filter workouts in diary based on given month and return list of workouts
+         * belonging to that month
          * 
          * @param month int month in year
          * @param year  int year-value

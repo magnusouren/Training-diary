@@ -96,29 +96,39 @@ public class trainingDiaryController {
     private Strength tempStrength;
 
     /**
-     * Methods that runs when window is loaded. Calls on methods that displays
-     * correct content in the window. If runfields is empty, which means that the
-     * window is getting loaded for the first time, the method
-     * initializeInputElements() is getting called.
-     * 
+     * Runs when window is loaded.
+     * Sets workouts to a list of workouts in chosen month.
+     * Calls on method that adds inputfields to collections if its during startup.
+     * Calls on method that generates a calendar in app.
+     * Calls on method that displays summary data.
      */
     @FXML
     public void initialize() {
         workouts = diary.getWorkoutsPerMonth(month, year);
 
-        updateDateField();
-        generateCalendar();
-        initializeRatings();
-        setFiles();
-        setSummary();
         if (Objects.isNull(runFields))
             initializeInputElements();
 
+        updateDateField();
+        generateCalendar();
+        initializeFields();
+        setSummary();
     }
 
     /**
-     * Henter tekstverdien til satt månede og endrer feltet øverst i vinduet til
-     * satt månede i tekst (med stor forbokstav) + årstall
+     * Calls on methods which adds JavaFX elements to a collection, so the
+     * collections could be used later
+     */
+    private void initializeInputElements() {
+        initializeRunFields();
+        initializeExerciseFields();
+        initializeExerciseLabels();
+        initializeStrengthLabels();
+        initializeStrengthFields();
+    }
+
+    /**
+     * Gets textvalue of chosen month and year, sets values to textelement in app
      */
     private void updateDateField() {
         String month = Month.of(this.month).name();
@@ -126,15 +136,13 @@ public class trainingDiaryController {
 
         monthText.setText(month + " " + year);
 
-        runDate.setValue(LocalDate.now()); // Denne kan med fordel flyttes på senere
-        strengthDate.setValue(LocalDate.now()); // Denne kan med fordel flyttes på senere
-
     }
 
     /**
-     * Fjerner eventuelle elementer i calendar.
-     * Kalkulerer hvilken ukedag den 1. denne måneden faller på.
-     * Genererer TitledPanes med datoverdier for hver dag i måneden.
+     * Clears calendar in case it has content.
+     * Calculates which weekday that the first day of month belongs to.
+     * Calls method that adds titledPanes for each day in month to right place in
+     * grid.
      */
     private void generateCalendar() {
         calendar.getChildren().clear();
@@ -152,23 +160,11 @@ public class trainingDiaryController {
     }
 
     /**
-     * Calls on methods which adds JavaFX elements to a collection, so the
-     * collections could be used later
-     */
-    private void initializeInputElements() {
-        initializeRunFields();
-        initializeExerciseFields();
-        initializeExerciseLabels();
-        initializeStrengthLabels();
-        initializeStrengthFields();
-    }
-
-    /**
-     * Metode som lager et TitledPane med dato pluss eventuel knapp for treningsøkt
-     * tilhørende den dagen
+     * Creates titledPane with datevalue in header, and adds correct content in
+     * pane.
      * 
-     * @param date Dato som skal få tilordnet TitledPane
-     * @return TitledPane med dato som tekstverdi og eventuell knapp for økt
+     * @param date LocalDate of the titledPane
+     * @return TitledPane with date and content
      */
     private TitledPane createTitledPane(LocalDate date) {
 
@@ -182,11 +178,11 @@ public class trainingDiaryController {
     }
 
     /**
-     * Metode som lager knapp for økt tilhørende dato, hvis ikke returnerer tom
-     * knapp.
+     * If date has a workout a method for creating node with content is called.
+     * If no workout an empty pane is returned.
      * 
-     * @param date Dato som skal få tildelt knapp
-     * @return Button med økt/tomt innhold
+     * @param date LocalDate that's getting content
+     * @return Node button for workout/empty pane
      */
     private Node createContent(LocalDate date) {
 
@@ -199,11 +195,11 @@ public class trainingDiaryController {
     }
 
     /**
-     * Metode som lager knapp for knapp med økt. Definerer stil og funksjonskall ved
-     * interaksjon
+     * Creates a button with timevalue and type for that workout.
+     * Styles button and sets method to called on action.
      * 
-     * @param workout Workout økt som skal få tildelt knapp
-     * @return Button med innhold tilknyttet økt
+     * @param workout IWorkout that is getting a button
+     * @return Button with content related to the workout
      */
     private Button workoutButton(IWorkout workout) {
         String content = workout.getDate().format(DateTimeFormatter.ofPattern("HH:mm")) + " "
@@ -225,9 +221,14 @@ public class trainingDiaryController {
     }
 
     /**
-     * Gir hvert av rating-input-elementene innhold med tall 1-6 og standardverdi
+     * Sets values to input-fields that has values that needs to be set during
+     * initializing of application.
+     * 
+     * Sets values in rating-choiceboxes for the number 1 - 6
+     * Sets datevalues in date-fields to todays date.
+     * Calls on method that sets existing filenames to file-comboxes.
      */
-    private void initializeRatings() {
+    private void initializeFields() {
         ObservableList<String> ratings = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6");
 
         runRating.setItems(ratings);
@@ -235,13 +236,19 @@ public class trainingDiaryController {
 
         strengthRating.setItems(ratings);
         strengthRating.setValue("-- Set rating --");
+
+        runDate.setValue(LocalDate.now()); // Denne kan med fordel flyttes på senere
+        strengthDate.setValue(LocalDate.now()); // Denne kan med fordel flyttes på senere
+
+        setFilenames();
     }
 
     /**
-     * Method to add existing files in directory to comboboxes, this will
-     * make it easier for the user to save/load correct files
+     * Method to add existing files in directory that stores saved data to
+     * comboboxes, this will make it easier for the user to save/load correct
+     * files.
      */
-    private void setFiles() {
+    private void setFilenames() {
 
         Set<String> filenames = Stream.of(new File("src/main/resources/trainingDiary/saves/").listFiles())
                 .filter(file -> !file.isDirectory())
@@ -297,7 +304,7 @@ public class trainingDiaryController {
     }
 
     /**
-     * Metode som legger til alle input-felt tilhørende run i en Collection
+     * Method to add inputfields to collection for easier usage later in.
      */
     private void initializeRunFields() {
         runFields = new ArrayList<>(
@@ -313,7 +320,7 @@ public class trainingDiaryController {
     }
 
     /**
-     * Metode som legger til alle input-felt tilhørende run i en Collection
+     * Method to add inputfields to collection for easier usage later in.
      */
     private void initializeStrengthFields() {
         strengthFields = new ArrayList<>(
@@ -326,6 +333,9 @@ public class trainingDiaryController {
                         btnAddStrength));
     }
 
+    /**
+     * Method to add inputfields to collection for easier usage later in.
+     */
     private void initializeExerciseFields() {
         exerciseFields = new ArrayList<>(
                 Arrays.asList(
@@ -340,6 +350,9 @@ public class trainingDiaryController {
                         btnSaveStrength));
     }
 
+    /**
+     * Method to add inputfields to collection for easier usage later in.
+     */
     private void initializeExerciseLabels() {
         exerciseLabels = new ArrayList<>(
                 Arrays.asList(
@@ -351,6 +364,9 @@ public class trainingDiaryController {
                         exerciseLabelSet4));
     }
 
+    /**
+     * Method to add inputfields to collection for easier usage later in.
+     */
     private void initializeStrengthLabels() {
         strengthLabels = new ArrayList<>(
                 Arrays.asList(
@@ -361,8 +377,13 @@ public class trainingDiaryController {
     }
 
     /**
-     * Metode som kalles når bruker legger til ny løpeøkt. Bruker metoder fra AddRun
-     * for å validere og sette tilstandene
+     * Method that is calles when user is interacting on the button that saves a
+     * run.
+     * Creates a temporary Addrun that contains validationmethods to validate
+     * format on inputfields.
+     * If addRun.isValid returns true, the run is beein added to the diary.
+     * If addRun.isValid returns false, at least one of the inputs is invalid, and
+     * an alertbox with errormessage is displayed.
      */
     @FXML
     private void addRun() {
@@ -384,8 +405,14 @@ public class trainingDiaryController {
     }
 
     /**
-     * Metode som kalles når bruker legger til ny styrkeøkt. Bruker metoder fra
-     * AddWorkout for å validere og sette tilstandene.
+     * Method that is calles when user is interacting on the button that saves a
+     * strength.
+     * Creates a temporary AddStrength that contains validationmethods to validate
+     * format on inputfields.
+     * If addRun.isValid returns true, and the strength is saved as tempStrength,
+     * since this strength is later going to get exercises and then be saved.
+     * If addRun.isValid returns false, at least one of the inputs is invalid, and
+     * an alertbox with errormessage is displayed.
      */
     @FXML
     private void addStrength() {
@@ -405,8 +432,8 @@ public class trainingDiaryController {
     /**
      * Method to be called when an exercise should be added to a strength-workout.
      * If the exercise has valid input-values, the exercise are added to the
-     * strength-workout. If values are invalid, the object are being set equals
-     * null, and feedback displayed to the user
+     * strength-workout. If one or many values are invalid, an alertbox is
+     * displayed with errormessage displayed.
      */
     @FXML
     private void addExercise() {
@@ -436,6 +463,12 @@ public class trainingDiaryController {
 
     }
 
+    /**
+     * Adds workout to diary, if exception is thrown errormessage is shown in
+     * alertbox.
+     * 
+     * @param workout IWorkout to be added to diary
+     */
     private void addWorkout(IWorkout workout) {
         try {
             diary.addWorkout(workout);
@@ -445,9 +478,9 @@ public class trainingDiaryController {
     }
 
     /**
-     * Method that sets the temporary strength to null, clears all
-     * strength inputfields, and sets the disabilty on the inputfields to default.
-     * Clears the feedbackfield with feedback to user
+     * Calls on methods that clears and sets inputs to default.
+     * Switches disabled input-elements to be enabled and opposite.
+     * Clears feedback-text that has been showed.
      */
     @FXML
     private void clearStrength() {
@@ -467,7 +500,7 @@ public class trainingDiaryController {
      * If a field is getting disabled, the related label get's grey text-color.
      * If a field is getting enabled, the related label get's black text-color.
      * 
-     * @param status boolean true=>default - false=>flipped
+     * @param status boolean true=>default / false=>flipped
      */
     private void switchStrengthInput(boolean status) {
 
@@ -485,14 +518,9 @@ public class trainingDiaryController {
     }
 
     /**
-     * Tar inn en liste med Controll-objekter.
-     * Ittererer over alle elementene i Collectionen og:
-     * 1) Fjerner eventuelle psuedoklasser som er gitt til objektet
-     * 2) Sjekker instansen til objektet og behandler det deretter
-     * 
-     * Om TextField eller TextArea -> fjern innhold
-     * 
-     * Om DatePicker -> set verdi til dagens dato
+     * Itterates over a collection of inputfields.
+     * 1) Clears eventual pseudoclasses on field
+     * 2) Clears the textvalue the field has
      */
     private void clearInput(Collection<Control> inputFields) {
         final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
@@ -510,7 +538,7 @@ public class trainingDiaryController {
     }
 
     /**
-     * Setter feltene månede og år tilsvarende dagens månede og årstall
+     * Sets month and year to today. Refresh window
      */
     @FXML
     private void today() {
@@ -521,8 +549,9 @@ public class trainingDiaryController {
     }
 
     /**
-     * Dekrementerer verdien til månede, hvis januar senkes årstallet med 1 og
-     * månede settes til desember
+     * Decrements the value of month. If the month is january, the new month is sat
+     * to
+     * december and the year is decremented
      */
     @FXML
     private void prevMonth() {
@@ -536,8 +565,8 @@ public class trainingDiaryController {
     }
 
     /**
-     * Inkrementerer verdien til månede, hvis desember øker årstall med 1 og månede
-     * settes til januar
+     * Increments the value of month. If the month is december, the new month is sat
+     * to january and the year is incremented.
      */
     @FXML
     private void nextMonth() {
@@ -552,9 +581,10 @@ public class trainingDiaryController {
     }
 
     /**
-     * Metoden som kalles når en økt blir valgt
+     * Method that displays popup with toString-content to a workout when a workout
+     * is selected in calendar.
      * 
-     * @param workout Workout økt som skal vises
+     * @param workout IWorkout to be shown
      */
     private void handleWorkoutSelect(IWorkout workout) {
         Stage stage = new Stage();
@@ -585,7 +615,7 @@ public class trainingDiaryController {
             try {
                 fileManager.write(file, diary);
                 feedbackSave.setText("'" + file + "' was saved!");
-                initialize();
+                setFilenames();
 
             } catch (FileNotFoundException e) {
                 feedbackSave.setText(
@@ -599,7 +629,6 @@ public class trainingDiaryController {
         }
 
         feedbackLoad.setText("");
-
     }
 
     /**

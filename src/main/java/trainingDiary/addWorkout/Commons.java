@@ -92,7 +92,7 @@ public class Commons {
      * @param workout IWorkout to get date set
      * @return IWorkout with date sat
      * @throws IllegalArgumentException       If date i sin the future
-     * @throws PatternSyntaxExcpetion         If time is on wrong format
+     * @throws PatternSyntaxException         If time is on wrong format
      * @throws ArrayIndexOutOfBoundsException If time is on the wrong format
      * @throws DateTimeException              If time contains invalid timevalues
      * @throws NullPointerException           If date is sat with ilegal time

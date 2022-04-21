@@ -16,25 +16,24 @@ public class Run implements IWorkout {
     private WorkoutValidate validator = new WorkoutValidate();
 
     /**
-     * Konstruktør til å sette tilstand til Run-objektet. Tar inn parameterverdier,
-     * validerer og setter disse.
+     * Consturctor
      * 
-     * @param dateTime         LocalDateTime tilhørende datoen til økten
-     * @param duration         Int varighet på økt
-     * @param distance         Int lengde på løpetur i kilometer
-     * @param rating           Char tallverdi for karrakter på økten
-     * @param content          String tekstinnhold til økten
-     * @param averageHeartRate Int gjennomsnitt puls
-     * @param maxHeartRate     Int makspuls
+     * @param dateTime         LocalDateTime of Run
+     * @param duration         int duration of Run in minutes
+     * @param distance         int distance of Run in meters
+     * @param rating           char rating of Run
+     * @param comment          String comments to Run
+     * @param averageHeartRate int Average heartrate of Run (BPM)
+     * @param maxHeartRate     int Maximum heartrate of run (BPM)
      */
-    public Run(LocalDateTime dateTime, int duration, int distance, char rating, String content, int averageHeartRate,
+    public Run(LocalDateTime dateTime, int duration, int distance, char rating, String comment, int averageHeartRate,
             int maxHeartRate) {
 
         setDate(dateTime);
         setDuration(duration);
         setDistance(distance);
         setRating(rating);
-        setContent(content);
+        setComment(comment);
         setMaxHeartRate(maxHeartRate);
         setAvaerageHeartRate(averageHeartRate);
         setAverageSpeed();
@@ -44,9 +43,10 @@ public class Run implements IWorkout {
     }
 
     /**
-     * Validerer om lengden på økten i km er gyldig. Utløser unntak hvis ikke.
+     * Validates distance, throws exception if distance is less or equal or less
+     * than 0 or greater than 100000
      * 
-     * @param distance Int tallverdi som representerer lengden på løpetur.
+     * @param distance int distance of run i meters
      */
     private void validateDistance(int distance) {
 
@@ -56,10 +56,6 @@ public class Run implements IWorkout {
             throw new IllegalArgumentException("Invalid distance, cannot be greater than 100km\n");
     }
 
-    private void validateContent(String content) {
-        // TO-DO
-    }
-
     @Override
     public void setDate(LocalDateTime date) {
         validator.ValidateDate(date);
@@ -67,9 +63,8 @@ public class Run implements IWorkout {
     }
 
     @Override
-    public void setContent(String content) {
-        validateContent(content);
-        this.comments = content;
+    public void setComment(String comment) {
+        this.comments = comment;
     }
 
     @Override
@@ -84,11 +79,21 @@ public class Run implements IWorkout {
         this.duration = duration;
     }
 
+    /**
+     * Sets distance of run if distance has valid value
+     * 
+     * @param distance
+     */
     public void setDistance(int distance) {
         validateDistance(distance);
         this.distance = distance;
     }
 
+    /**
+     * Sets average heartrate if value is valid
+     * 
+     * @param avaerageHeartRate int average heartrate (BPM)
+     */
     public void setAvaerageHeartRate(int avaerageHeartRate) {
         validateHeartRate(avaerageHeartRate);
         if (avaerageHeartRate > maxHeartRate)
@@ -96,27 +101,30 @@ public class Run implements IWorkout {
         this.averageHeartRate = avaerageHeartRate;
     }
 
+    /**
+     * Sets maximum heartrate if value is valid
+     * 
+     * @param maxHeartRate int maximum heartrate (BPM)
+     */
     public void setMaxHeartRate(int maxHeartRate) {
         validateHeartRate(maxHeartRate);
         this.maxHeartRate = maxHeartRate;
     }
 
     /**
-     * Valideringsmetode som tar inn en pulsverdi og validerer denne. Utløser unntak
-     * hvis ikke.
+     * Validates heartrate, must be greater than 39 and less than 226
      * 
-     * @param heartRate Int pulsverdi
+     * @param heartRate int heartrate (BPM)
      */
     private void validateHeartRate(int heartRate) {
-        if (heartRate <= 0)
-            throw new IllegalArgumentException("heartrate should be grater than 0\n");
+        if (heartRate < 40)
+            throw new IllegalArgumentException("heartrate should be grater or equal than 40\n");
         if (heartRate > 225)
             throw new IllegalArgumentException("heartrate cannot be grater than 225\n");
     }
 
     /**
-     * Beregner gjennomsnittsfart ut ifra lengden og varighet.
-     * 
+     * Calculates averagespeed of run
      */
     public void setAverageSpeed() {
         this.averageSpeed = (((double) this.distance / 1000) / ((double) this.duration / 60));
