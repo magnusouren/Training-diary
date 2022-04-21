@@ -2,8 +2,6 @@ package trainingDiary.addWorkout;
 
 import java.util.List;
 
-import javafx.css.PseudoClass;
-import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import trainingDiary.Exercise;
 
@@ -23,15 +21,15 @@ public class AddExercise extends Commons {
      * @param reps   List<TextField> with values of reps
      * @return boolean validationStatus
      */
-    public boolean validate(TextField name, TextField weight, List<TextField> reps) {
+    public boolean isValid(TextField name, TextField weight, List<TextField> reps) {
 
-        setName(name);
-        setWeight(weight);
+        valName(name);
+        valWeight(weight);
 
         boolean containsRep = false;
         for (TextField field : reps) {
             if (!field.getText().isBlank()) {
-                addRep(field);
+                valRep(field);
                 containsRep = true;
             }
         }
@@ -46,46 +44,33 @@ public class AddExercise extends Commons {
     }
 
     /**
-     * @return Exercise with valid fields only
-     */
-    public Exercise getExercise() {
-        return exercise;
-    }
-
-    /**
-     * @return String with errormessages
-     */
-    public String getMessage() {
-        return message;
-    }
-
-    /**
      * Validates name and sets name if value is valid.
      * Styles inutfield acoording to validity.
      * Sets correct errormessage if name is invalid.
      * If name is invalid, validattionstatus is set to false.
      * 
-     * @param name
+     * @param name TextField with name of exercise as value
      */
-    private void setName(TextField name) {
+    private void valName(TextField name) {
         try {
             String nameVal = name.getText();
             exercise.setName(nameVal);
-
             styleInput(name, true);
         } catch (IllegalArgumentException e) {
-            styleInput(name, false);
             message += e.getLocalizedMessage();
             validationStatus = false;
+            styleInput(name, false);
         }
     }
 
     /**
      * Validates weight and sets weight if it value is valid.
+     * If field is empty, weight is sat to 0 because an exercise don't need to have
+     * a weight
      * 
-     * @param weight
+     * @param weight TextField with weight of exercise as value
      */
-    private void setWeight(TextField weight) {
+    private void valWeight(TextField weight) {
         try {
             int weightVal = Integer.parseInt(weight.getText());
             exercise.setWeight(weightVal);
@@ -95,16 +80,16 @@ public class AddExercise extends Commons {
             if (weight.getText().isBlank()) {
                 exercise.setWeight(0);
                 styleInput(weight, true);
+                return;
             } else {
-                styleInput(weight, false);
-                message += "Illegal weight, must be a number!";
-                validationStatus = false;
+                message += "Illegal weight, weight must be a number!\n";
             }
         } catch (IllegalArgumentException e) {
-            styleInput(weight, false);
-            message += e.getLocalizedMessage() + "\n";
-            validationStatus = false;
+            message += e.getLocalizedMessage();
         }
+        validationStatus = false;
+        styleInput(weight, false);
+
     }
 
     /**
@@ -112,18 +97,32 @@ public class AddExercise extends Commons {
      * 
      * @param weight TextField med nummerverdi for vekt
      */
-    private void addRep(TextField rep) {
+    private void valRep(TextField rep) {
         try {
             int repVal = Integer.parseInt(rep.getText());
             exercise.addRep(repVal);
             styleInput(rep, true);
             return;
         } catch (NumberFormatException e) {
-            message += "Invalid set, must consists of numbers only";
+            message += "Invalid set, must be numbers only\n";
         } catch (IllegalArgumentException e) {
-            message += e.getLocalizedMessage() + "\n";
+            message += e.getLocalizedMessage();
         }
         styleInput(rep, false);
 
+    }
+
+    /**
+     * @return Exercise with valid fields only
+     */
+    public Exercise getExercise() {
+        return exercise;
+    }
+
+    /**
+     * @return String errormessage corresponding to its validity
+     */
+    public String getMessage() {
+        return message;
     }
 }

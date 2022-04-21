@@ -109,9 +109,9 @@ public class Run implements IWorkout {
      */
     private void validateHeartRate(int heartRate) {
         if (heartRate <= 0)
-            throw new IllegalArgumentException("heartrate should be grater than 0");
+            throw new IllegalArgumentException("heartrate should be grater than 0\n");
         if (heartRate > 225)
-            throw new IllegalArgumentException("heartrate cannot be grater than 225");
+            throw new IllegalArgumentException("heartrate cannot be grater than 225\n");
     }
 
     /**

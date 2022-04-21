@@ -39,7 +39,7 @@ public class Commons {
      * @param workout  IWorkout that gets duration set
      * @return IWorkout with valid duration
      */
-    protected IWorkout valDuration(TextField duration, IWorkout workout) {
+    protected void valDuration(TextField duration, IWorkout workout) {
 
         try {
             styleInput(duration, false);
@@ -66,8 +66,6 @@ public class Commons {
         } catch (DateTimeException e) {
             throw new DateTimeException("Invalid duration, invalid values for hours and/or minutes\n");
         }
-        return workout;
-
     }
 
     /**
@@ -78,12 +76,11 @@ public class Commons {
      * @return IWorkout with valid rating
      * @throws IllegalArgumentException If chosen value is not in the interval 1-6.
      */
-    protected IWorkout valRating(ChoiceBox<String> rating, IWorkout workout) throws IllegalArgumentException {
+    protected void valRating(ChoiceBox<String> rating, IWorkout workout) throws IllegalArgumentException {
         styleInput(rating, false);
         char ratingVal = rating.getValue().charAt(0);
         workout.setRating(ratingVal);
         styleInput(rating, true);
-        return workout;
     }
 
     /**
@@ -100,7 +97,7 @@ public class Commons {
      * @throws DateTimeException              If time contains invalid timevalues
      * @throws NullPointerException           If date is sat with ilegal time
      */
-    protected IWorkout valDate(DatePicker date, TextField time, IWorkout workout)
+    protected void valDate(DatePicker date, TextField time, IWorkout workout)
             throws IllegalArgumentException, ArrayIndexOutOfBoundsException, DateTimeException {
 
         styleInput(date.getEditor(), false);
@@ -111,8 +108,6 @@ public class Commons {
 
         styleInput(date.getEditor(), true);
         styleInput(time, true);
-
-        return workout;
 
     }
 

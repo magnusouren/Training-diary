@@ -360,7 +360,7 @@ public class trainingDiaryController {
     private void addRun() {
         AddRun addRun = new AddRun();
 
-        if (addRun.validate(runDate, runTime, runDuration, runDistance, runRating, runMaxHr, runAvgHr,
+        if (addRun.isValid(runDate, runTime, runDuration, runDistance, runRating, runMaxHr, runAvgHr,
                 runComments)) {
 
             addWorkout(addRun.getRun());
@@ -385,7 +385,7 @@ public class trainingDiaryController {
     private void addStrength() {
         AddStrength addStrength = new AddStrength();
 
-        if (addStrength.validate(strengthDate, strengthTime, strengthDuration, strengthRating, strengthComments)) {
+        if (addStrength.isValid(strengthDate, strengthTime, strengthDuration, strengthRating, strengthComments)) {
             switchStrengthInput(false);
             tempStrength = addStrength.getStrength();
 
@@ -408,7 +408,7 @@ public class trainingDiaryController {
     private void addExercise() {
         AddExercise addExercise = new AddExercise();
 
-        if (addExercise.validate(exerciseName, exerciseWeight,
+        if (addExercise.isValid(exerciseName, exerciseWeight,
                 List.of(exerciseSet1, exerciseSet2, exerciseSet3, exerciseSet4))) {
 
             tempStrength.addExercise(addExercise.getExercise());

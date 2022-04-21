@@ -8,9 +8,10 @@ import java.util.Collection;
 public class WorkoutValidate {
 
     /**
-     * Trenger mer her
+     * Checks if date is a in the past
      * 
-     * @param date
+     * @param date LocalDateTime for the exercise.
+     * @throws IllegalArgumentException If date is in the future
      */
     public void ValidateDate(LocalDateTime date) {
 
@@ -23,10 +24,12 @@ public class WorkoutValidate {
     }
 
     /**
-     * Valideringsmetode som sjekker om varighet på økten er gyldig. Satt makstid er
-     * bestemt til 5 timer. Utløser unntak hvis ugyldig.
+     * Validates if the duration of the workout is legal.
+     * Must be greater than 0:00 and less or equal than 5:00.
      * 
-     * @param duration int varighet i minutter på økt.
+     * @param duration int duration of workout
+     * @throws IllegalArgumentException if duration is not in the interval
+     *                                  [0:01-5:00]
      */
     public void validateDuration(int duration) {
         if (duration <= 0)
@@ -36,10 +39,11 @@ public class WorkoutValidate {
     }
 
     /**
-     * Tar inn en rating og validerer om denne er i en liste med gyldige verdier.
-     * Utløser unntak hvis ikke
+     * Validates if rating has a valid value.
+     * Must be in the interval [1-6].
      * 
-     * @param rating char rating som skal være tallverdi fra 1-6
+     * @param rating char rating of the exercise
+     * @throws IllegalArgumentException If ranking is not in the interval [1-6]
      */
     public void validateRating(char rating) {
         Collection<Character> values = new ArrayList<>();

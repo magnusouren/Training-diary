@@ -13,13 +13,13 @@ public class AddStrength extends Commons {
 
     private Strength strength = new Strength();
 
-    public boolean validate(DatePicker date, TextField time, TextField duration,
+    public boolean isValid(DatePicker date, TextField time, TextField duration,
             ChoiceBox<String> rating,
             TextArea comments) {
 
-        setDate(date, time);
-        setDuration(duration);
-        setRating(rating);
+        valDate(date, time);
+        valDuration(duration);
+        valRating(rating);
         strength.setContent(comments.getText());
 
         return validationStatus;
@@ -35,7 +35,7 @@ public class AddStrength extends Commons {
      * @param date DatePicker with datevalue
      * @param time TextField with timevalue
      */
-    private void setDate(DatePicker date, TextField time) {
+    private void valDate(DatePicker date, TextField time) {
         try {
             super.valDate(date, time, strength);
         } catch (Exception e) {
@@ -51,7 +51,7 @@ public class AddStrength extends Commons {
      * 
      * @param duration TextField with duration-value
      */
-    private void setDuration(TextField duration) {
+    private void valDuration(TextField duration) {
         try {
             super.valDuration(duration, strength);
         } catch (Exception e) {
@@ -68,7 +68,7 @@ public class AddStrength extends Commons {
      * 
      * @param rating ChoiceBox<String> with value chosen by user
      */
-    private void setRating(ChoiceBox<String> rating) {
+    private void valRating(ChoiceBox<String> rating) {
         try {
             super.valRating(rating, strength);
         } catch (IllegalArgumentException e) {
@@ -78,14 +78,15 @@ public class AddStrength extends Commons {
     }
 
     /**
-     * Returnerer Workout som er initilaisert med gyldige verdier
-     * 
-     * @return Workout
+     * @return Strength with valid fields only.
      */
     public Strength getStrength() {
         return strength;
     }
 
+    /**
+     * @return String errormessage corresponding to its validity
+     */
     public String getMessage() {
         return this.errorMessage;
     }

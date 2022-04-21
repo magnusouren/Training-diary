@@ -23,15 +23,15 @@ public class Exercise {
 
     public void setName(String name) {
         if (!name.matches("[a-zA-Z]+"))
-            throw new IllegalArgumentException("Illegal name, must contain letters");
+            throw new IllegalArgumentException("Illegal name, must contain letters\n");
         this.name = name;
     }
 
     public void setWeight(int weigth) {
         if (weigth < 0)
-            throw new IllegalArgumentException("Illegal weight, must be greater than 0");
+            throw new IllegalArgumentException("Illegal weight, must be greater than 0\n");
         if (weigth > 300)
-            throw new IllegalArgumentException("Illegal weight, must be less than 300");
+            throw new IllegalArgumentException("Illegal weight, must be less than 300\n");
         this.weight = weigth;
     }
 
@@ -43,7 +43,7 @@ public class Exercise {
      */
     public void addRep(int rep) {
         if (rep <= 0) {
-            throw new IllegalArgumentException("Illegal set, must be greater than 0");
+            throw new IllegalArgumentException("Illegal set, must be greater than 0\n");
         } else {
             this.reps.add(rep);
         }

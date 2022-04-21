@@ -29,7 +29,7 @@ public class AddRun extends Commons {
      * @param comments TextArea with comments to the workout
      * @return
      */
-    public boolean validate(DatePicker date, TextField time, TextField duration, TextField distance,
+    public boolean isValid(DatePicker date, TextField time, TextField duration, TextField distance,
             ChoiceBox<String> rating,
             TextField maxHr,
             TextField avgHr,
@@ -84,7 +84,6 @@ public class AddRun extends Commons {
             errorMessage += e.getLocalizedMessage();
             validationStatus = false;
         }
-
     }
 
     /**
@@ -183,7 +182,7 @@ public class AddRun extends Commons {
     }
 
     /**
-     * @return String errormessage in terms of validity
+     * @return String errormessage corresponding to its validity
      */
     public String getErrorMessage() {
         return this.errorMessage;
