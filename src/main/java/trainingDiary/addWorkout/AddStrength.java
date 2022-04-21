@@ -20,7 +20,7 @@ public class AddStrength extends Commons {
         valDate(date, time);
         valDuration(duration);
         valRating(rating);
-        strength.setContent(comments.getText());
+        strength.setComment(comments.getText());
 
         return validationStatus;
 

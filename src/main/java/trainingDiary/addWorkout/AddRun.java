@@ -41,7 +41,7 @@ public class AddRun extends Commons {
         valRating(rating);
         valMaxHr(maxHr);
         valAvgHr(avgHr);
-        run.setContent(comments.getText());
+        run.setComment(comments.getText());
 
         if (validationStatus)
             run.setAverageSpeed();
