@@ -5,7 +5,7 @@ import java.util.List;
 import javafx.scene.control.TextField;
 import trainingDiary.Exercise;
 
-public class AddExercise extends Commons {
+public class ValidateExercise extends Commons {
 
     private boolean validationStatus = true;
     private String message = "";

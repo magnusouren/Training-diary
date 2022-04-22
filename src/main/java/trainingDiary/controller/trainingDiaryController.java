@@ -44,9 +44,9 @@ import javafx.stage.Stage;
 import trainingDiary.Diary;
 import trainingDiary.Strength;
 import trainingDiary.IWorkout;
-import trainingDiary.addWorkout.AddExercise;
-import trainingDiary.addWorkout.AddRun;
-import trainingDiary.addWorkout.AddStrength;
+import trainingDiary.addWorkout.ValidateExercise;
+import trainingDiary.addWorkout.ValidateStrength;
+import trainingDiary.addWorkout.ValidateRun;
 import trainingDiary.fileManagement.IfileManager;
 import trainingDiary.fileManagement.TxtFile;
 
@@ -120,11 +120,11 @@ public class trainingDiaryController {
      * collections could be used later
      */
     private void initializeInputElements() {
-        initializeRunFields();
-        initializeExerciseFields();
-        initializeExerciseLabels();
-        initializeStrengthLabels();
-        initializeStrengthFields();
+        setRunFields();
+        setExerciseFields();
+        setExerciseLabels();
+        setStrengthLabels();
+        setStrengthFields();
     }
 
     /**
@@ -274,17 +274,6 @@ public class trainingDiaryController {
     /**
      * Sets textvalues from map to text-element in summary-tab in app.
      */
-    private void summaryStrength() {
-        Map<String, Number> sStrength = diary.getStrengthSummary();
-        SstrengthDuration.setText(sStrength.get("strengthTotDuration").toString());
-        SavgStrengthRating.setText(sStrength.get("strengthAvgRating").toString());
-        SkgLifted.setText(sStrength.get("kgLifted").toString());
-        StotalNumStrength.setText(sStrength.get("totStrengths").toString());
-    }
-
-    /**
-     * Sets textvalues from map to text-element in summary-tab in app.
-     */
     private void summaryTotal() {
         Map<String, Number> sTotal = diary.getTotalSummary();
         StotalDuration.setText(sTotal.get("totDuration").toString());
@@ -304,9 +293,20 @@ public class trainingDiaryController {
     }
 
     /**
+     * Sets textvalues from map to text-element in summary-tab in app.
+     */
+    private void summaryStrength() {
+        Map<String, Number> sStrength = diary.getStrengthSummary();
+        SstrengthDuration.setText(sStrength.get("strengthTotDuration").toString());
+        SavgStrengthRating.setText(sStrength.get("strengthAvgRating").toString());
+        SkgLifted.setText(sStrength.get("kgLifted").toString());
+        StotalNumStrength.setText(sStrength.get("totStrengths").toString());
+    }
+
+    /**
      * Method to add inputfields to collection for easier usage later in.
      */
-    private void initializeRunFields() {
+    private void setRunFields() {
         runFields = new ArrayList<>(
                 Arrays.asList(
                         runTime,
@@ -322,7 +322,7 @@ public class trainingDiaryController {
     /**
      * Method to add inputfields to collection for easier usage later in.
      */
-    private void initializeStrengthFields() {
+    private void setStrengthFields() {
         strengthFields = new ArrayList<>(
                 Arrays.asList(
                         strengthTime,
@@ -336,7 +336,7 @@ public class trainingDiaryController {
     /**
      * Method to add inputfields to collection for easier usage later in.
      */
-    private void initializeExerciseFields() {
+    private void setExerciseFields() {
         exerciseFields = new ArrayList<>(
                 Arrays.asList(
                         exerciseName,
@@ -353,7 +353,7 @@ public class trainingDiaryController {
     /**
      * Method to add inputfields to collection for easier usage later in.
      */
-    private void initializeExerciseLabels() {
+    private void setExerciseLabels() {
         exerciseLabels = new ArrayList<>(
                 Arrays.asList(
                         exerciseLabelName,
@@ -367,7 +367,7 @@ public class trainingDiaryController {
     /**
      * Method to add inputfields to collection for easier usage later in.
      */
-    private void initializeStrengthLabels() {
+    private void setStrengthLabels() {
         strengthLabels = new ArrayList<>(
                 Arrays.asList(
                         strengthLabelDate,
@@ -379,7 +379,7 @@ public class trainingDiaryController {
     /**
      * Method that is calles when user is interacting on the button that saves a
      * run.
-     * Creates a temporary Addrun that contains validationmethods to validate
+     * Creates a temporary ValidateRun that contains validationmethods to validate
      * format on inputfields.
      * If addRun.isValid returns true, the run is beein added to the diary.
      * If addRun.isValid returns false, at least one of the inputs is invalid, and
@@ -387,27 +387,28 @@ public class trainingDiaryController {
      */
     @FXML
     private void addRun() {
-        AddRun addRun = new AddRun();
+        ValidateRun validateRun = new ValidateRun();
 
-        if (addRun.isValid(runDate, runTime, runDuration, runDistance, runRating, runMaxHr, runAvgHr,
+        if (validateRun.isValid(runDate, runTime, runDuration, runDistance, runRating, runMaxHr, runAvgHr,
                 runComments)) {
 
-            addWorkout(addRun.getRun());
+            addWorkout(validateRun.getRun());
 
             clearInput(runFields);
             initialize();
 
         } else {
-            showAlert(AlertType.ERROR, "Invalid inputs on new run", addRun.getErrorMessage());
+            showAlert(AlertType.ERROR, "Invalid inputs on new run", validateRun.getErrorMessage());
         }
-        addRun = null;
+        validateRun = null;
 
     }
 
     /**
      * Method that is calles when user is interacting on the button that saves a
      * strength.
-     * Creates a temporary AddStrength that contains validationmethods to validate
+     * Creates a temporary validateStrength that contains validationmethods to
+     * validate
      * format on inputfields.
      * If addRun.isValid returns true, and the strength is saved as tempStrength,
      * since this strength is later going to get exercises and then be saved.
@@ -416,16 +417,16 @@ public class trainingDiaryController {
      */
     @FXML
     private void addStrength() {
-        AddStrength addStrength = new AddStrength();
+        ValidateStrength validateStrength = new ValidateStrength();
 
-        if (addStrength.isValid(strengthDate, strengthTime, strengthDuration, strengthRating, strengthComments)) {
+        if (validateStrength.isValid(strengthDate, strengthTime, strengthDuration, strengthRating, strengthComments)) {
             switchStrengthInput(false);
-            tempStrength = addStrength.getStrength();
+            tempStrength = validateStrength.getStrength();
 
         } else {
-            showAlert(AlertType.ERROR, "Invalid inputs on new strength", addStrength.getMessage());
+            showAlert(AlertType.ERROR, "Invalid inputs on new strength", validateStrength.getMessage());
         }
-        addStrength = null;
+        validateStrength = null;
 
     }
 
@@ -437,19 +438,19 @@ public class trainingDiaryController {
      */
     @FXML
     private void addExercise() {
-        AddExercise addExercise = new AddExercise();
+        ValidateExercise validateExercise = new ValidateExercise();
 
-        if (addExercise.isValid(exerciseName, exerciseWeight,
+        if (validateExercise.isValid(exerciseName, exerciseWeight,
                 List.of(exerciseSet1, exerciseSet2, exerciseSet3, exerciseSet4))) {
 
-            tempStrength.addExercise(addExercise.getExercise());
-            exerciseFeedback.setText(addExercise.getExercise() + " added!");
+            tempStrength.addExercise(validateExercise.getExercise());
+            exerciseFeedback.setText(validateExercise.getExercise() + " added!");
             clearInput(exerciseFields);
 
         } else {
-            showAlert(AlertType.ERROR, "Invalid inputs on exercise", addExercise.getMessage());
+            showAlert(AlertType.ERROR, "Invalid inputs on exercise", validateExercise.getMessage());
         }
-        addExercise = null;
+        validateExercise = null;
     }
 
     /**
