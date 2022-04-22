@@ -6,7 +6,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import trainingDiary.Strength;
 
-public class AddStrength extends Commons {
+public class ValidateStrength extends Commons {
 
     private boolean validationStatus = true;
     private String errorMessage = "";

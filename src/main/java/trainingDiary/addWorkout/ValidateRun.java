@@ -7,7 +7,7 @@ import javafx.scene.control.TextField;
 import trainingDiary.Run;
 import trainingDiary.IWorkout;
 
-public class AddRun extends Commons {
+public class ValidateRun extends Commons {
 
     private boolean validationStatus = true;
     private String errorMessage = "";
