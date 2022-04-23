@@ -1,6 +1,5 @@
 package trainingDiary.validation;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 import trainingDiary.Run;
