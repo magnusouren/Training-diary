@@ -153,11 +153,9 @@ public class ValidateRun extends Commons {
      * Uses supers valComment to set comment on exercise
      * 
      * @param comment String with comment on workout
-     * @return true - since there is noe validation on comments
      */
-    public boolean valComment(String comment) {
+    public void valComment(String comment) {
         super.valComment(comment, run);
-        return true;
     }
 
     /**

@@ -44,11 +44,11 @@ import javafx.stage.Stage;
 import trainingDiary.Diary;
 import trainingDiary.Strength;
 import trainingDiary.IWorkout;
-import trainingDiary.addWorkout.ValidateExercise;
-import trainingDiary.addWorkout.ValidateStrength;
-import trainingDiary.addWorkout.ValidateRun;
 import trainingDiary.fileManagement.IfileManager;
 import trainingDiary.fileManagement.TxtFile;
+import trainingDiary.validation.ValidateExercise;
+import trainingDiary.validation.ValidateRun;
+import trainingDiary.validation.ValidateStrength;
 
 public class trainingDiaryController {
 
@@ -393,13 +393,17 @@ public class trainingDiaryController {
     }
 
     /**
-     * Method that is calles when user is interacting on the button that saves a
+     * Method that is called when user is interacting on the button that saves a
      * run.
      * Creates a temporary ValidateRun that contains validationmethods to validate
      * format on inputfields.
-     * If addRun.isValid returns true, the run is beein added to the diary.
-     * If addRun.isValid returns false, at least one of the inputs is invalid, and
-     * an alertbox with errormessage is displayed.
+     * 
+     * Validates all input-fields with methods from addRun.
+     * Styles field green if its valid and red if it's invalid
+     * 
+     * If addRun.isValid returns true, the run with valid fields is beeing added to
+     * the diary.
+     * If addRun.isValid returns false an alertbox with errormessage is displayed.
      */
     @FXML
     private void addRun() {
@@ -447,15 +451,18 @@ public class trainingDiaryController {
     }
 
     /**
-     * Method that is calles when user is interacting on the button that saves a
+     * Method that is called when user is interacting on the button that saves a
      * strength.
      * Creates a temporary validateStrength that contains validationmethods to
-     * validate
-     * format on inputfields.
-     * If addRun.isValid returns true, and the strength is saved as tempStrength,
+     * validate inputfields.
+     * 
+     * Validates all input-fields with methods from addStrength.
+     * Styles field green if its valid and red if it's invalid
+     * 
+     * If addStrength.isValid returns true, the strength is saved as tempStrength,
      * since this strength is later going to get exercises and then be saved.
-     * If addRun.isValid returns false, at least one of the inputs is invalid, and
-     * an alertbox with errormessage is displayed.
+     * If addStrength.isValid returns false an alertbox with errormessage is
+     * displayed.
      */
     @FXML
     private void addStrength() {
@@ -492,8 +499,12 @@ public class trainingDiaryController {
 
     /**
      * Method to be called when an exercise should be added to a strength-workout.
-     * If the exercise has valid input-values, the exercise are added to the
-     * strength-workout. If one or many values are invalid, an alertbox is
+     * 
+     * Validates all input-fields with methods from addStrength.
+     * Styles field green if its valid and red if it's invalid
+     * 
+     * If the exercise has valid input-values, the exercise is added to the
+     * strength-workout. If values are invalid, an alertbox is
      * displayed with errormessage displayed.
      */
     @FXML
