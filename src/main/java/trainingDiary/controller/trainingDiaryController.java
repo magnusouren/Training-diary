@@ -314,7 +314,7 @@ public class trainingDiaryController {
                         runDistance,
                         runMaxHr,
                         runAvgHr,
-                        runDate.getEditor(),
+                        runDate,
                         runRating,
                         runComments));
     }
@@ -327,7 +327,7 @@ public class trainingDiaryController {
                 Arrays.asList(
                         strengthTime,
                         strengthDuration,
-                        strengthDate.getEditor(),
+                        strengthDate,
                         strengthRating,
                         strengthComments,
                         btnAddStrength));
@@ -407,6 +407,8 @@ public class trainingDiaryController {
 
         for (Control field : runFields) {
             styleInput(field, false);
+            if (field instanceof DatePicker)
+                styleInput(((DatePicker) field).getEditor(), false);
         }
 
         if (validateRun.valDate(runDate.getValue(), runTime.getText())) {
@@ -460,6 +462,8 @@ public class trainingDiaryController {
         ValidateStrength validateStrength = new ValidateStrength();
         for (Node field : strengthFields) {
             styleInput(field, false);
+            if (field instanceof DatePicker)
+                styleInput(((DatePicker) field).getEditor(), false);
         }
 
         if (validateStrength.valDate(strengthDate.getValue(), strengthTime.getText())) {
@@ -611,6 +615,10 @@ public class trainingDiaryController {
                 ((TextField) f).clear();
             else if (f instanceof TextArea)
                 ((TextArea) f).clear();
+            else if (f instanceof DatePicker) {
+                ((DatePicker) f).getEditor().pseudoClassStateChanged(errorClass, false);
+                ((DatePicker) f).getEditor().pseudoClassStateChanged(validClass, false);
+            }
         });
 
     }
