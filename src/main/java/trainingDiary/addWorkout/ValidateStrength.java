@@ -1,5 +1,9 @@
 package trainingDiary.addWorkout;
 
+import java.time.LocalDate;
+
+import javax.security.auth.login.FailedLoginException;
+
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
@@ -13,17 +17,20 @@ public class ValidateStrength extends Commons {
 
     private Strength strength = new Strength();
 
-    public boolean isValid(DatePicker date, TextField time, TextField duration,
-            ChoiceBox<String> rating,
-            TextArea comments) {
+    // public boolean isValid(DatePicker date, TextField time, TextField duration,
+    // ChoiceBox<String> rating,
+    // TextArea comments) {
 
-        valDate(date, time);
-        valDuration(duration);
-        valRating(rating);
-        strength.setComment(comments.getText());
+    // valDate(date, time);
+    // valDuration(duration);
+    // valRating(rating);
+    // strength.setComment(comments.getText());
 
+    // return validationStatus;
+
+    // }
+    public boolean isValid() {
         return validationStatus;
-
     }
 
     /**
@@ -35,12 +42,14 @@ public class ValidateStrength extends Commons {
      * @param date DatePicker with datevalue
      * @param time TextField with timevalue
      */
-    private void valDate(DatePicker date, TextField time) {
+    public boolean valDate(LocalDate date, String time) {
         try {
             super.valDate(date, time, strength);
+            return true;
         } catch (Exception e) {
             errorMessage += e.getLocalizedMessage();
             validationStatus = false;
+            return false;
         }
     }
 
@@ -51,12 +60,14 @@ public class ValidateStrength extends Commons {
      * 
      * @param duration TextField with duration-value
      */
-    private void valDuration(TextField duration) {
+    public boolean valDuration(String duration) {
         try {
             super.valDuration(duration, strength);
+            return true;
         } catch (Exception e) {
             errorMessage += e.getLocalizedMessage();
             validationStatus = false;
+            return false;
         }
 
     }
@@ -68,13 +79,20 @@ public class ValidateStrength extends Commons {
      * 
      * @param rating ChoiceBox<String> with value chosen by user
      */
-    private void valRating(ChoiceBox<String> rating) {
+    public boolean valRating(String rating) {
         try {
             super.valRating(rating, strength);
+            return true;
         } catch (IllegalArgumentException e) {
             errorMessage += e.getLocalizedMessage();
             validationStatus = false;
+            return false;
         }
+    }
+
+    public boolean valComment(String comment) {
+        super.valComment(comment, strength);
+        return true;
     }
 
     /**

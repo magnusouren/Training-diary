@@ -1,6 +1,7 @@
 package trainingDiary.addWorkout;
 
 import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.regex.PatternSyntaxException;
@@ -32,6 +33,27 @@ public class Commons {
     }
 
     /**
+     * Validates date and time-values validates, styles the fields relative to its
+     * validity. Sets LocalDateTime to workout if values are valid
+     * 
+     * @param date    DatePicker with date-value
+     * @param time    TextField with time-value
+     * @param workout IWorkout to get date set
+     * @return IWorkout with date sat
+     * @throws IllegalArgumentException       If date i sin the future
+     * @throws PatternSyntaxException         If time is on wrong format
+     * @throws ArrayIndexOutOfBoundsException If time is on the wrong format
+     * @throws DateTimeException              If time contains invalid timevalues
+     * @throws NullPointerException           If date is sat with ilegal time
+     */
+    protected void valDate(LocalDate date, String time, IWorkout workout)
+            throws IllegalArgumentException, ArrayIndexOutOfBoundsException, DateTimeException {
+        LocalDateTime dateTime = LocalDateTime.of(date, valTime(time));
+        workout.setDate(dateTime);
+
+    }
+
+    /**
      * Validates duration and styles inputfield relative to its validity.
      * Sets duration if values are valid.
      * 
@@ -39,12 +61,10 @@ public class Commons {
      * @param workout  IWorkout that gets duration set
      * @return IWorkout with valid duration
      */
-    protected void valDuration(TextField duration, IWorkout workout) {
+    protected void valDuration(String duration, IWorkout workout) {
 
         try {
-            styleInput(duration, false);
-            String durationVal = duration.getText();
-            String[] values = durationVal.split(":");
+            String[] values = duration.split(":");
 
             int hours = Integer.valueOf(values[0]);
             int minutes = Integer.valueOf(values[1]);
@@ -54,7 +74,6 @@ public class Commons {
             minutes = t.getMinute();
 
             workout.setDuration(hours + minutes);
-            styleInput(duration, true);
 
         } catch (PatternSyntaxException e) {
             throw new PatternSyntaxException("Invalid duration, must be on the format 'hh:mm'\n",
@@ -76,39 +95,13 @@ public class Commons {
      * @return IWorkout with valid rating
      * @throws IllegalArgumentException If chosen value is not in the interval 1-6.
      */
-    protected void valRating(ChoiceBox<String> rating, IWorkout workout) throws IllegalArgumentException {
-        styleInput(rating, false);
-        char ratingVal = rating.getValue().charAt(0);
+    protected void valRating(String rating, IWorkout workout) throws IllegalArgumentException {
+        char ratingVal = rating.charAt(0);
         workout.setRating(ratingVal);
-        styleInput(rating, true);
     }
 
-    /**
-     * Validates date and time-values validates, styles the fields relative to its
-     * validity. Sets LocalDateTime to workout if values are valid
-     * 
-     * @param date    DatePicker with date-value
-     * @param time    TextField with time-value
-     * @param workout IWorkout to get date set
-     * @return IWorkout with date sat
-     * @throws IllegalArgumentException       If date i sin the future
-     * @throws PatternSyntaxException         If time is on wrong format
-     * @throws ArrayIndexOutOfBoundsException If time is on the wrong format
-     * @throws DateTimeException              If time contains invalid timevalues
-     * @throws NullPointerException           If date is sat with ilegal time
-     */
-    protected void valDate(DatePicker date, TextField time, IWorkout workout)
-            throws IllegalArgumentException, ArrayIndexOutOfBoundsException, DateTimeException {
-
-        styleInput(date.getEditor(), false);
-        styleInput(time, false);
-
-        LocalDateTime dateTime = LocalDateTime.of(date.getValue(), valTime(time));
-        workout.setDate(dateTime);
-
-        styleInput(date.getEditor(), true);
-        styleInput(time, true);
-
+    protected void valComment(String comment, IWorkout workout) {
+        workout.setComment(comment);
     }
 
     /**
@@ -122,11 +115,10 @@ public class Commons {
      * @throws DateTimeException              If the value of minutes or hours is
      *                                        out of valid range
      */
-    private LocalTime valTime(TextField time) {
+    private LocalTime valTime(String time) {
         String error = "Invalid date, cannot set date with illegal time\n";
         try {
-            String timeVal = time.getText();
-            String[] timeValues = timeVal.split(":");
+            String[] timeValues = time.split(":");
 
             int hours = Integer.valueOf(timeValues[0]);
             int minutes = Integer.valueOf(timeValues[1]);

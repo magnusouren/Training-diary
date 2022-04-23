@@ -1,5 +1,7 @@
 package trainingDiary.addWorkout;
 
+import java.time.LocalDate;
+
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
@@ -14,40 +16,45 @@ public class ValidateRun extends Commons {
 
     private Run run = new Run();
 
-    /**
-     * Method that calls on all methods the inputs that needs to be validatetd to
-     * initialize a valid
-     * Run-object.
-     * 
-     * @param date     DatePicker with datevalue
-     * @param time     TextField with timevalue
-     * @param duration TextField with duration-value
-     * @param distance TextField with distance-value
-     * @param rating   ChoiceBox<String> with rating-value
-     * @param maxHr    TextField with maximum heartrate-value
-     * @param avgHr    TextField with average heartrate-value
-     * @param comments TextArea with comments to the workout
-     * @return
-     */
-    public boolean isValid(DatePicker date, TextField time, TextField duration, TextField distance,
-            ChoiceBox<String> rating,
-            TextField maxHr,
-            TextField avgHr,
-            TextArea comments) {
+    // /**
+    // * Method that calls on all methods the inputs that needs to be validatetd to
+    // * initialize a valid
+    // * Run-object.
+    // *
+    // * @param date DatePicker with datevalue
+    // * @param time TextField with timevalue
+    // * @param duration TextField with duration-value
+    // * @param distance TextField with distance-value
+    // * @param rating ChoiceBox<String> with rating-value
+    // * @param maxHr TextField with maximum heartrate-value
+    // * @param avgHr TextField with average heartrate-value
+    // * @param comments TextArea with comments to the workout
+    // * @return
+    // */
+    // public boolean isValid(DatePicker date, TextField time, TextField duration,
+    // TextField distance,
+    // ChoiceBox<String> rating,
+    // TextField maxHr,
+    // TextField avgHr,
+    // TextArea comments) {
 
-        valDate(date, time);
-        valDuration(duration);
-        valDistance(distance);
-        valRating(rating);
-        valMaxHr(maxHr);
-        valAvgHr(avgHr);
-        run.setComment(comments.getText());
+    // valDate(date, time);
+    // valDuration(duration);
+    // valDistance(distance);
+    // valRating(rating);
+    // valMaxHr(maxHr);
+    // valAvgHr(avgHr);
+    // run.setComment(comments.getText());
 
-        if (validationStatus)
-            run.setAverageSpeed();
+    // if (validationStatus)
+    // run.setAverageSpeed();
 
+    // return validationStatus;
+
+    // }
+
+    public boolean isValid() {
         return validationStatus;
-
     }
 
     /**
@@ -59,12 +66,14 @@ public class ValidateRun extends Commons {
      * @param date DatePicker with datevalue
      * @param time TextField with timevalue
      */
-    private void valDate(DatePicker date, TextField time) {
+    public boolean valDate(LocalDate date, String time) {
         try {
             super.valDate(date, time, run);
+            return true;
         } catch (Exception e) {
             errorMessage += e.getLocalizedMessage();
             validationStatus = false;
+            return false;
         }
 
     }
@@ -77,12 +86,14 @@ public class ValidateRun extends Commons {
      * 
      * @param duration TextField with duration-value
      */
-    private void valDuration(TextField duration) {
+    public boolean valDuration(String duration) {
         try {
             super.valDuration(duration, run);
+            return true;
         } catch (Exception e) {
             errorMessage += e.getLocalizedMessage();
             validationStatus = false;
+            return false;
         }
     }
 
@@ -94,12 +105,14 @@ public class ValidateRun extends Commons {
      * 
      * @param rating ChoiceBox<String> with value chosen by user
      */
-    private void valRating(ChoiceBox<String> rating) {
+    public boolean valRating(String rating) {
         try {
             super.valRating(rating, run);
+            return true;
         } catch (IllegalArgumentException e) {
             errorMessage += e.getLocalizedMessage();
             validationStatus = false;
+            return false;
         }
     }
 
@@ -110,21 +123,18 @@ public class ValidateRun extends Commons {
      * 
      * @param distance TextField with distance-value
      */
-    private void valDistance(TextField distance) {
+    public boolean valDistance(String distance) {
         try {
-            String distanceVal = distance.getText();
-            run.setDistance(Integer.valueOf(distanceVal));
-            styleInput(distance, true);
-            return;
+            run.setDistance(Integer.valueOf(distance));
+            return true;
 
         } catch (NumberFormatException e) {
             errorMessage += "Invalid distance, distance is not a number\n";
         } catch (IllegalArgumentException e) {
             errorMessage += e.getLocalizedMessage();
         }
-
-        styleInput(distance, false);
         validationStatus = false;
+        return false;
 
     }
 
@@ -135,19 +145,17 @@ public class ValidateRun extends Commons {
      * 
      * @param maxHr TextField with average heartrate-value
      */
-    private void valMaxHr(TextField maxHr) {
+    public boolean valMaxHr(String maxHr) {
         try {
-            String maxHrVal = maxHr.getText();
-            run.setMaxHeartRate(Integer.valueOf(maxHrVal));
-            styleInput(maxHr, true);
-            return;
+            run.setMaxHeartRate(Integer.valueOf(maxHr));
+            return true;
         } catch (NumberFormatException e) {
             errorMessage += "Invalid maximum heartrate, enter value\n";
         } catch (IllegalArgumentException e) {
             errorMessage += "Invalid average heartrate, " + e.getLocalizedMessage() + "\n";
         }
         validationStatus = false;
-        styleInput(maxHr, false);
+        return false;
 
     }
 
@@ -158,20 +166,22 @@ public class ValidateRun extends Commons {
      * 
      * @param avgHr TextField with average heartrate-value
      */
-    private void valAvgHr(TextField avgHr) {
+    public boolean valAvgHr(String avgHr) {
         try {
-            String avgHrVal = avgHr.getText();
-            run.setAvaerageHeartRate(Integer.valueOf(avgHrVal));
-            styleInput(avgHr, true);
-            return;
+            run.setAvaerageHeartRate(Integer.valueOf(avgHr));
+            return true;
         } catch (NumberFormatException e) {
             errorMessage += "Invalid average heartrate, enter value\n";
         } catch (IllegalArgumentException e) {
             errorMessage += "Invalid average heartrate, " + e.getLocalizedMessage() + "\n";
         }
         validationStatus = false;
-        styleInput(avgHr, false);
+        return false;
+    }
 
+    public boolean valComment(String comment) {
+        super.valComment(comment, run);
+        return true;
     }
 
     /**

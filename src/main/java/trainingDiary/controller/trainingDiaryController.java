@@ -237,8 +237,8 @@ public class trainingDiaryController {
         strengthRating.setItems(ratings);
         strengthRating.setValue("-- Set rating --");
 
-        runDate.setValue(LocalDate.now()); // Denne kan med fordel flyttes på senere
-        strengthDate.setValue(LocalDate.now()); // Denne kan med fordel flyttes på senere
+        runDate.setValue(LocalDate.now());
+        strengthDate.setValue(LocalDate.now());
 
         setFilenames();
     }
@@ -377,6 +377,22 @@ public class trainingDiaryController {
     }
 
     /**
+     * Styles node dependning on it's validity
+     * 
+     * @param field  Node input-field
+     * @param status boolean valid/invalid input value
+     */
+    private void styleInput(Node field, boolean status) {
+
+        final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
+        final PseudoClass validClass = PseudoClass.getPseudoClass("valid");
+
+        field.pseudoClassStateChanged(validClass, status);
+        field.pseudoClassStateChanged(errorClass, !status);
+
+    }
+
+    /**
      * Method that is calles when user is interacting on the button that saves a
      * run.
      * Creates a temporary ValidateRun that contains validationmethods to validate
@@ -389,8 +405,32 @@ public class trainingDiaryController {
     private void addRun() {
         ValidateRun validateRun = new ValidateRun();
 
-        if (validateRun.isValid(runDate, runTime, runDuration, runDistance, runRating, runMaxHr, runAvgHr,
-                runComments)) {
+        for (Node field : runFields) {
+            styleInput(field, false);
+        }
+
+        if (validateRun.valDate(runDate.getValue(), runTime.getText())) {
+            styleInput(runDate.getEditor(), true);
+            styleInput(runTime, true);
+        }
+        if (validateRun.valDuration(runDuration.getText()))
+            styleInput(runDuration, true);
+
+        if (validateRun.valDistance(runDistance.getText()))
+            styleInput(runDistance, true);
+
+        if (validateRun.valRating(runRating.getValue()))
+            styleInput(runRating, true);
+
+        if (validateRun.valMaxHr(runMaxHr.getText()))
+            styleInput(runMaxHr, true);
+
+        if (validateRun.valAvgHr(runAvgHr.getText()))
+            styleInput(runAvgHr, true);
+
+        validateRun.valComment(runComments.getText());
+
+        if (validateRun.isValid()) {
 
             addWorkout(validateRun.getRun());
 
@@ -418,13 +458,29 @@ public class trainingDiaryController {
     @FXML
     private void addStrength() {
         ValidateStrength validateStrength = new ValidateStrength();
+        for (Node field : strengthFields) {
+            styleInput(field, false);
+        }
 
-        if (validateStrength.isValid(strengthDate, strengthTime, strengthDuration, strengthRating, strengthComments)) {
+        if (validateStrength.valDate(strengthDate.getValue(), strengthTime.getText())) {
+            styleInput(strengthDate.getEditor(), true);
+            styleInput(strengthTime, true);
+        }
+        if (validateStrength.valDuration(strengthDuration.getText()))
+            styleInput(strengthDuration, true);
+
+        if (validateStrength.valRating(strengthRating.getValue()))
+            styleInput(strengthRating, true);
+
+        validateStrength.valComment(strengthComments.getText());
+
+        if (validateStrength.isValid()) {
             switchStrengthInput(false);
             tempStrength = validateStrength.getStrength();
 
         } else {
-            showAlert(AlertType.ERROR, "Invalid inputs on new strength", validateStrength.getMessage());
+            showAlert(AlertType.ERROR, "Invalid inputs on new strength",
+                    validateStrength.getMessage());
         }
         validateStrength = null;
 
