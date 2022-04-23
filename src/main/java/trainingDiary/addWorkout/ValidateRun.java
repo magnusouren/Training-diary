@@ -2,10 +2,6 @@ package trainingDiary.addWorkout;
 
 import java.time.LocalDate;
 
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import trainingDiary.Run;
 import trainingDiary.IWorkout;
 
@@ -15,43 +11,6 @@ public class ValidateRun extends Commons {
     private String errorMessage = "";
 
     private Run run = new Run();
-
-    // /**
-    // * Method that calls on all methods the inputs that needs to be validatetd to
-    // * initialize a valid
-    // * Run-object.
-    // *
-    // * @param date DatePicker with datevalue
-    // * @param time TextField with timevalue
-    // * @param duration TextField with duration-value
-    // * @param distance TextField with distance-value
-    // * @param rating ChoiceBox<String> with rating-value
-    // * @param maxHr TextField with maximum heartrate-value
-    // * @param avgHr TextField with average heartrate-value
-    // * @param comments TextArea with comments to the workout
-    // * @return
-    // */
-    // public boolean isValid(DatePicker date, TextField time, TextField duration,
-    // TextField distance,
-    // ChoiceBox<String> rating,
-    // TextField maxHr,
-    // TextField avgHr,
-    // TextArea comments) {
-
-    // valDate(date, time);
-    // valDuration(duration);
-    // valDistance(distance);
-    // valRating(rating);
-    // valMaxHr(maxHr);
-    // valAvgHr(avgHr);
-    // run.setComment(comments.getText());
-
-    // if (validationStatus)
-    // run.setAverageSpeed();
-
-    // return validationStatus;
-
-    // }
 
     public boolean isValid() {
         return validationStatus;
@@ -126,6 +85,8 @@ public class ValidateRun extends Commons {
     public boolean valDistance(String distance) {
         try {
             run.setDistance(Integer.valueOf(distance));
+            if (validationStatus)
+                run.setAverageSpeed();
             return true;
 
         } catch (NumberFormatException e) {

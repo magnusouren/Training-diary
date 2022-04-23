@@ -1,8 +1,5 @@
 package trainingDiary.addWorkout;
 
-import java.util.List;
-
-import javafx.scene.control.TextField;
 import trainingDiary.Exercise;
 
 public class ValidateExercise extends Commons {
@@ -12,35 +9,8 @@ public class ValidateExercise extends Commons {
 
     private Exercise exercise = new Exercise();
 
-    /**
-     * Calls on methods that validates and sets values that need to be valid to
-     * initialize a valid exercise-object
-     * 
-     * @param name   String name on exercise
-     * @param weight int weight on exercise
-     * @param reps   List<TextField> with values of reps
-     * @return boolean validationStatus
-     */
-    public boolean isValid(TextField name, TextField weight, List<TextField> reps) {
-
-        valName(name);
-        valWeight(weight);
-
-        boolean containsRep = false;
-        for (TextField field : reps) {
-            if (!field.getText().isBlank()) {
-                valRep(field);
-                containsRep = true;
-            }
-        }
-
-        if (!containsRep) {
-            message += "Invalid sets, must contain at least one set";
-            validationStatus = false;
-        }
-
+    public boolean isValid() {
         return validationStatus;
-
     }
 
     /**
@@ -51,16 +21,16 @@ public class ValidateExercise extends Commons {
      * 
      * @param name TextField with name of exercise as value
      */
-    private void valName(TextField name) {
+    public boolean valName(String name) {
         try {
-            String nameVal = name.getText();
+            String nameVal = name;
             exercise.setName(nameVal);
-            styleInput(name, true);
+            return true;
         } catch (IllegalArgumentException e) {
             message += e.getLocalizedMessage();
             validationStatus = false;
-            styleInput(name, false);
         }
+        return false;
     }
 
     /**
@@ -70,17 +40,15 @@ public class ValidateExercise extends Commons {
      * 
      * @param weight TextField with weight of exercise as value
      */
-    private void valWeight(TextField weight) {
+    public boolean valWeight(String weight) {
         try {
-            int weightVal = Integer.parseInt(weight.getText());
+            int weightVal = Integer.parseInt(weight);
             exercise.setWeight(weightVal);
-            styleInput(weight, true);
-            return;
+            return true;
         } catch (NumberFormatException e) {
-            if (weight.getText().isBlank()) {
+            if (weight.isBlank()) {
                 exercise.setWeight(0);
-                styleInput(weight, true);
-                return;
+                return true;
             } else {
                 message += "Illegal weight, weight must be a number!\n";
             }
@@ -88,7 +56,7 @@ public class ValidateExercise extends Commons {
             message += e.getLocalizedMessage();
         }
         validationStatus = false;
-        styleInput(weight, false);
+        return false;
 
     }
 
@@ -97,19 +65,18 @@ public class ValidateExercise extends Commons {
      * 
      * @param weight TextField med nummerverdi for vekt
      */
-    private void valRep(TextField rep) {
+    public boolean valRep(String rep) {
         try {
-            int repVal = Integer.parseInt(rep.getText());
+            int repVal = Integer.parseInt(rep);
             exercise.addRep(repVal);
-            styleInput(rep, true);
-            return;
+            return true;
         } catch (NumberFormatException e) {
             message += "Invalid set, must be numbers only\n";
         } catch (IllegalArgumentException e) {
             message += e.getLocalizedMessage();
         }
-        styleInput(rep, false);
-
+        validationStatus = false;
+        return false;
     }
 
     /**

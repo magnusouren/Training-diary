@@ -405,7 +405,7 @@ public class trainingDiaryController {
     private void addRun() {
         ValidateRun validateRun = new ValidateRun();
 
-        for (Node field : runFields) {
+        for (Control field : runFields) {
             styleInput(field, false);
         }
 
@@ -496,15 +496,36 @@ public class trainingDiaryController {
     private void addExercise() {
         ValidateExercise validateExercise = new ValidateExercise();
 
-        if (validateExercise.isValid(exerciseName, exerciseWeight,
-                List.of(exerciseSet1, exerciseSet2, exerciseSet3, exerciseSet4))) {
+        styleInput(exerciseName, false);
+        styleInput(exerciseWeight, false);
+
+        if (validateExercise.valName(exerciseName.getText()))
+            styleInput(exerciseName, true);
+
+        if (validateExercise.valWeight(exerciseWeight.getText()))
+            styleInput(exerciseWeight, true);
+
+        boolean containsRep = false;
+        for (TextField field : List.of(exerciseSet1, exerciseSet2, exerciseSet3, exerciseSet4)) {
+            if (!field.getText().isEmpty()) {
+                styleInput(field, false);
+                if (validateExercise.valRep(field.getText()))
+                    styleInput(field, true);
+                containsRep = true;
+            }
+        }
+        if (validateExercise.isValid() && containsRep) {
 
             tempStrength.addExercise(validateExercise.getExercise());
             exerciseFeedback.setText(validateExercise.getExercise() + " added!");
             clearInput(exerciseFields);
 
+        } else if (containsRep) {
+            showAlert(AlertType.ERROR, "Invalid inputs on exercise",
+                    validateExercise.getMessage());
         } else {
-            showAlert(AlertType.ERROR, "Invalid inputs on exercise", validateExercise.getMessage());
+            showAlert(AlertType.ERROR, "Invalid inputs on exercise",
+                    validateExercise.getMessage() + "Invalid sets, must contain at least one set\n");
         }
         validateExercise = null;
     }

@@ -6,31 +6,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.regex.PatternSyntaxException;
 
-import javafx.css.PseudoClass;
-import javafx.scene.Node;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
-
 import trainingDiary.IWorkout;
 
 public class Commons {
-
-    /**
-     * Styles node dependning on it's validity
-     * 
-     * @param field  Node input-field
-     * @param status boolean valid/invalid input value
-     */
-    protected void styleInput(Node field, boolean status) {
-
-        final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
-        final PseudoClass validClass = PseudoClass.getPseudoClass("valid");
-
-        field.pseudoClassStateChanged(validClass, status);
-        field.pseudoClassStateChanged(errorClass, !status);
-
-    }
 
     /**
      * Validates date and time-values validates, styles the fields relative to its

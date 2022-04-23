@@ -2,12 +2,6 @@ package trainingDiary.addWorkout;
 
 import java.time.LocalDate;
 
-import javax.security.auth.login.FailedLoginException;
-
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import trainingDiary.Strength;
 
 public class ValidateStrength extends Commons {
