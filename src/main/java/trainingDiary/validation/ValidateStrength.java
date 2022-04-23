@@ -1,4 +1,4 @@
-package trainingDiary.addWorkout;
+package trainingDiary.validation;
 
 import java.time.LocalDate;
 
@@ -11,18 +11,9 @@ public class ValidateStrength extends Commons {
 
     private Strength strength = new Strength();
 
-    // public boolean isValid(DatePicker date, TextField time, TextField duration,
-    // ChoiceBox<String> rating,
-    // TextArea comments) {
-
-    // valDate(date, time);
-    // valDuration(duration);
-    // valRating(rating);
-    // strength.setComment(comments.getText());
-
-    // return validationStatus;
-
-    // }
+    /**
+     * @return validationstatus on Strength
+     */
     public boolean isValid() {
         return validationStatus;
     }
@@ -33,8 +24,9 @@ public class ValidateStrength extends Commons {
      * 
      * Sets correct errormessage if exception is thrown during validation.
      * 
-     * @param date DatePicker with datevalue
-     * @param time TextField with timevalue
+     * @param date LocalDate with datevalue
+     * @param time String with timevalue
+     * @return true/false if date-time is valid/invalid
      */
     public boolean valDate(LocalDate date, String time) {
         try {
@@ -52,7 +44,8 @@ public class ValidateStrength extends Commons {
      * valid.
      * Sets correct errormessage if exception throws during validation.
      * 
-     * @param duration TextField with duration-value
+     * @param duration String with duration-value
+     * @return true/false if duration is valid/invalid
      */
     public boolean valDuration(String duration) {
         try {
@@ -71,7 +64,8 @@ public class ValidateStrength extends Commons {
      * valid value.
      * Sets correct errormessage is exception is thrown during validation.
      * 
-     * @param rating ChoiceBox<String> with value chosen by user
+     * @param rating String with value chosen by user
+     * @return true/false if rating is valid/invalid
      */
     public boolean valRating(String rating) {
         try {
@@ -84,6 +78,12 @@ public class ValidateStrength extends Commons {
         }
     }
 
+    /**
+     * Uses supers valComment to set comment
+     * 
+     * @param comment String comment on workout
+     * @return true - since comment doesn't have any validation
+     */
     public boolean valComment(String comment) {
         super.valComment(comment, strength);
         return true;

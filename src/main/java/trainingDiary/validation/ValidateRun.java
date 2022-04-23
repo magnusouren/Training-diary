@@ -1,4 +1,4 @@
-package trainingDiary.addWorkout;
+package trainingDiary.validation;
 
 import java.time.LocalDate;
 
@@ -12,6 +12,9 @@ public class ValidateRun extends Commons {
 
     private Run run = new Run();
 
+    /**
+     * @return ValidationStatus on Run
+     */
     public boolean isValid() {
         return validationStatus;
     }
@@ -22,8 +25,9 @@ public class ValidateRun extends Commons {
      * Sets correct errormessage if exception is thrown during validation.
      * If date is invalid, validationStatus is set to false
      * 
-     * @param date DatePicker with datevalue
-     * @param time TextField with timevalue
+     * @param date LocalDate with datevalue
+     * @param time String with timevalue
+     * @return true/false if date-time is valid/invalid
      */
     public boolean valDate(LocalDate date, String time) {
         try {
@@ -43,7 +47,8 @@ public class ValidateRun extends Commons {
      * Sets correct errormessage if exception throws during validation.
      * If duration is invalid, validationStatus is set to false
      * 
-     * @param duration TextField with duration-value
+     * @param duration String with duration-value
+     * @return true/false if duration is valid/invalid
      */
     public boolean valDuration(String duration) {
         try {
@@ -62,7 +67,8 @@ public class ValidateRun extends Commons {
      * Sets correct errormessage is exception is thrown during validation.
      * If rating is invalid, validationStatus is set to false.
      * 
-     * @param rating ChoiceBox<String> with value chosen by user
+     * @param rating String with value chosen by user
+     * @return true/false if rating is valid/invalid
      */
     public boolean valRating(String rating) {
         try {
@@ -80,7 +86,8 @@ public class ValidateRun extends Commons {
      * Sets correct errormessage if distance is invalid.
      * If distance is invalid, validationStatus is set to false.
      * 
-     * @param distance TextField with distance-value
+     * @param distance String with distance-value
+     * @return true/false if distance is valid/invalid
      */
     public boolean valDistance(String distance) {
         try {
@@ -104,7 +111,8 @@ public class ValidateRun extends Commons {
      * Sets correct errormessage if value is invalid.
      * If maxHR is invalid, validationStatus is set to false.
      * 
-     * @param maxHr TextField with average heartrate-value
+     * @param maxHr String with average heartrate-value;
+     * @return true/false if maxHR is valid/invalid
      */
     public boolean valMaxHr(String maxHr) {
         try {
@@ -125,7 +133,8 @@ public class ValidateRun extends Commons {
      * Sets correct errormessage if value is invalid.
      * If avgHr is invalid, validationStatus is set to false.
      * 
-     * @param avgHr TextField with average heartrate-value
+     * @param avgHr String with average heartrate-value
+     * @return true/false if avgHr is valid/invalid
      */
     public boolean valAvgHr(String avgHr) {
         try {
@@ -140,6 +149,12 @@ public class ValidateRun extends Commons {
         return false;
     }
 
+    /**
+     * Uses supers valComment to set comment on exercise
+     * 
+     * @param comment String with comment on workout
+     * @return true - since there is noe validation on comments
+     */
     public boolean valComment(String comment) {
         super.valComment(comment, run);
         return true;

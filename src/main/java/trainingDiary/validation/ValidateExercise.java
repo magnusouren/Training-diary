@@ -1,4 +1,4 @@
-package trainingDiary.addWorkout;
+package trainingDiary.validation;
 
 import trainingDiary.Exercise;
 
@@ -15,11 +15,11 @@ public class ValidateExercise extends Commons {
 
     /**
      * Validates name and sets name if value is valid.
-     * Styles inutfield acoording to validity.
      * Sets correct errormessage if name is invalid.
      * If name is invalid, validattionstatus is set to false.
      * 
-     * @param name TextField with name of exercise as value
+     * @param name String with name of exercise as value
+     * @return true/false if name is valid/invalid
      */
     public boolean valName(String name) {
         try {
@@ -34,11 +34,12 @@ public class ValidateExercise extends Commons {
     }
 
     /**
-     * Validates weight and sets weight if it value is valid.
+     * Validates weight and sets weight if it's value is valid.
      * If field is empty, weight is sat to 0 because an exercise don't need to have
      * a weight
      * 
-     * @param weight TextField with weight of exercise as value
+     * @param weight String with weight of exercise as value
+     * @return true/false if weight is valid/invalid
      */
     public boolean valWeight(String weight) {
         try {
@@ -61,9 +62,10 @@ public class ValidateExercise extends Commons {
     }
 
     /**
-     * Setter weight på øvelsen, stilsetter weight etter gyldighet
+     * Sets rep on exercise if it has a valid value
      * 
-     * @param weight TextField med nummerverdi for vekt
+     * @param weight String with integer value of weight
+     * @return true/false if rep is valid/invalid
      */
     public boolean valRep(String rep) {
         try {

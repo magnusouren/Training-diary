@@ -1,4 +1,4 @@
-package trainingDiary.addWorkout;
+package trainingDiary.validation;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -11,13 +11,11 @@ import trainingDiary.IWorkout;
 public class Commons {
 
     /**
-     * Validates date and time-values validates, styles the fields relative to its
-     * validity. Sets LocalDateTime to workout if values are valid
+     * Validates and sets date and time of workout
      * 
-     * @param date    DatePicker with date-value
-     * @param time    TextField with time-value
-     * @param workout IWorkout to get date set
-     * @return IWorkout with date sat
+     * @param date    LocalDate of workout
+     * @param time    String timevalue on format hh:mm
+     * @param workout IWorkout to get date
      * @throws IllegalArgumentException       If date i sin the future
      * @throws PatternSyntaxException         If time is on wrong format
      * @throws ArrayIndexOutOfBoundsException If time is on the wrong format
@@ -32,12 +30,17 @@ public class Commons {
     }
 
     /**
-     * Validates duration and styles inputfield relative to its validity.
-     * Sets duration if values are valid.
+     * Validates duration and sets duration if values are valid.
      * 
-     * @param duration TextField with timevalue
+     * @param duration String with timevalue on format hh:mm
      * @param workout  IWorkout that gets duration set
      * @return IWorkout with valid duration
+     * @throws PatternSyntaxException         if duration doesn't contains ":"
+     * @throws ArrayIndexOutOfBoundsException if duration isn't on the format
+     *                                        'hh:mm'
+     * @throws NumberFormatException          if hours or/and minutes isn't numeric
+     * @throws DateTimeException              if hours or/and minutes has illegal
+     *                                        values
      */
     protected void valDuration(String duration, IWorkout workout) {
 
@@ -68,7 +71,7 @@ public class Commons {
     /**
      * Takes in choose of rating and sets rating if it's a legal value.
      * 
-     * @param rating  ChoiceBox<String> with chosen value
+     * @param rating  String with chosen value
      * @param workout IWorkout that gets rating set
      * @return IWorkout with valid rating
      * @throws IllegalArgumentException If chosen value is not in the interval 1-6.
@@ -85,7 +88,7 @@ public class Commons {
     /**
      * Validates timevalue and returns a LocalTime value with valid value.
      * 
-     * @param time TextField with timevalue
+     * @param time String with timevalue
      * @return LocalTime value of the time when workout started
      * @throws IllegalArgumentException       If timevalue is not a string
      * @throws ArrayIndexOutOfBoundsException If format on time is illegal and
