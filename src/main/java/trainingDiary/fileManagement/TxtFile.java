@@ -1,7 +1,7 @@
 package trainingDiary.fileManagement;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,7 +23,7 @@ import trainingDiary.IWorkout;
 public class TxtFile implements IfileManager {
 
     @Override
-    public void write(String filename, Diary diary) throws FileNotFoundException, RuntimeException {
+    public void write(String filename, Diary diary) throws IOException, RuntimeException {
         try (PrintWriter writer = new PrintWriter(
                 new File("src/main/resources/trainingDiary/saves/" + filename))) {
             for (IWorkout workout : diary.getDiary()) {
@@ -34,7 +34,7 @@ public class TxtFile implements IfileManager {
     }
 
     @Override
-    public Diary read(String filename) throws FileNotFoundException, RuntimeException {
+    public Diary read(String filename) throws IOException, RuntimeException {
         Diary diary = new Diary();
         try (Scanner scanner = new Scanner(new File("src/main/resources/trainingDiary/saves/" + filename))) {
 

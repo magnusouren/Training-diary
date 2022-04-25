@@ -1,7 +1,7 @@
 package trainingDiary.controller;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -377,29 +377,11 @@ public class trainingDiaryController {
     }
 
     /**
-     * Styles node dependning on it's validity
-     * 
-     * @param field  Node input-field
-     * @param status boolean valid/invalid input value
-     */
-    private void styleInput(Node field, boolean status) {
-
-        final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
-        final PseudoClass validClass = PseudoClass.getPseudoClass("valid");
-
-        field.pseudoClassStateChanged(validClass, status);
-        field.pseudoClassStateChanged(errorClass, !status);
-
-    }
-
-    /**
      * Method that is called when user is interacting on the button that saves a
      * run.
-     * Creates a temporary ValidateRun that contains validationmethods to validate
-     * format on inputfields.
      * 
-     * Validates all input-fields with methods from addRun.
-     * Styles field green if its valid and red if it's invalid
+     * Creates a temporary ValidateRun that contains validationmethods to validate
+     * format on all inputfields.
      * 
      * If addRun.isValid returns true, the run with valid fields is beeing added to
      * the diary.
@@ -407,45 +389,20 @@ public class trainingDiaryController {
      */
     @FXML
     private void addRun() {
-        ValidateRun validateRun = new ValidateRun();
 
-        for (Control field : runFields) {
-            styleInput(field, false);
-            if (field instanceof DatePicker)
-                styleInput(((DatePicker) field).getEditor(), false);
-        }
-
-        if (validateRun.valDate(runDate.getValue(), runTime.getText())) {
-            styleInput(runDate.getEditor(), true);
-            styleInput(runTime, true);
-        }
-        if (validateRun.valDuration(runDuration.getText()))
-            styleInput(runDuration, true);
-
-        if (validateRun.valDistance(runDistance.getText()))
-            styleInput(runDistance, true);
-
-        if (validateRun.valRating(runRating.getValue()))
-            styleInput(runRating, true);
-
-        if (validateRun.valMaxHr(runMaxHr.getText()))
-            styleInput(runMaxHr, true);
-
-        if (validateRun.valAvgHr(runAvgHr.getText()))
-            styleInput(runAvgHr, true);
-
-        validateRun.valComment(runComments.getText());
+        ValidateRun validateRun = new ValidateRun(runDate, runTime, runDuration, runDistance, runRating, runMaxHr,
+                runAvgHr, runComments);
 
         if (validateRun.isValid()) {
 
             addWorkout(validateRun.getRun());
-
             clearInput(runFields);
             initialize();
 
         } else {
             showAlert(AlertType.ERROR, "Invalid inputs on new run", validateRun.getErrorMessage());
         }
+
         validateRun = null;
 
     }
@@ -453,46 +410,31 @@ public class trainingDiaryController {
     /**
      * Method that is called when user is interacting on the button that saves a
      * strength.
+     * 
      * Creates a temporary validateStrength that contains validationmethods to
      * validate inputfields.
      * 
-     * Validates all input-fields with methods from addStrength.
-     * Styles field green if its valid and red if it's invalid
-     * 
-     * If addStrength.isValid returns true, the strength is saved as tempStrength,
-     * since this strength is later going to get exercises and then be saved.
-     * If addStrength.isValid returns false an alertbox with errormessage is
+     * If validateStrength.isValid returns true, the strength is saved as
+     * tempStrength, since this strength is later going to get exercises and then be
+     * saved.
+     * If validateStrength.isValid returns false an alertbox with errormessage is
      * displayed.
      */
     @FXML
     private void addStrength() {
-        ValidateStrength validateStrength = new ValidateStrength();
-        for (Node field : strengthFields) {
-            styleInput(field, false);
-            if (field instanceof DatePicker)
-                styleInput(((DatePicker) field).getEditor(), false);
-        }
 
-        if (validateStrength.valDate(strengthDate.getValue(), strengthTime.getText())) {
-            styleInput(strengthDate.getEditor(), true);
-            styleInput(strengthTime, true);
-        }
-        if (validateStrength.valDuration(strengthDuration.getText()))
-            styleInput(strengthDuration, true);
-
-        if (validateStrength.valRating(strengthRating.getValue()))
-            styleInput(strengthRating, true);
-
-        validateStrength.valComment(strengthComments.getText());
+        ValidateStrength validateStrength = new ValidateStrength(strengthDate, strengthTime, strengthDuration,
+                strengthRating, strengthComments);
 
         if (validateStrength.isValid()) {
+
             switchStrengthInput(false);
             tempStrength = validateStrength.getStrength();
 
         } else {
-            showAlert(AlertType.ERROR, "Invalid inputs on new strength",
-                    validateStrength.getMessage());
+            showAlert(AlertType.ERROR, "Invalid inputs on new strength", validateStrength.getMessage());
         }
+
         validateStrength = null;
 
     }
@@ -500,48 +442,32 @@ public class trainingDiaryController {
     /**
      * Method to be called when an exercise should be added to a strength-workout.
      * 
-     * Validates all input-fields with methods from addStrength.
-     * Styles field green if its valid and red if it's invalid
+     * Creates a temporary validateExercise that contains validationmethods to
+     * validate inputfields.
      * 
-     * If the exercise has valid input-values, the exercise is added to the
-     * strength-workout. If values are invalid, an alertbox is
-     * displayed with errormessage displayed.
+     * If validateExercise.isValid returns true, the exercise is added to
+     * tempstrength. And inputfields are cleared.
+     * 
+     * If validateExercise.isValid returns false, an alertbox with errormessage is
+     * displayed.
      */
     @FXML
     private void addExercise() {
-        ValidateExercise validateExercise = new ValidateExercise();
 
-        styleInput(exerciseName, false);
-        styleInput(exerciseWeight, false);
+        ValidateExercise validateExercise = new ValidateExercise(exerciseName, exerciseWeight,
+                List.of(exerciseSet1, exerciseSet2, exerciseSet3, exerciseSet4));
 
-        if (validateExercise.valName(exerciseName.getText()))
-            styleInput(exerciseName, true);
-
-        if (validateExercise.valWeight(exerciseWeight.getText()))
-            styleInput(exerciseWeight, true);
-
-        boolean containsRep = false;
-        for (TextField field : List.of(exerciseSet1, exerciseSet2, exerciseSet3, exerciseSet4)) {
-            if (!field.getText().isEmpty()) {
-                styleInput(field, false);
-                if (validateExercise.valRep(field.getText()))
-                    styleInput(field, true);
-                containsRep = true;
-            }
-        }
-        if (validateExercise.isValid() && containsRep) {
+        if (validateExercise.isValid()) {
 
             tempStrength.addExercise(validateExercise.getExercise());
             exerciseFeedback.setText(validateExercise.getExercise() + " added!");
             clearInput(exerciseFields);
 
-        } else if (containsRep) {
-            showAlert(AlertType.ERROR, "Invalid inputs on exercise",
-                    validateExercise.getMessage());
         } else {
             showAlert(AlertType.ERROR, "Invalid inputs on exercise",
-                    validateExercise.getMessage() + "Invalid sets, must contain at least one set\n");
+                    validateExercise.getMessage());
         }
+
         validateExercise = null;
     }
 
@@ -553,6 +479,7 @@ public class trainingDiaryController {
     private void saveStrength() {
         addWorkout(tempStrength);
         clearStrength();
+        initialize();
 
     }
 
@@ -584,7 +511,6 @@ public class trainingDiaryController {
 
         switchStrengthInput(true);
         exerciseFeedback.setText("");
-        initialize();
     }
 
     /**
@@ -714,7 +640,7 @@ public class trainingDiaryController {
                 feedbackSave.setText("'" + file + "' was saved!");
                 setFilenames();
 
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
                 feedbackSave.setText(
                         "A problem occurder when tryin to save '" + file + "' \nTry again with a new filename");
             } catch (RuntimeException e) {
@@ -742,7 +668,7 @@ public class trainingDiaryController {
             diary = fileManager.read(file);
             initialize();
             feedbackLoad.setText("'" + file + "' was loaded");
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             feedbackLoad.setText("Choose a file!");
         } catch (RuntimeException e) {
             feedbackLoad.setText("Error, improper values!");

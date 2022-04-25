@@ -2,43 +2,105 @@ package trainingDiary.validation;
 
 import java.time.LocalDate;
 
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import trainingDiary.Run;
 import trainingDiary.IWorkout;
 
 public class ValidateRun extends Commons {
 
-    private boolean validationStatus = true;
-    private String errorMessage = "";
-
     private Run run = new Run();
+    private String message = "";
+    boolean validationStatus = true;
 
-    /**
-     * @return ValidationStatus on Run
-     */
+    public ValidateRun() {
+    }
+
+    public ValidateRun(DatePicker runDate, TextField runTime, TextField runDuration, TextField runDistance,
+            ChoiceBox<String> runRating, TextField runMaxHr, TextField runAvgHr, TextArea runComments) {
+
+        try {
+            valDate(runDate.getValue(), runTime.getText());
+            styleInput(runDate.getEditor(), true);
+            styleInput(runTime, true);
+        } catch (Exception e) {
+            message += e.getLocalizedMessage();
+            validationStatus = false;
+            styleInput(runDate.getEditor(), false);
+            styleInput(runTime, false);
+        }
+
+        try {
+            valDuration(runDuration.getText());
+            styleInput(runDuration, true);
+        } catch (Exception e) {
+            message += e.getLocalizedMessage();
+            validationStatus = false;
+            styleInput(runDuration, false);
+
+        }
+
+        try {
+            valDistance(runDistance.getText());
+            styleInput(runDistance, true);
+        } catch (Exception e) {
+            message += e.getLocalizedMessage();
+            validationStatus = false;
+            styleInput(runDistance, false);
+
+        }
+
+        try {
+            valRating(runRating.getValue());
+            styleInput(runRating, true);
+        } catch (Exception e) {
+            message += e.getLocalizedMessage();
+            validationStatus = false;
+            styleInput(runRating, false);
+        }
+
+        try {
+            valMaxHr(runMaxHr.getText());
+            styleInput(runMaxHr, true);
+        } catch (Exception e) {
+            message += e.getLocalizedMessage();
+            validationStatus = false;
+            styleInput(runMaxHr, false);
+        }
+
+        try {
+            valAvgHr(runAvgHr.getText());
+            styleInput(runAvgHr, true);
+        } catch (Exception e) {
+            message += e.getLocalizedMessage();
+            validationStatus = false;
+            styleInput(runAvgHr, false);
+        }
+
+        valComment(runComments.getText());
+
+    }
+
     public boolean isValid() {
         return validationStatus;
+    }
+
+    public String getErrorMessage() {
+        return message;
     }
 
     /**
      * Uses valDate from super to validate date and time and set date if date and
      * time has valid values.
-     * Sets correct errormessage if exception is thrown during validation.
-     * If date is invalid, validationStatus is set to false
      * 
      * @param date LocalDate with datevalue
      * @param time String with timevalue
      * @return true/false if date-time is valid/invalid
      */
-    public boolean valDate(LocalDate date, String time) {
-        try {
-            super.valDate(date, time, run);
-            return true;
-        } catch (Exception e) {
-            errorMessage += e.getLocalizedMessage();
-            validationStatus = false;
-            return false;
-        }
-
+    void valDate(LocalDate date, String time) throws Exception {
+        super.valDate(date, time, run);
     }
 
     /**
@@ -50,15 +112,8 @@ public class ValidateRun extends Commons {
      * @param duration String with duration-value
      * @return true/false if duration is valid/invalid
      */
-    public boolean valDuration(String duration) {
-        try {
-            super.valDuration(duration, run);
-            return true;
-        } catch (Exception e) {
-            errorMessage += e.getLocalizedMessage();
-            validationStatus = false;
-            return false;
-        }
+    void valDuration(String duration) throws Exception {
+        super.valDuration(duration, run);
     }
 
     /**
@@ -70,15 +125,8 @@ public class ValidateRun extends Commons {
      * @param rating String with value chosen by user
      * @return true/false if rating is valid/invalid
      */
-    public boolean valRating(String rating) {
-        try {
-            super.valRating(rating, run);
-            return true;
-        } catch (IllegalArgumentException e) {
-            errorMessage += e.getLocalizedMessage();
-            validationStatus = false;
-            return false;
-        }
+    void valRating(String rating) throws Exception {
+        super.valRating(rating, run);
     }
 
     /**
@@ -89,21 +137,13 @@ public class ValidateRun extends Commons {
      * @param distance String with distance-value
      * @return true/false if distance is valid/invalid
      */
-    public boolean valDistance(String distance) {
+    void valDistance(String distance) throws NumberFormatException, IllegalArgumentException {
         try {
             run.setDistance(Integer.valueOf(distance));
-            if (validationStatus)
-                run.setAverageSpeed();
-            return true;
-
+            run.setAverageSpeed();
         } catch (NumberFormatException e) {
-            errorMessage += "Invalid distance, distance is not a number\n";
-        } catch (IllegalArgumentException e) {
-            errorMessage += e.getLocalizedMessage();
+            throw new NumberFormatException("Invalid distance, distance is not a number\n");
         }
-        validationStatus = false;
-        return false;
-
     }
 
     /**
@@ -114,18 +154,14 @@ public class ValidateRun extends Commons {
      * @param maxHr String with average heartrate-value;
      * @return true/false if maxHR is valid/invalid
      */
-    public boolean valMaxHr(String maxHr) {
+    void valMaxHr(String maxHr) throws NumberFormatException, IllegalArgumentException {
         try {
             run.setMaxHeartRate(Integer.valueOf(maxHr));
-            return true;
         } catch (NumberFormatException e) {
-            errorMessage += "Invalid maximum heartrate, enter value\n";
+            throw new IllegalArgumentException("Invalid maximum heartrate, enter value\n");
         } catch (IllegalArgumentException e) {
-            errorMessage += "Invalid average heartrate, " + e.getLocalizedMessage() + "\n";
+            throw new IllegalArgumentException("Invalid average heartrate, " + e.getLocalizedMessage() + "\n");
         }
-        validationStatus = false;
-        return false;
-
     }
 
     /**
@@ -136,17 +172,15 @@ public class ValidateRun extends Commons {
      * @param avgHr String with average heartrate-value
      * @return true/false if avgHr is valid/invalid
      */
-    public boolean valAvgHr(String avgHr) {
+    void valAvgHr(String avgHr) throws Exception {
         try {
             run.setAvaerageHeartRate(Integer.valueOf(avgHr));
-            return true;
         } catch (NumberFormatException e) {
-            errorMessage += "Invalid average heartrate, enter value\n";
+            throw new NumberFormatException("Invalid average heartrate, enter value\n");
         } catch (IllegalArgumentException e) {
-            errorMessage += "Invalid average heartrate, " + e.getLocalizedMessage() + "\n";
+            throw new IllegalArgumentException("Invalid average heartrate, " + e.getLocalizedMessage() + "\n");
         }
-        validationStatus = false;
-        return false;
+
     }
 
     /**
@@ -154,7 +188,7 @@ public class ValidateRun extends Commons {
      * 
      * @param comment String with comment on workout
      */
-    public void valComment(String comment) {
+    void valComment(String comment) {
         super.valComment(comment, run);
     }
 
@@ -165,10 +199,4 @@ public class ValidateRun extends Commons {
         return run;
     }
 
-    /**
-     * @return String errormessage corresponding to its validity
-     */
-    public String getErrorMessage() {
-        return this.errorMessage;
-    }
 }

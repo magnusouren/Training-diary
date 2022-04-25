@@ -102,7 +102,7 @@ public class RunTest {
 
     @Test
     public void testMaxHr() {
-        for (int i = 10; i < 225; i += 10) {
+        for (int i = 40; i < 225; i += 10) {
             run.setMaxHeartRate(i);
             assertEquals(i, run.getMaxHeartRate(), "Maximum heartRate Should be " + i + " when sat");
         }
@@ -128,14 +128,14 @@ public class RunTest {
     public void testAvgHr() {
         run.setMaxHeartRate(225);
 
-        for (int i = 10; i < 225; i += 10) {
+        for (int i = 40; i < 225; i += 10) {
             run.setAvaerageHeartRate(i);
             assertEquals(i, run.getAvaerageHeartRate(), "Average heartRate Should be " + i + " when sat");
         }
 
         run.setMaxHeartRate(150);
 
-        for (int i = 10; i < 150; i += 10) {
+        for (int i = 40; i < 150; i += 10) {
             run.setAvaerageHeartRate(i);
             assertEquals(i, run.getAvaerageHeartRate(), "Average heartRate Should be " + i + " when sat");
         }

@@ -6,9 +6,27 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.regex.PatternSyntaxException;
 
+import javafx.css.PseudoClass;
+import javafx.scene.Node;
 import trainingDiary.IWorkout;
 
 public class Commons {
+
+    /**
+     * Styles node dependning on it's validity
+     * 
+     * @param field  Node input-field
+     * @param status boolean valid/invalid input value
+     */
+    protected void styleInput(Node field, boolean status) {
+
+        final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
+        final PseudoClass validClass = PseudoClass.getPseudoClass("valid");
+
+        field.pseudoClassStateChanged(validClass, status);
+        field.pseudoClassStateChanged(errorClass, !status);
+
+    }
 
     /**
      * Validates and sets date and time of workout
@@ -43,6 +61,10 @@ public class Commons {
      *                                        values
      */
     protected void valDuration(String duration, IWorkout workout) {
+
+        duration = duration.strip();
+        if (duration.length() > 5)
+            throw new IllegalArgumentException("Invalid format on duration, must be on the format hh:mm");
 
         try {
             String[] values = duration.split(":");
@@ -98,6 +120,11 @@ public class Commons {
      */
     private LocalTime valTime(String time) {
         String error = "Invalid date, cannot set date with illegal time\n";
+
+        time = time.strip();
+        if (time.length() > 5)
+            throw new IllegalArgumentException("Invalid format on duration, must be on the format hh:mm");
+
         try {
             String[] timeValues = time.split(":");
 

@@ -34,8 +34,8 @@ public class Exercise {
      * @param name String name of exercise
      */
     public void setName(String name) {
-        if (!name.matches("[a-zA-Z]+"))
-            throw new IllegalArgumentException("Illegal name, must contain letters\n");
+        if (!name.matches("[a-zA-Z]{2,}"))
+            throw new IllegalArgumentException("Illegal name, must contain two or more letters\n");
         this.name = name;
     }
 
