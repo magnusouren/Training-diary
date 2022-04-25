@@ -97,7 +97,7 @@ public class Run implements IWorkout {
     public void setAvaerageHeartRate(int avaerageHeartRate) {
         validateHeartRate(avaerageHeartRate);
         if (avaerageHeartRate > maxHeartRate)
-            throw new IllegalArgumentException("Inavlid average heartrate, cannot be greater than maximum heartrate");
+            throw new IllegalArgumentException("cannot be greater than maximum heartrate");
         this.averageHeartRate = avaerageHeartRate;
     }
 
@@ -201,11 +201,6 @@ public class Run implements IWorkout {
                 getAvaerageHeartRate(),
                 getContent());
         return res;
-    }
-
-    public static void main(String[] args) {
-        IWorkout run1 = new Run(LocalDateTime.of(2022, 03, 1, 12, 00), 30, 5000, '5', "Løp 1", 150, 200);
-        System.out.println(run1);
     }
 
 }

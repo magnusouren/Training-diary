@@ -2,6 +2,10 @@ package trainingDiary.validation;
 
 import java.time.LocalDate;
 
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import trainingDiary.Strength;
 
 public class ValidateStrength extends Commons {
@@ -10,6 +14,52 @@ public class ValidateStrength extends Commons {
     private String errorMessage = "";
 
     private Strength strength = new Strength();
+
+    public ValidateStrength() {
+    }
+
+    public ValidateStrength(DatePicker strengthDate, TextField strengthTime, TextField strengthDuration,
+            ChoiceBox<String> strengthRating, TextArea strengthComments) {
+
+        try {
+            valDate(strengthDate.getValue(), strengthTime.getText());
+            styleInput(strengthDate.getEditor(), true);
+            styleInput(strengthTime, true);
+        } catch (Exception e) {
+            validationStatus = false;
+            errorMessage += e.getLocalizedMessage();
+            styleInput(strengthDate.getEditor(), false);
+            styleInput(strengthTime, false);
+        }
+
+        try {
+            valDuration(strengthDuration.getText());
+            styleInput(strengthDuration, true);
+        } catch (Exception e) {
+            validationStatus = false;
+            errorMessage += e.getLocalizedMessage();
+            styleInput(strengthDuration, false);
+        }
+
+        try {
+            valRating(strengthRating.getValue());
+            styleInput(strengthRating, true);
+        } catch (Exception e) {
+            validationStatus = false;
+            errorMessage += e.getLocalizedMessage();
+            styleInput(strengthRating, false);
+
+        }
+
+        try {
+            valComment(strengthComments.getText());
+        } catch (Exception e) {
+            validationStatus = false;
+            errorMessage += "A problem occured while setting comment";
+            styleInput(strengthRating, false);
+        }
+
+    }
 
     /**
      * @return validationstatus on Strength
@@ -28,15 +78,8 @@ public class ValidateStrength extends Commons {
      * @param time String with timevalue
      * @return true/false if date-time is valid/invalid
      */
-    public boolean valDate(LocalDate date, String time) {
-        try {
-            super.valDate(date, time, strength);
-            return true;
-        } catch (Exception e) {
-            errorMessage += e.getLocalizedMessage();
-            validationStatus = false;
-            return false;
-        }
+    void valDate(LocalDate date, String time) throws Exception {
+        super.valDate(date, time, strength);
     }
 
     /**
@@ -47,16 +90,8 @@ public class ValidateStrength extends Commons {
      * @param duration String with duration-value
      * @return true/false if duration is valid/invalid
      */
-    public boolean valDuration(String duration) {
-        try {
-            super.valDuration(duration, strength);
-            return true;
-        } catch (Exception e) {
-            errorMessage += e.getLocalizedMessage();
-            validationStatus = false;
-            return false;
-        }
-
+    void valDuration(String duration) throws Exception {
+        super.valDuration(duration, strength);
     }
 
     /**
@@ -67,15 +102,8 @@ public class ValidateStrength extends Commons {
      * @param rating String with value chosen by user
      * @return true/false if rating is valid/invalid
      */
-    public boolean valRating(String rating) {
-        try {
-            super.valRating(rating, strength);
-            return true;
-        } catch (IllegalArgumentException e) {
-            errorMessage += e.getLocalizedMessage();
-            validationStatus = false;
-            return false;
-        }
+    void valRating(String rating) throws Exception {
+        super.valRating(rating, strength);
     }
 
     /**
@@ -84,9 +112,8 @@ public class ValidateStrength extends Commons {
      * @param comment String comment on workout
      * @return true - since comment doesn't have any validation
      */
-    public boolean valComment(String comment) {
+    void valComment(String comment) {
         super.valComment(comment, strength);
-        return true;
     }
 
     /**
