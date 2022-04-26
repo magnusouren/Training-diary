@@ -16,7 +16,6 @@ public class Strength implements IWorkout {
     private char rating;
     private String comments;
     private List<Exercise> exercises = new ArrayList<>();
-    private WorkoutValidate validator = new WorkoutValidate();
 
     public Strength() {
     }
@@ -38,19 +37,19 @@ public class Strength implements IWorkout {
 
     @Override
     public void setDate(LocalDateTime date) throws IllegalArgumentException {
-        validator.ValidateDate(date);
+        WorkoutValidate.ValidateDate(date);
         this.dateTime = date;
     }
 
     @Override
     public void setDuration(int duration) throws IllegalArgumentException {
-        validator.validateDuration(duration);
+        WorkoutValidate.validateDuration(duration);
         this.duration = duration;
     }
 
     @Override
     public void setRating(char rating) throws IllegalArgumentException {
-        validator.validateRating(rating);
+        WorkoutValidate.validateRating(rating);
         this.rating = rating;
     }
 

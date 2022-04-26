@@ -13,8 +13,6 @@ public class Run implements IWorkout {
     private int duration, distance, averageHeartRate, maxHeartRate;
     private double averageSpeed;
 
-    private WorkoutValidate validator = new WorkoutValidate();
-
     /**
      * Consturctor that calls methods that sets fields
      * 
@@ -44,7 +42,7 @@ public class Run implements IWorkout {
 
     @Override
     public void setDate(LocalDateTime date) {
-        validator.ValidateDate(date);
+        WorkoutValidate.ValidateDate(date);
         this.dateTime = date;
     }
 
@@ -55,13 +53,13 @@ public class Run implements IWorkout {
 
     @Override
     public void setRating(char rating) {
-        validator.validateRating(rating);
+        WorkoutValidate.validateRating(rating);
         this.rating = rating;
     }
 
     @Override
     public void setDuration(int duration) {
-        validator.validateDuration(duration);
+        WorkoutValidate.validateDuration(duration);
         this.duration = duration;
     }
 
