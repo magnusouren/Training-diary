@@ -35,7 +35,6 @@ public class Commons {
      * @param time    String timevalue on format hh:mm
      * @param workout IWorkout to get date
      * @throws IllegalArgumentException       If date i sin the future
-     * @throws PatternSyntaxException         If time is on wrong format
      * @throws ArrayIndexOutOfBoundsException If time is on the wrong format
      * @throws DateTimeException              If time contains invalid timevalues
      * @throws NullPointerException           If date is sat with ilegal time
@@ -53,18 +52,21 @@ public class Commons {
      * @param duration String with timevalue on format hh:mm
      * @param workout  IWorkout that gets duration set
      * @return IWorkout with valid duration
-     * @throws PatternSyntaxException         if duration doesn't contains ":"
+     * @throws NullPointerException           if duration is null
      * @throws ArrayIndexOutOfBoundsException if duration isn't on the format
      *                                        'hh:mm'
      * @throws NumberFormatException          if hours or/and minutes isn't numeric
      * @throws DateTimeException              if hours or/and minutes has illegal
      *                                        values
+     * @throws IllegalArgumentException       If
      */
-    protected void valDuration(String duration, IWorkout workout) {
+    protected void valDuration(String duration, IWorkout workout)
+            throws NullPointerException, ArrayIndexOutOfBoundsException, NumberFormatException, DateTimeException,
+            IllegalArgumentException {
 
         duration = duration.strip();
         if (duration.length() > 5)
-            throw new IllegalArgumentException("Invalid format on duration, must be on the format hh:mm");
+            throw new NumberFormatException("Invalid format on duration, must be on the format hh:mm");
 
         try {
             String[] values = duration.split(":");
@@ -78,9 +80,8 @@ public class Commons {
 
             workout.setDuration(hours + minutes);
 
-        } catch (PatternSyntaxException e) {
-            throw new PatternSyntaxException("Invalid duration, must be on the format 'hh:mm'\n",
-                    "(0?[0-9]|[1-5][0-9]):(0?[0-9]|[1-5][0-9])", -1);
+        } catch (NullPointerException e) {
+            throw new NullPointerException("Invalid duration, duration cannot be null");
         } catch (ArrayIndexOutOfBoundsException e) {
             throw new ArrayIndexOutOfBoundsException("Invalid duration, must be on the format 'hh:mm'\n");
         } catch (NumberFormatException e) {
@@ -118,7 +119,8 @@ public class Commons {
      * @throws DateTimeException              If the value of minutes or hours is
      *                                        out of valid range
      */
-    private LocalTime valTime(String time) {
+    private LocalTime valTime(String time)
+            throws IllegalArgumentException, ArrayIndexOutOfBoundsException, DateTimeException {
         String error = "Invalid date, cannot set date with illegal time\n";
 
         time = time.strip();

@@ -30,35 +30,35 @@ public class ValidateRunTest {
     @Test
     void testDistanceExceptions() {
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vrun.valDistance("0");
         }, "0 should not be allowed to set as distance");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vrun.valDistance("-100");
         }, "-100 should not be allowed to set as distance");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(NumberFormatException.class, () -> {
             vrun.valDistance(null);
         }, "null should not be allowed to set as distance");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(NumberFormatException.class, () -> {
             vrun.valDistance("");
         }, "empty field should not be allowed to set as distance");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(NumberFormatException.class, () -> {
             vrun.valDistance("tusen");
         }, "Not numeric distance should ");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(NumberFormatException.class, () -> {
             vrun.valDistance("10km");
         }, "null should not be allowed to set as distance");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vrun.valDistance("100001");
         }, "100001 should not be allowed to set as distance");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vrun.valDistance("1000000");
         }, "1 000 000 should not be allowed to set as distance");
 
@@ -75,24 +75,24 @@ public class ValidateRunTest {
 
     @Test
     public void testHrException() {
-        assertThrows(Exception.class, () -> {
+        assertThrows(NumberFormatException.class, () -> {
             vrun.valAvgHr("");
         }, "Heartrate shouldn't be allowed to be blank");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vrun.valAvgHr("230");
         }, "Heartrate shouldn't be allowed to be greater than 225");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vrun.valAvgHr("39");
         }, "Heartrate shouldn't be allowed to be less than 40");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vrun.valAvgHr("-200");
         }, "Heartrate shouldn't be allowed to be less than 0");
 
-        assertThrows(Exception.class, () -> {
-            vrun.valAvgHr("hundres");
+        assertThrows(NumberFormatException.class, () -> {
+            vrun.valAvgHr("hundred");
         }, "Heartrate shouldn't be allowed to be a string");
     }
 
@@ -107,7 +107,7 @@ public class ValidateRunTest {
                     "Max heartrate should be allowed to be sat for values less or equal than max HR");
         }
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vrun.valAvgHr("181");
         }, "Average heartrate shouldn't be allowed to be greater than maximum hr");
 

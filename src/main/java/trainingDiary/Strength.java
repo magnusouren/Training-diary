@@ -37,19 +37,19 @@ public class Strength implements IWorkout {
     }
 
     @Override
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDateTime date) throws IllegalArgumentException {
         validator.ValidateDate(date);
         this.dateTime = date;
     }
 
     @Override
-    public void setDuration(int duration) {
+    public void setDuration(int duration) throws IllegalArgumentException {
         validator.validateDuration(duration);
         this.duration = duration;
     }
 
     @Override
-    public void setRating(char rating) {
+    public void setRating(char rating) throws IllegalArgumentException {
         validator.validateRating(rating);
         this.rating = rating;
     }
@@ -63,8 +63,10 @@ public class Strength implements IWorkout {
      * Ads exercise to list of exercises if its not already added and isn't null
      * 
      * @param exercise Exercise
+     * @throws IllegalArgumentException If exercise already exists in workout
+     * @throws NullPointerException     if exercise is null
      */
-    public void addExercise(Exercise exercise) {
+    public void addExercise(Exercise exercise) throws IllegalArgumentException, NullPointerException {
         if (!Objects.isNull(exercise)) {
             if (!exercises.contains(exercise))
                 exercises.add(exercise);
@@ -95,6 +97,9 @@ public class Strength implements IWorkout {
         return comments;
     }
 
+    /**
+     * @return New List of exercises to workout
+     */
     public List<Exercise> getExercises() {
         return new ArrayList<>(exercises);
     }

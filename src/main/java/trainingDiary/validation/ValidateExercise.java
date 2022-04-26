@@ -69,6 +69,8 @@ public class ValidateExercise extends Commons {
      * 
      * @param name String with name of exercise as value
      * @return true/false if name is valid/invalid
+     * @throws IllegalArgumentException if name has illegal format
+     * 
      */
     void valName(String name) throws IllegalArgumentException {
         exercise.setName(name);
@@ -81,6 +83,8 @@ public class ValidateExercise extends Commons {
      * 
      * @param weight String with weight of exercise as value
      * @return true/false if weight is valid/invalid
+     * @throws NumberFormatException     if weight is not a number
+     * @throws IllegalArgumentExceptioin if weight is not in the interval [0,300]
      */
     void valWeight(String weight) throws NumberFormatException, IllegalArgumentException {
         try {
@@ -99,6 +103,9 @@ public class ValidateExercise extends Commons {
      * 
      * @param weight String with integer value of weight
      * @return true/false if rep is valid/invalid
+     * @throws NumberFormatException    if rep is not a number
+     * @throws IllegalArgumentException if rep is greater than 1000 or less or equal
+     *                                  than 0
      */
     void valRep(String rep) throws NumberFormatException, IllegalArgumentException {
         try {

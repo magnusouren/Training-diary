@@ -16,7 +16,7 @@ public class Run implements IWorkout {
     private WorkoutValidate validator = new WorkoutValidate();
 
     /**
-     * Consturctor
+     * Consturctor that calls methods that sets fields
      * 
      * @param dateTime         LocalDateTime of Run
      * @param duration         int duration of Run in minutes
@@ -40,20 +40,6 @@ public class Run implements IWorkout {
     }
 
     public Run() {
-    }
-
-    /**
-     * Validates distance, throws exception if distance is less or equal or less
-     * than 0 or greater than 100000
-     * 
-     * @param distance int distance of run i meters
-     */
-    private void validateDistance(int distance) {
-
-        if (distance <= 0)
-            throw new IllegalArgumentException("Invalid distance, must be grater than 0\n");
-        if (distance > 100000)
-            throw new IllegalArgumentException("Invalid distance, cannot be greater than 100km\n");
     }
 
     @Override
@@ -83,18 +69,39 @@ public class Run implements IWorkout {
      * Sets distance of run if distance has valid value
      * 
      * @param distance
+     * @throws IllegalArgumentException if distance is greater than 100000 or less
+     *                                  than 0
      */
-    public void setDistance(int distance) {
+    public void setDistance(int distance) throws IllegalArgumentException {
         validateDistance(distance);
         this.distance = distance;
+    }
+
+    /**
+     * Validates distance, throws exception if distance is less or equal or less
+     * than 0 or greater than 100000
+     * 
+     * @param distance int distance of run i meters
+     * @throws IllegalArgumentException if distance is greater than 100000 or less
+     *                                  than 0
+     */
+    private void validateDistance(int distance) throws IllegalArgumentException {
+
+        if (distance <= 0)
+            throw new IllegalArgumentException("Invalid distance, must be grater than 0\n");
+        if (distance > 100000)
+            throw new IllegalArgumentException("Invalid distance, cannot be greater than 100km\n");
     }
 
     /**
      * Sets average heartrate if value is valid
      * 
      * @param avaerageHeartRate int average heartrate (BPM)
+     * @throws IllegalArgumentException If avgHr is not in the interval [40,125] or
+     *                                  greater than maxHr
+     * 
      */
-    public void setAvaerageHeartRate(int avaerageHeartRate) {
+    public void setAvaerageHeartRate(int avaerageHeartRate) throws IllegalArgumentException {
         validateHeartRate(avaerageHeartRate);
         if (avaerageHeartRate > maxHeartRate)
             throw new IllegalArgumentException("cannot be greater than maximum heartrate");
@@ -105,8 +112,10 @@ public class Run implements IWorkout {
      * Sets maximum heartrate if value is valid
      * 
      * @param maxHeartRate int maximum heartrate (BPM)
+     * @throws IllegalArgumentException If avgHr is not in the interval [40,125] or
+     *                                  greater than maxHr
      */
-    public void setMaxHeartRate(int maxHeartRate) {
+    public void setMaxHeartRate(int maxHeartRate) throws IllegalArgumentException {
         validateHeartRate(maxHeartRate);
         this.maxHeartRate = maxHeartRate;
     }
@@ -115,8 +124,9 @@ public class Run implements IWorkout {
      * Validates heartrate, must be greater than 39 and less than 226
      * 
      * @param heartRate int heartrate (BPM)
+     * @throws IllegalArgumentException if heartrate is not in the interval [40,125]
      */
-    private void validateHeartRate(int heartRate) {
+    private void validateHeartRate(int heartRate) throws IllegalArgumentException {
         if (heartRate < 40)
             throw new IllegalArgumentException("heartrate should be grater or equal than 40\n");
         if (heartRate > 225)

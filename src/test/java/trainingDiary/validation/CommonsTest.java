@@ -3,10 +3,12 @@ package trainingDiary.validation;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.PatternSyntaxException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,20 +60,20 @@ public class CommonsTest {
     @Test
     public void testValDateException() {
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             commons.valDate(LocalDate.now().plusDays(1), "12:00", workout);
         }, "Exception should be thrown when setting date in the future");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             String time = LocalTime.now().plusMinutes(1).format(DateTimeFormatter.ofPattern("HH:mm"));
             commons.valDate(LocalDate.now(), time, workout);
         }, "Exception should be thrown when setting date in the future");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(NullPointerException.class, () -> {
             commons.valDate(LocalDate.now().plusDays(1), null, workout);
         }, "Exception should be thrown when setting date with illegal time");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(NullPointerException.class, () -> {
             commons.valDate(null, "12:00", workout);
         }, "Exception should be thrown when setting date equals null");
 
@@ -82,31 +84,31 @@ public class CommonsTest {
 
         LocalDate date = LocalDate.now().minusDays(1);
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             commons.valDate(date, "10.00", workout);
         }, "Exception should be thrown when time has illegal format");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
             commons.valDate(date, "1000", workout);
         }, "Exception should be thrown when time has illegal format");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             commons.valDate(date, "-10:00", workout);
         }, "Exception should be thrown when time has illegal format");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             commons.valDate(date, "10:-10", workout);
         }, "Exception should be thrown when time has illegal format");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             commons.valDate(date, "-10:-10", workout);
         }, "Exception should be thrown when time has illegal format");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(DateTimeException.class, () -> {
             commons.valDate(date, "12:90", workout);
         }, "Exception should be thrown when time has illegal format");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(DateTimeException.class, () -> {
             commons.valDate(date, "00:90", workout);
         }, "Exception should be thrown when time has illegal format");
 
@@ -163,48 +165,52 @@ public class CommonsTest {
     @Test
     public void testValDurationExceptions() {
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             commons.valDuration("00:00", workout);
         }, "Shouldn't be allowed to set duration to 0 minutes");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             commons.valDuration("-10:00", workout);
         }, "Negative values shouldn't be allowed to be a duration");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             commons.valDuration("05:-10", workout);
         }, "Negative values shouldn't be allowed to be a duration");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             commons.valDuration("-10:-10", workout);
         }, "Negative values shouldn't be allowed to be a duration");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(NullPointerException.class, () -> {
             commons.valDuration(null, workout);
         }, "Null shouldn't be allowed to be a duration");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             commons.valDuration("05:01", workout);
         }, "Durations greater than 5:00 shouldn't be allowed to be set");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             commons.valDuration("23:59", workout);
         }, "Durations greater than 5:00 shouldn't be allowed to be set");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(DateTimeException.class, () -> {
             commons.valDuration("00:90", workout);
         }, "Durations with minutes greater than 59 shouldnt be allowed to be set");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
             commons.valDuration("40", workout);
         }, "Durations not on the format hh:mm should be illegal");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
             commons.valDuration("90", workout);
         }, "Durations not on the format hh:mm should be illegal");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(NumberFormatException.class, () -> {
             commons.valDuration("4.00", workout);
+        }, "Durations not on the format hh:mm should be illegal");
+
+        assertThrows(NumberFormatException.class, () -> {
+            commons.valDuration("ten", workout);
         }, "Durations not on the format hh:mm should be illegal");
 
     }
@@ -220,7 +226,7 @@ public class CommonsTest {
 
     @Test
     public void testRatingException() {
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             commons.valRating("-- Set rating --", workout);
         }, "Exception should be thrown if no rating was chosen");
     }

@@ -20,19 +20,19 @@ public class ValidateExerciseTest {
         vExercise.valName("Testname");
         assertEquals("Testname", vExercise.getExercise().getName());
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vExercise.valName("a");
         }, "Exception should be thrown when setting name with one letter");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vExercise.valName("0");
         }, "Exception should be thrown when setting name without letters only");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vExercise.valName("123");
         }, "Exception should be thrown when setting name without letters only");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vExercise.valName("");
         }, "Exception should be thrown when name is blank");
     }
@@ -49,27 +49,27 @@ public class ValidateExerciseTest {
         assertEquals(0, vExercise.getExercise().getWeight(),
                 "Weight should be 0 when no weight chosen");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vExercise.valWeight("-10");
         }, "Exception should be thrown when weight is negative");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vExercise.valWeight("-10000");
         }, "Exception should be thrown when weight is negative");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vExercise.valWeight("310");
         }, "Exception should be thrown when weight is greater than 300");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vExercise.valWeight("10000");
         }, "Exception should be thrown when weight is greater than 300");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(NumberFormatException.class, () -> {
             vExercise.valWeight("ten");
         }, "Exception should be thrown when weight contains letters");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(NumberFormatException.class, () -> {
             vExercise.valWeight("10a");
         }, "Exception should be thrown when weight contains letters");
 
@@ -84,24 +84,28 @@ public class ValidateExerciseTest {
                     "Rep should be allowed to be set when in interval [1,1000]");
         }
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vExercise.valRep("0");
         }, "Exception should be thrown when rep is 0");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vExercise.valRep("-10");
         }, "Exception should be thrown when rep is negative");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vExercise.valRep("-1000");
         }, "Exception should be thrown when rep is negative");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vExercise.valRep("10000");
         }, "Exception should be thrown when rep is greater than 1001");
 
-        assertThrows(Exception.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             vExercise.valRep("10000");
+        }, "Exception should be thrown when rep is greater than 1000");
+
+        assertThrows(NumberFormatException.class, () -> {
+            vExercise.valRep("eight");
         }, "Exception should be thrown when rep is greater than 1000");
     }
 

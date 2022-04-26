@@ -32,8 +32,9 @@ public class Exercise {
      * Sets name of exercise
      * 
      * @param name String name of exercise
+     * @throws IllegalArgumentException if name has illegal format
      */
-    public void setName(String name) {
+    public void setName(String name) throws IllegalArgumentException {
         if (!name.matches("[a-zA-Z]{2,}"))
             throw new IllegalArgumentException("Illegal name, must contain two or more letters\n");
         this.name = name;
@@ -43,8 +44,11 @@ public class Exercise {
      * Sets weight of exercise
      * 
      * @param weigth int weight of exercise
+     * @throws IllegalArgumentExceptioin if weight is not in the
+     *                                   interval [0,300]
+     * 
      */
-    public void setWeight(int weigth) {
+    public void setWeight(int weigth) throws IllegalArgumentException {
         if (weigth < 0)
             throw new IllegalArgumentException("Illegal weight, must be greater than 0\n");
         if (weigth > 300)
@@ -59,7 +63,7 @@ public class Exercise {
      * @throws IllegalArgumentException if rep is greater than 1000 or less or equal
      *                                  than 0
      */
-    public void addRep(int rep) {
+    public void addRep(int rep) throws IllegalArgumentException {
         if (rep <= 0)
             throw new IllegalArgumentException("Illegal set, must be greater than 0\n");
         else if (rep > 1000)

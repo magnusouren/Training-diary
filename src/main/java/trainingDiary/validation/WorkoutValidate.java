@@ -13,7 +13,7 @@ public class WorkoutValidate {
      * @param date LocalDateTime for the exercise.
      * @throws IllegalArgumentException If date is in the future
      */
-    public void ValidateDate(LocalDateTime date) {
+    public void ValidateDate(LocalDateTime date) throws IllegalArgumentException {
 
         LocalDateTime today = LocalDateTime.now();
 
@@ -31,7 +31,7 @@ public class WorkoutValidate {
      * @throws IllegalArgumentException if duration is not in the interval
      *                                  [0:01-5:00]
      */
-    public void validateDuration(int duration) {
+    public void validateDuration(int duration) throws IllegalArgumentException {
         if (duration <= 0)
             throw new IllegalArgumentException("Invalid duration, must be greater than 0:00\n");
         if (duration > 300)
@@ -45,7 +45,7 @@ public class WorkoutValidate {
      * @param rating char rating of the exercise
      * @throws IllegalArgumentException If ranking is not in the interval [1-6]
      */
-    public void validateRating(char rating) {
+    public void validateRating(char rating) throws IllegalArgumentException {
         Collection<Character> values = new ArrayList<>();
         values.addAll(Arrays.asList('1', '2', '3', '4', '5', '6'));
 
