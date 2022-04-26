@@ -87,12 +87,12 @@ public class trainingDiaryController {
     private Collection<Control> runFields, strengthFields, exerciseFields;
     private Collection<Label> exerciseLabels, strengthLabels;
 
-    private Collection<IWorkout> workouts;
-
     private int year = LocalDate.now().getYear();
     private int month = LocalDate.now().getMonthValue();
 
     private Diary diary = new Diary();
+    private Collection<IWorkout> workouts;
+
     private Strength tempStrength;
 
     /**
@@ -631,24 +631,18 @@ public class trainingDiaryController {
         IfileManager fileManager = new TxtFile();
         String file = filenameSave.getValue();
 
-        if (!Objects.isNull(file) && !file.isBlank()) {
-            if (!file.endsWith(".txt"))
-                file = file + ".txt";
+        try {
+            fileManager.write(file, diary);
+            feedbackSave.setText("'" + file + ".txt' was saved!");
+            setFilenames();
 
-            try {
-                fileManager.write(file, diary);
-                feedbackSave.setText("'" + file + "' was saved!");
-                setFilenames();
-
-            } catch (IOException e) {
-                feedbackSave.setText(
-                        "A problem occurder when tryin to save '" + file + "' \nTry again with a new filename");
-            } catch (RuntimeException e) {
-                System.out.println("Invalid values in diary, couldn't save");
-            }
-
-        } else {
-            feedbackSave.setText("Enter filename!");
+        } catch (IOException e) {
+            feedbackSave.setText(
+                    "A problem occurder when tryin to save '" + file + "' \nTry again with a new filename");
+        } catch (IllegalArgumentException e) {
+            feedbackSave.setText(e.getLocalizedMessage());
+        } catch (RuntimeException e) {
+            feedbackSave.setText("Invalid values in diary, couldn't save");
         }
 
         feedbackLoad.setText("");
