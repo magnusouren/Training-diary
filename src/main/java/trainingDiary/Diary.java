@@ -69,17 +69,10 @@ public class Diary {
      */
     public Map<String, Number> getTotalSummary() {
         Map<String, Number> res = new HashMap<>();
-        res.put("totDuration", (int) diary.stream()
-                .mapToInt(w -> w.getDuration())
-                .summaryStatistics()
-                .getSum());
 
-        res.put("totAvgRating", diary.stream()
-                .mapToInt(w -> Character.getNumericValue(w.getRating()))
-                .summaryStatistics()
-                .getAverage());
-
-        res.put("totWorkouts", diary.size());
+        totDuration(res, diary, "totDuration");
+        averageRating(res, diary, "totAvgRating");
+        totalWorkouts(res, diary, "totWorkouts");
 
         return res;
 
@@ -105,14 +98,9 @@ public class Diary {
                 .map(s -> (List<Exercise>) s.getExercises())
                 .toList();
 
-        res.put("strengthTotDuration", strengths.stream()
-                .mapToInt(s -> s.getDuration())
-                .sum());
-
-        res.put("strengthAvgRating", strengths.stream()
-                .mapToInt(s -> Character.getNumericValue(s.getRating()))
-                .summaryStatistics()
-                .getAverage());
+        totDuration(res, new ArrayList<>(strengths), "strengthTotDuration");
+        averageRating(res, new ArrayList<>(strengths), "strengthAvgRating");
+        totalWorkouts(res, new ArrayList<>(strengths), "totStrengths");
 
         res.put("kgLifted", exercises.stream()
                 .mapToInt(l -> l.stream()
@@ -121,8 +109,6 @@ public class Diary {
                                 .reduce(0, Integer::sum))
                         .sum())
                 .sum());
-
-        res.put("totStrengths", strengths.size());
 
         return res;
     }
@@ -144,22 +130,55 @@ public class Diary {
                 .map(w -> (Run) w)
                 .toList();
 
-        res.put("runTotDuration", runs.stream()
-                .mapToInt(r -> r.getDuration())
-                .sum());
-
-        res.put("runAvgRating", runs.stream()
-                .mapToInt(r -> Character.getNumericValue(r.getRating()))
-                .summaryStatistics()
-                .getAverage());
+        totDuration(res, new ArrayList<>(runs), "runTotDuration");
+        averageRating(res, new ArrayList<>(runs), "runAvgRating");
+        totalWorkouts(res, new ArrayList<>(runs), "totRuns");
 
         res.put("runTotDistance", runs.stream()
                 .mapToInt(r -> r.getDistance())
                 .sum());
 
-        res.put("totRuns", runs.size());
-
         return res;
+    }
+
+    /**
+     * Method to get totalt duration from a list of workouts and map it to a
+     * key-value in a map.
+     * 
+     * @param map      Map<String, Number> to get total duration added
+     * @param workouts List<IWorkout> Workouts
+     * @param key      String keyvalue
+     */
+    private void totDuration(Map<String, Number> map, List<IWorkout> workouts, String key) {
+        map.put(key, workouts.stream()
+                .mapToInt(w -> w.getDuration())
+                .sum());
+    }
+
+    /**
+     * Method to get average of rating on workouts and map it to a key-value in a
+     * map.
+     * 
+     * @param map      Map<String, Number> to get average added
+     * @param workouts List<IWorkout> Workouts
+     * @param key      String keyvalue
+     */
+    private void averageRating(Map<String, Number> map, List<IWorkout> workouts, String key) {
+        map.put(key, workouts.stream()
+                .mapToInt(w -> Character.getNumericValue(w.getRating()))
+                .summaryStatistics()
+                .getAverage());
+    }
+
+    /**
+     * Method to map totalt amount of workouts to a key-value in a map.
+     * 
+     * @param map      Map<String, Number> to get size
+     * @param workouts List<IWorkout> Workouts
+     * @param key      String keyvalue
+     */
+    private void totalWorkouts(Map<String, Number> map, List<IWorkout> workouts, String key) {
+        map.put(key, workouts.size());
     }
 
     @Override
