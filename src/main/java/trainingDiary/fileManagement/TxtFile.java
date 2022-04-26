@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.IllegalFormatException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -23,7 +24,11 @@ import trainingDiary.IWorkout;
 public class TxtFile implements IfileManager {
 
     @Override
-    public void write(String filename, Diary diary) throws IOException, RuntimeException {
+    public void write(String filename, Diary diary) throws IOException, RuntimeException, IllegalArgumentException {
+        if (Objects.isNull(filename) || filename.isBlank())
+            throw new IllegalArgumentException("Enter filename!");
+        if (!filename.endsWith(".txt"))
+            filename += ".txt";
         try (PrintWriter writer = new PrintWriter(
                 new File("src/main/resources/trainingDiary/saves/" + filename))) {
             for (IWorkout workout : diary.getDiary()) {
