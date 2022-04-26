@@ -16,7 +16,7 @@ public class ValidateRun extends Commons {
 
     private Run run = new Run();
     private String errorMessage = "";
-    boolean validationStatus = true;
+    private boolean validationStatus = true;
 
     public ValidateRun() {
     }

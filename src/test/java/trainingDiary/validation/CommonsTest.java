@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.regex.PatternSyntaxException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +34,7 @@ public class CommonsTest {
 
         while (date.isBefore(LocalDate.now())) {
             commons.valDate(date, time, workout);
-            assertEquals(LocalDateTime.of(date, lTime), workout.getDate());
+            assertEquals(LocalDateTime.of(date, lTime), workout.getDate(), "Dates should be eqaul");
             date = date.plusDays(1);
         }
     }
@@ -127,7 +126,7 @@ public class CommonsTest {
                 }
                 duration = String.valueOf(i) + ":" + String.valueOf(j);
                 commons.valDuration(duration, workout);
-                assertEquals(i * 60 + j, workout.getDuration());
+                assertEquals(i * 60 + j, workout.getDuration(), "Durations should be equal when sat");
             }
         }
 
@@ -150,7 +149,7 @@ public class CommonsTest {
                     mm = String.valueOf(j);
                 duration = hh + ":" + mm;
                 commons.valDuration(duration, workout);
-                assertEquals((i * 60) + j, workout.getDuration());
+                assertEquals((i * 60) + j, workout.getDuration(), "Durations should be equals when sat");
             }
         }
 
@@ -158,7 +157,7 @@ public class CommonsTest {
 
         duration = "05:00";
         commons.valDuration(duration, workout);
-        assertEquals(300, workout.getDuration());
+        assertEquals(300, workout.getDuration(), "5:00 should be a legal duration");
 
     }
 
@@ -220,7 +219,7 @@ public class CommonsTest {
         String[] ratings = { "1", "2", "3", "4", "5", "6" };
         for (String rating : ratings) {
             commons.valRating(rating, workout);
-            assertEquals(rating.charAt(0), workout.getRating());
+            assertEquals(rating.charAt(0), workout.getRating(), "Workout should be allowed to get value from 1-6");
         }
     }
 

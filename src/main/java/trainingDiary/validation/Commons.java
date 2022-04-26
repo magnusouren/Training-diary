@@ -40,7 +40,7 @@ public class Commons {
      * @throws NullPointerException           If date is sat with ilegal time
      */
     protected void valDate(LocalDate date, String time, IWorkout workout)
-            throws IllegalArgumentException, ArrayIndexOutOfBoundsException, DateTimeException {
+            throws IllegalArgumentException, ArrayIndexOutOfBoundsException, DateTimeException, NullPointerException {
         LocalDateTime dateTime = LocalDateTime.of(date, valTime(time));
         workout.setDate(dateTime);
 

@@ -103,7 +103,7 @@ public class trainingDiaryController {
      * Calls on method that displays summary data.
      */
     @FXML
-    public void initialize() {
+    private void initialize() {
         workouts = diary.getWorkoutsPerMonth(month, year);
 
         if (Objects.isNull(runFields))
