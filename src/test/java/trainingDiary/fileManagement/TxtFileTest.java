@@ -45,11 +45,13 @@ public class TxtFileTest {
     @AfterEach
     public void deleFile() {
         File myObj = new File("src/main/resources/trainingDiary/saves/test.txt");
-        if (myObj.delete()) {
-            System.out.println("Deleted the file: " + myObj.getName());
-        } else {
-            System.out.println("Failed to delete the testfile.");
+
+        try {
+            myObj.delete();
+        } catch (SecurityException e) {
+            System.out.println("Error, file wasnt saved");
         }
+
     }
 
     @Test

@@ -85,10 +85,13 @@ public class TxtFile implements IfileManager {
             Exercise ex = new Exercise();
             ex.setName(exercises.next());
             ex.setWeight(Integer.parseInt(exercises.next()));
+
             Arrays.stream(exercises.next().split("/"))
                     .map(Integer::parseInt)
                     .forEach(r -> ex.addRep(r));
+
             strength.addExercise(ex);
+
         }
         return strength;
     }
@@ -108,7 +111,7 @@ public class TxtFile implements IfileManager {
                 workout.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-hh:mm")),
                 workout.getDuration(),
                 workout.getRating(),
-                workout.getComment());
+                workout.getComment().replace(",", ""));
 
         writer.print(commonFields);
 

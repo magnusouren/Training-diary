@@ -36,7 +36,7 @@ public class Exercise {
      */
     public void setName(String name) throws IllegalArgumentException {
         if (!name.matches("[a-zA-Z]{2,}"))
-            throw new IllegalArgumentException("Illegal name, must contain two or more letters\n");
+            throw new IllegalArgumentException("Illegal name, must contain two or more letters from A-Z only\n");
         this.name = name;
     }
 

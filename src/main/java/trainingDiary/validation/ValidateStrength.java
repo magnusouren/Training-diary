@@ -37,8 +37,7 @@ public class ValidateStrength {
         try {
             valDuration(strengthDuration.getText());
             Commons.styleInput(strengthDuration, true);
-        } catch (PatternSyntaxException | ArrayIndexOutOfBoundsException | NumberFormatException
-                | DateTimeException e) {
+        } catch (ArrayIndexOutOfBoundsException | DateTimeException | IllegalArgumentException e) {
             setInvalid(e.getLocalizedMessage(), strengthDuration);
         }
 
@@ -96,7 +95,8 @@ public class ValidateStrength {
      * @return true/false if duration is valid/invalid
      */
     void valDuration(String duration)
-            throws PatternSyntaxException, ArrayIndexOutOfBoundsException, NumberFormatException, DateTimeException {
+            throws PatternSyntaxException, ArrayIndexOutOfBoundsException, NumberFormatException, DateTimeException,
+            IllegalArgumentException {
         Commons.valDuration(duration, strength);
     }
 

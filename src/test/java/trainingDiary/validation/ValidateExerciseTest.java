@@ -25,6 +25,18 @@ public class ValidateExerciseTest {
         }, "Exception should be thrown when setting name with one letter");
 
         assertThrows(IllegalArgumentException.class, () -> {
+            vExercise.valName("abcdæ");
+        }, "Exception should be thrown when setting name with æ");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            vExercise.valName("abcdø");
+        }, "Exception should be thrown when setting name with ø");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            vExercise.valName("abcdå");
+        }, "Exception should be thrown when setting name with å");
+
+        assertThrows(IllegalArgumentException.class, () -> {
             vExercise.valName("0");
         }, "Exception should be thrown when setting name without letters only");
 

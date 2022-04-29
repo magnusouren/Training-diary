@@ -54,8 +54,7 @@ public class ValidateRun {
         try {
             valDuration(runDuration.getText());
             Commons.styleInput(runDuration, true);
-        } catch (PatternSyntaxException | ArrayIndexOutOfBoundsException | NumberFormatException
-                | DateTimeException e) {
+        } catch (ArrayIndexOutOfBoundsException | DateTimeException | IllegalArgumentException e) {
             setInvalid(e.getLocalizedMessage(), runDuration);
         }
 
@@ -144,7 +143,8 @@ public class ValidateRun {
      *                                        values
      */
     void valDuration(String duration)
-            throws PatternSyntaxException, ArrayIndexOutOfBoundsException, NumberFormatException, DateTimeException {
+            throws PatternSyntaxException, ArrayIndexOutOfBoundsException, NumberFormatException, DateTimeException,
+            IllegalArgumentException {
         Commons.valDuration(duration, run);
     }
 
