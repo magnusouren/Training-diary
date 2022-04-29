@@ -11,7 +11,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import trainingDiary.Strength;
 
-public class ValidateStrength extends Commons {
+public class ValidateStrength {
 
     private boolean validationStatus = true;
     private String errorMessage = "";
@@ -26,17 +26,17 @@ public class ValidateStrength extends Commons {
 
         try {
             valDate(strengthDate.getValue(), strengthTime.getText());
-            styleInput(strengthDate.getEditor(), true);
-            styleInput(strengthTime, true);
+            Commons.styleInput(strengthDate.getEditor(), true);
+            Commons.styleInput(strengthTime, true);
         } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException | DateTimeException
                 | NullPointerException e) {
             setInvalid(e.getLocalizedMessage(), strengthTime);
-            styleInput(strengthDate.getEditor(), false);
+            Commons.styleInput(strengthDate.getEditor(), false);
         }
 
         try {
             valDuration(strengthDuration.getText());
-            styleInput(strengthDuration, true);
+            Commons.styleInput(strengthDuration, true);
         } catch (PatternSyntaxException | ArrayIndexOutOfBoundsException | NumberFormatException
                 | DateTimeException e) {
             setInvalid(e.getLocalizedMessage(), strengthDuration);
@@ -44,7 +44,7 @@ public class ValidateStrength extends Commons {
 
         try {
             valRating(strengthRating.getValue());
-            styleInput(strengthRating, true);
+            Commons.styleInput(strengthRating, true);
         } catch (IllegalArgumentException e) {
             setInvalid(e.getLocalizedMessage(), strengthRating);
         }
@@ -61,7 +61,7 @@ public class ValidateStrength extends Commons {
      */
     private void setInvalid(String message, Node field) {
         this.errorMessage += message;
-        styleInput(field, false);
+        Commons.styleInput(field, false);
         validationStatus = false;
     }
 
@@ -84,7 +84,7 @@ public class ValidateStrength extends Commons {
      */
     void valDate(LocalDate date, String time) throws IllegalArgumentException, PatternSyntaxException,
             ArrayIndexOutOfBoundsException, DateTimeException, NullPointerException {
-        super.valDate(date, time, strength);
+        Commons.valDate(date, time, strength);
     }
 
     /**
@@ -97,7 +97,7 @@ public class ValidateStrength extends Commons {
      */
     void valDuration(String duration)
             throws PatternSyntaxException, ArrayIndexOutOfBoundsException, NumberFormatException, DateTimeException {
-        super.valDuration(duration, strength);
+        Commons.valDuration(duration, strength);
     }
 
     /**
@@ -109,7 +109,7 @@ public class ValidateStrength extends Commons {
      * @return true/false if rating is valid/invalid
      */
     void valRating(String rating) throws IllegalArgumentException {
-        super.valRating(rating, strength);
+        Commons.valRating(rating, strength);
     }
 
     /**
@@ -119,7 +119,7 @@ public class ValidateStrength extends Commons {
      * @return true - since comment doesn't have any validation
      */
     void valComment(String comment) {
-        super.valComment(comment, strength);
+        Commons.valComment(comment, strength);
     }
 
     /**

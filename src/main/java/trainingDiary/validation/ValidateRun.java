@@ -12,7 +12,7 @@ import javafx.scene.control.TextField;
 import trainingDiary.Run;
 import trainingDiary.IWorkout;
 
-public class ValidateRun extends Commons {
+public class ValidateRun {
 
     private Run run = new Run();
     private String errorMessage = "";
@@ -43,17 +43,17 @@ public class ValidateRun extends Commons {
 
         try {
             valDate(runDate.getValue(), runTime.getText());
-            styleInput(runDate.getEditor(), true);
-            styleInput(runTime, true);
+            Commons.styleInput(runDate.getEditor(), true);
+            Commons.styleInput(runTime, true);
         } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException | DateTimeException
                 | NullPointerException e) {
             setInvalid(e.getLocalizedMessage(), runTime);
-            styleInput(runDate.getEditor(), false);
+            Commons.styleInput(runDate.getEditor(), false);
         }
 
         try {
             valDuration(runDuration.getText());
-            styleInput(runDuration, true);
+            Commons.styleInput(runDuration, true);
         } catch (PatternSyntaxException | ArrayIndexOutOfBoundsException | NumberFormatException
                 | DateTimeException e) {
             setInvalid(e.getLocalizedMessage(), runDuration);
@@ -61,28 +61,28 @@ public class ValidateRun extends Commons {
 
         try {
             valDistance(runDistance.getText());
-            styleInput(runDistance, true);
+            Commons.styleInput(runDistance, true);
         } catch (IllegalArgumentException e) {
             setInvalid(e.getLocalizedMessage(), runDistance);
         }
 
         try {
             valRating(runRating.getValue());
-            styleInput(runRating, true);
+            Commons.styleInput(runRating, true);
         } catch (IllegalArgumentException e) {
             setInvalid(e.getLocalizedMessage(), runRating);
         }
 
         try {
             valMaxHr(runMaxHr.getText());
-            styleInput(runMaxHr, true);
+            Commons.styleInput(runMaxHr, true);
         } catch (IllegalArgumentException e) {
             setInvalid(e.getLocalizedMessage(), runMaxHr);
         }
 
         try {
             valAvgHr(runAvgHr.getText());
-            styleInput(runAvgHr, true);
+            Commons.styleInput(runAvgHr, true);
         } catch (IllegalArgumentException e) {
             setInvalid(e.getLocalizedMessage(), runAvgHr);
         }
@@ -107,7 +107,7 @@ public class ValidateRun extends Commons {
      */
     private void setInvalid(String message, Node field) {
         errorMessage += message;
-        styleInput(field, false);
+        Commons.styleInput(field, false);
         validationStatus = false;
     }
 
@@ -125,7 +125,7 @@ public class ValidateRun extends Commons {
      */
     void valDate(LocalDate date, String time) throws IllegalArgumentException, PatternSyntaxException,
             ArrayIndexOutOfBoundsException, DateTimeException, NullPointerException {
-        super.valDate(date, time, run);
+        Commons.valDate(date, time, run);
     }
 
     /**
@@ -145,7 +145,7 @@ public class ValidateRun extends Commons {
      */
     void valDuration(String duration)
             throws PatternSyntaxException, ArrayIndexOutOfBoundsException, NumberFormatException, DateTimeException {
-        super.valDuration(duration, run);
+        Commons.valDuration(duration, run);
     }
 
     /**
@@ -158,7 +158,7 @@ public class ValidateRun extends Commons {
      * @return true/false if rating is valid/invalid
      */
     void valRating(String rating) throws IllegalArgumentException {
-        super.valRating(rating, run);
+        Commons.valRating(rating, run);
     }
 
     /**
@@ -221,7 +221,7 @@ public class ValidateRun extends Commons {
      * @param comment String with comment on workout
      */
     void valComment(String comment) {
-        super.valComment(comment, run);
+        Commons.valComment(comment, run);
     }
 
     /**

@@ -33,7 +33,7 @@ public class CommonsTest {
         String time = "12:00";
 
         while (date.isBefore(LocalDate.now())) {
-            commons.valDate(date, time, workout);
+            Commons.valDate(date, time, workout);
             assertEquals(LocalDateTime.of(date, lTime), workout.getDate(), "Dates should be eqaul");
             date = date.plusDays(1);
         }
@@ -49,7 +49,7 @@ public class CommonsTest {
             for (int j = 0; j < 60; j++) {
                 lTime = LocalTime.of(i, j);
                 time = String.valueOf(i) + ":" + String.valueOf(j);
-                commons.valDate(date, time, workout);
+                Commons.valDate(date, time, workout);
                 assertEquals(LocalDateTime.of(date, lTime), workout.getDate(), "Time should be " + i + ":" + j);
             }
         }
@@ -60,20 +60,20 @@ public class CommonsTest {
     public void testValDateException() {
 
         assertThrows(IllegalArgumentException.class, () -> {
-            commons.valDate(LocalDate.now().plusDays(1), "12:00", workout);
+            Commons.valDate(LocalDate.now().plusDays(1), "12:00", workout);
         }, "Exception should be thrown when setting date in the future");
 
         assertThrows(IllegalArgumentException.class, () -> {
             String time = LocalTime.now().plusMinutes(1).format(DateTimeFormatter.ofPattern("HH:mm"));
-            commons.valDate(LocalDate.now(), time, workout);
+            Commons.valDate(LocalDate.now(), time, workout);
         }, "Exception should be thrown when setting date in the future");
 
         assertThrows(NullPointerException.class, () -> {
-            commons.valDate(LocalDate.now().plusDays(1), null, workout);
+            Commons.valDate(LocalDate.now().plusDays(1), null, workout);
         }, "Exception should be thrown when setting date with illegal time");
 
         assertThrows(NullPointerException.class, () -> {
-            commons.valDate(null, "12:00", workout);
+            Commons.valDate(null, "12:00", workout);
         }, "Exception should be thrown when setting date equals null");
 
     }
@@ -84,31 +84,31 @@ public class CommonsTest {
         LocalDate date = LocalDate.now().minusDays(1);
 
         assertThrows(IllegalArgumentException.class, () -> {
-            commons.valDate(date, "10.00", workout);
+            Commons.valDate(date, "10.00", workout);
         }, "Exception should be thrown when time has illegal format");
 
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
-            commons.valDate(date, "1000", workout);
+            Commons.valDate(date, "1000", workout);
         }, "Exception should be thrown when time has illegal format");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            commons.valDate(date, "-10:00", workout);
+            Commons.valDate(date, "-10:00", workout);
         }, "Exception should be thrown when time has illegal format");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            commons.valDate(date, "10:-10", workout);
+            Commons.valDate(date, "10:-10", workout);
         }, "Exception should be thrown when time has illegal format");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            commons.valDate(date, "-10:-10", workout);
+            Commons.valDate(date, "-10:-10", workout);
         }, "Exception should be thrown when time has illegal format");
 
         assertThrows(DateTimeException.class, () -> {
-            commons.valDate(date, "12:90", workout);
+            Commons.valDate(date, "12:90", workout);
         }, "Exception should be thrown when time has illegal format");
 
         assertThrows(DateTimeException.class, () -> {
-            commons.valDate(date, "00:90", workout);
+            Commons.valDate(date, "00:90", workout);
         }, "Exception should be thrown when time has illegal format");
 
     }
@@ -125,7 +125,7 @@ public class CommonsTest {
                     continue;
                 }
                 duration = String.valueOf(i) + ":" + String.valueOf(j);
-                commons.valDuration(duration, workout);
+                Commons.valDuration(duration, workout);
                 assertEquals(i * 60 + j, workout.getDuration(), "Durations should be equal when sat");
             }
         }
@@ -148,7 +148,7 @@ public class CommonsTest {
                 } else
                     mm = String.valueOf(j);
                 duration = hh + ":" + mm;
-                commons.valDuration(duration, workout);
+                Commons.valDuration(duration, workout);
                 assertEquals((i * 60) + j, workout.getDuration(), "Durations should be equals when sat");
             }
         }
@@ -156,7 +156,7 @@ public class CommonsTest {
         // Test 5:00, should be longest duration to be legal
 
         duration = "05:00";
-        commons.valDuration(duration, workout);
+        Commons.valDuration(duration, workout);
         assertEquals(300, workout.getDuration(), "5:00 should be a legal duration");
 
     }
@@ -165,51 +165,51 @@ public class CommonsTest {
     public void testValDurationExceptions() {
 
         assertThrows(IllegalArgumentException.class, () -> {
-            commons.valDuration("00:00", workout);
+            Commons.valDuration("00:00", workout);
         }, "Shouldn't be allowed to set duration to 0 minutes");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            commons.valDuration("-10:00", workout);
+            Commons.valDuration("-10:00", workout);
         }, "Negative values shouldn't be allowed to be a duration");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            commons.valDuration("05:-10", workout);
+            Commons.valDuration("05:-10", workout);
         }, "Negative values shouldn't be allowed to be a duration");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            commons.valDuration("-10:-10", workout);
+            Commons.valDuration("-10:-10", workout);
         }, "Negative values shouldn't be allowed to be a duration");
 
         assertThrows(NullPointerException.class, () -> {
-            commons.valDuration(null, workout);
+            Commons.valDuration(null, workout);
         }, "Null shouldn't be allowed to be a duration");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            commons.valDuration("05:01", workout);
+            Commons.valDuration("05:01", workout);
         }, "Durations greater than 5:00 shouldn't be allowed to be set");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            commons.valDuration("23:59", workout);
+            Commons.valDuration("23:59", workout);
         }, "Durations greater than 5:00 shouldn't be allowed to be set");
 
         assertThrows(DateTimeException.class, () -> {
-            commons.valDuration("00:90", workout);
+            Commons.valDuration("00:90", workout);
         }, "Durations with minutes greater than 59 shouldnt be allowed to be set");
 
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
-            commons.valDuration("40", workout);
+            Commons.valDuration("40", workout);
         }, "Durations not on the format hh:mm should be illegal");
 
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
-            commons.valDuration("90", workout);
+            Commons.valDuration("90", workout);
         }, "Durations not on the format hh:mm should be illegal");
 
         assertThrows(NumberFormatException.class, () -> {
-            commons.valDuration("4.00", workout);
+            Commons.valDuration("4.00", workout);
         }, "Durations not on the format hh:mm should be illegal");
 
         assertThrows(NumberFormatException.class, () -> {
-            commons.valDuration("ten", workout);
+            Commons.valDuration("ten", workout);
         }, "Durations not on the format hh:mm should be illegal");
 
     }
@@ -218,7 +218,7 @@ public class CommonsTest {
     public void testRating() throws Exception {
         String[] ratings = { "1", "2", "3", "4", "5", "6" };
         for (String rating : ratings) {
-            commons.valRating(rating, workout);
+            Commons.valRating(rating, workout);
             assertEquals(rating.charAt(0), workout.getRating(), "Workout should be allowed to get value from 1-6");
         }
     }
@@ -226,7 +226,7 @@ public class CommonsTest {
     @Test
     public void testRatingException() {
         assertThrows(IllegalArgumentException.class, () -> {
-            commons.valRating("-- Set rating --", workout);
+            Commons.valRating("-- Set rating --", workout);
         }, "Exception should be thrown if no rating was chosen");
     }
 

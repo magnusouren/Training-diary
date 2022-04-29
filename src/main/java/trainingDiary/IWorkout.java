@@ -8,7 +8,7 @@ public interface IWorkout {
 
     public int getDuration();
 
-    public String getContent();
+    public String getComment();
 
     public char getRating();
 

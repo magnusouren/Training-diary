@@ -42,7 +42,7 @@ public class Run implements IWorkout {
 
     @Override
     public void setDate(LocalDateTime date) {
-        WorkoutValidate.ValidateDate(date);
+        WorkoutValidate.validateDate(date);
         this.dateTime = date;
     }
 

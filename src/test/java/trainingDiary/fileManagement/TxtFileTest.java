@@ -38,15 +38,7 @@ public class TxtFileTest {
         strength.addExercise(exercise);
         diary.addWorkout(strength);
         diary.addWorkout(run);
-
-        try {
-            IfileManager fManager = new TxtFile();
-            fManager.write("test.txt", diary);
-            diary2 = fManager.read("test.txt");
-
-        } catch (IOException e) {
-            fail("Error during file handling");
-        }
+        testWrite();
 
     }
 
@@ -57,6 +49,18 @@ public class TxtFileTest {
             System.out.println("Deleted the file: " + myObj.getName());
         } else {
             System.out.println("Failed to delete the testfile.");
+        }
+    }
+
+    @Test
+    public void testWrite() {
+        try {
+            IfileManager fManager = new TxtFile();
+            fManager.write("test.txt", diary);
+            this.diary2 = fManager.read("test.txt");
+
+        } catch (IOException e) {
+            fail("Error during file writing");
         }
     }
 

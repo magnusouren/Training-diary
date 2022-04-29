@@ -13,7 +13,7 @@ public class WorkoutValidate {
      * @param date LocalDateTime for the exercise.
      * @throws IllegalArgumentException If date is in the future
      */
-    public static void ValidateDate(LocalDateTime date) throws IllegalArgumentException {
+    public static void validateDate(LocalDateTime date) throws IllegalArgumentException {
 
         LocalDateTime today = LocalDateTime.now();
 

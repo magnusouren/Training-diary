@@ -5,7 +5,7 @@ import java.util.List;
 import javafx.scene.control.TextField;
 import trainingDiary.Exercise;
 
-public class ValidateExercise extends Commons {
+public class ValidateExercise {
 
     private boolean validationStatus = true;
     private boolean containsRep = false;
@@ -24,18 +24,18 @@ public class ValidateExercise extends Commons {
 
         try {
             valName(name.getText());
-            styleInput(name, true);
+            Commons.styleInput(name, true);
         } catch (IllegalArgumentException e) {
-            styleInput(name, false);
+            Commons.styleInput(name, false);
             message += e.getLocalizedMessage();
             validationStatus = false;
         }
 
         try {
             valWeight(weight.getText());
-            styleInput(weight, true);
+            Commons.styleInput(weight, true);
         } catch (Exception e) {
-            styleInput(weight, false);
+            Commons.styleInput(weight, false);
             message += e.getLocalizedMessage();
             validationStatus = false;
         }
@@ -45,11 +45,11 @@ public class ValidateExercise extends Commons {
                 containsRep = true;
                 try {
                     valRep(rep.getText());
-                    styleInput(rep, true);
+                    Commons.styleInput(rep, true);
                 }
 
                 catch (Exception e) {
-                    styleInput(rep, false);
+                    Commons.styleInput(rep, false);
                     message += e.getLocalizedMessage();
                     validationStatus = false;
                 }

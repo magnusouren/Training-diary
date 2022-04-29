@@ -17,7 +17,7 @@ public class Commons {
      * @param field  Node input-field
      * @param status boolean valid/invalid input value
      */
-    protected void styleInput(Node field, boolean status) {
+    static void styleInput(Node field, boolean status) {
 
         final PseudoClass errorClass = PseudoClass.getPseudoClass("error");
         final PseudoClass validClass = PseudoClass.getPseudoClass("valid");
@@ -38,7 +38,7 @@ public class Commons {
      * @throws DateTimeException              If time contains invalid timevalues
      * @throws NullPointerException           If date is sat with ilegal time
      */
-    protected void valDate(LocalDate date, String time, IWorkout workout)
+    static void valDate(LocalDate date, String time, IWorkout workout)
             throws IllegalArgumentException, ArrayIndexOutOfBoundsException, DateTimeException, NullPointerException {
         LocalDateTime dateTime = LocalDateTime.of(date, valTime(time));
         workout.setDate(dateTime);
@@ -59,7 +59,7 @@ public class Commons {
      *                                        values
      * @throws IllegalArgumentException       If
      */
-    protected void valDuration(String duration, IWorkout workout)
+    static void valDuration(String duration, IWorkout workout)
             throws NullPointerException, ArrayIndexOutOfBoundsException, NumberFormatException, DateTimeException,
             IllegalArgumentException {
 
@@ -98,12 +98,12 @@ public class Commons {
      * @return IWorkout with valid rating
      * @throws IllegalArgumentException If chosen value is not in the interval 1-6.
      */
-    protected void valRating(String rating, IWorkout workout) throws IllegalArgumentException {
+    static void valRating(String rating, IWorkout workout) throws IllegalArgumentException {
         char ratingVal = rating.charAt(0);
         workout.setRating(ratingVal);
     }
 
-    protected void valComment(String comment, IWorkout workout) {
+    static void valComment(String comment, IWorkout workout) {
         workout.setComment(comment);
     }
 
@@ -118,7 +118,7 @@ public class Commons {
      * @throws DateTimeException              If the value of minutes or hours is
      *                                        out of valid range
      */
-    private LocalTime valTime(String time)
+    private static LocalTime valTime(String time)
             throws IllegalArgumentException, ArrayIndexOutOfBoundsException, DateTimeException {
         String error = "Invalid date, cannot set date with illegal time\n";
 
