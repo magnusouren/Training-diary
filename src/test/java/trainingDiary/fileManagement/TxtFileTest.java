@@ -84,7 +84,7 @@ public class TxtFileTest {
         assertEquals(w1.getDate(), w2.getDate(), "Dates should be equal");
         assertEquals(w1.getDuration(), w2.getDuration(), "Duration should be equal");
         assertEquals(w1.getRating(), w2.getRating(), "Rating should be equal");
-        assertEquals(w1.getContent(), w2.getContent(), "Comments should be equal");
+        assertEquals(w1.getComment(), w2.getComment(), "Comments should be equal");
 
         if (w1 instanceof Run) {
             assertEquals(((Run) w1).getDistance(), ((Run) w2).getDistance(), "Distance should be equal");

@@ -97,9 +97,10 @@ public class trainingDiaryController {
 
     /**
      * Runs when window is loaded.
-     * Sets workouts to a list of workouts in chosen month.
-     * Calls on method that adds inputfields to collections if its during startup.
-     * Calls on method that generates a calendar in app.
+     * Sets workouts in diary from chosen month in a list
+     * Calls on method that adds inputfields to collections if collections hasn't
+     * been initialized earlier.
+     * Calls on method that generates a calendar in the app-view.
      * Calls on method that displays summary data.
      */
     @FXML
@@ -111,7 +112,7 @@ public class trainingDiaryController {
 
         updateDateField();
         generateCalendar();
-        initializeFields();
+        initializeInputfields();
         setSummary();
     }
 
@@ -133,9 +134,7 @@ public class trainingDiaryController {
     private void updateDateField() {
         String month = Month.of(this.month).name();
         month = month.substring(0, 1) + month.substring(1).toLowerCase();
-
         monthText.setText(month + " " + year);
-
     }
 
     /**
@@ -179,7 +178,7 @@ public class trainingDiaryController {
 
     /**
      * If date has a workout a method for creating node with content is called.
-     * If no workout an empty pane is returned.
+     * If no workout exists an empty pane is returned.
      * 
      * @param date LocalDate that's getting content
      * @return Node button for workout/empty pane
@@ -226,9 +225,9 @@ public class trainingDiaryController {
      * 
      * Sets values in rating-choiceboxes for the number 1 - 6
      * Sets datevalues in date-fields to todays date.
-     * Calls on method that sets existing filenames to file-comboxes.
+     * Calls on method that sets existing filenames to file-comboboxes.
      */
-    private void initializeFields() {
+    private void initializeInputfields() {
         ObservableList<String> ratings = FXCollections.observableArrayList("1", "2", "3", "4", "5", "6");
 
         runRating.setItems(ratings);
@@ -308,15 +307,7 @@ public class trainingDiaryController {
      */
     private void setRunFields() {
         runFields = new ArrayList<>(
-                Arrays.asList(
-                        runTime,
-                        runDuration,
-                        runDistance,
-                        runMaxHr,
-                        runAvgHr,
-                        runDate,
-                        runRating,
-                        runComments));
+                Arrays.asList(runTime, runDuration, runDistance, runMaxHr, runAvgHr, runDate, runRating, runComments));
     }
 
     /**
@@ -324,12 +315,7 @@ public class trainingDiaryController {
      */
     private void setStrengthFields() {
         strengthFields = new ArrayList<>(
-                Arrays.asList(
-                        strengthTime,
-                        strengthDuration,
-                        strengthDate,
-                        strengthRating,
-                        strengthComments,
+                Arrays.asList(strengthTime, strengthDuration, strengthDate, strengthRating, strengthComments,
                         btnAddStrength));
     }
 
@@ -338,16 +324,8 @@ public class trainingDiaryController {
      */
     private void setExerciseFields() {
         exerciseFields = new ArrayList<>(
-                Arrays.asList(
-                        exerciseName,
-                        exerciseWeight,
-                        exerciseSet1,
-                        exerciseSet2,
-                        exerciseSet3,
-                        exerciseSet4,
-                        btnCancelStrength,
-                        btnAddExercise,
-                        btnSaveStrength));
+                Arrays.asList(exerciseName, exerciseWeight, exerciseSet1, exerciseSet2, exerciseSet3, exerciseSet4,
+                        btnCancelStrength, btnAddExercise, btnSaveStrength));
     }
 
     /**
@@ -355,13 +333,8 @@ public class trainingDiaryController {
      */
     private void setExerciseLabels() {
         exerciseLabels = new ArrayList<>(
-                Arrays.asList(
-                        exerciseLabelName,
-                        exerciseLabelWeight,
-                        exerciseLabelSet1,
-                        exerciseLabelSet2,
-                        exerciseLabelSet3,
-                        exerciseLabelSet4));
+                Arrays.asList(exerciseLabelName, exerciseLabelWeight, exerciseLabelSet1, exerciseLabelSet2,
+                        exerciseLabelSet3, exerciseLabelSet4));
     }
 
     /**
@@ -369,11 +342,7 @@ public class trainingDiaryController {
      */
     private void setStrengthLabels() {
         strengthLabels = new ArrayList<>(
-                Arrays.asList(
-                        strengthLabelDate,
-                        strengthLabelTime,
-                        strengthLabelDuration,
-                        strengthLabelRating));
+                Arrays.asList(strengthLabelDate, strengthLabelTime, strengthLabelDuration, strengthLabelRating));
     }
 
     /**
@@ -394,11 +363,9 @@ public class trainingDiaryController {
                 runAvgHr, runComments);
 
         if (validateRun.isValid()) {
-
             addWorkout(validateRun.getRun());
             clearInput(runFields);
             initialize();
-
         } else {
             showAlert(AlertType.ERROR, "Invalid inputs on new run", validateRun.getErrorMessage());
         }
@@ -417,6 +384,7 @@ public class trainingDiaryController {
      * If validateStrength.isValid returns true, the strength is saved as
      * tempStrength, since this strength is later going to get exercises and then be
      * saved.
+     * 
      * If validateStrength.isValid returns false an alertbox with errormessage is
      * displayed.
      */
@@ -427,10 +395,8 @@ public class trainingDiaryController {
                 strengthRating, strengthComments);
 
         if (validateStrength.isValid()) {
-
             switchStrengthInput(false);
             tempStrength = validateStrength.getStrength();
-
         } else {
             showAlert(AlertType.ERROR, "Invalid inputs on new strength", validateStrength.getMessage());
         }
@@ -458,11 +424,9 @@ public class trainingDiaryController {
                 List.of(exerciseSet1, exerciseSet2, exerciseSet3, exerciseSet4));
 
         if (validateExercise.isValid()) {
-
             tempStrength.addExercise(validateExercise.getExercise());
             exerciseFeedback.setText(validateExercise.getExercise() + " added!");
             clearInput(exerciseFields);
-
         } else {
             showAlert(AlertType.ERROR, "Invalid inputs on exercise",
                     validateExercise.getMessage());
@@ -480,7 +444,6 @@ public class trainingDiaryController {
         addWorkout(tempStrength);
         clearStrength();
         initialize();
-
     }
 
     /**
@@ -615,16 +578,14 @@ public class trainingDiaryController {
         Text text = new Text(workout.toString());
         text.setStyle("-fx-font-family: 'monospaced';");
 
-        TextFlow flow = new TextFlow(text);
-
-        stage.setScene(new Scene(flow, 430, 360));
+        stage.setScene(new Scene(new TextFlow(text), 430, 360));
         stage.show();
 
     }
 
     /**
-     * Saves diary to file. If filename is not according to requirements changes
-     * file type to .txt. Provides user with necessary feedback
+     * Saves diary to file. Handles exceptions if error occurs during writing to
+     * file.
      */
     @FXML
     private void handleSave() {
@@ -633,9 +594,8 @@ public class trainingDiaryController {
 
         try {
             fileManager.write(file, diary);
-            feedbackSave.setText("'" + file + ".txt' was saved!");
+            feedbackSave.setText("'" + file + "' was saved!");
             setFilenames();
-
         } catch (IOException e) {
             feedbackSave.setText(
                     "A problem occurder when tryin to save '" + file + "' \nTry again with a new filename");

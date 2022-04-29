@@ -59,10 +59,10 @@ public class Strength implements IWorkout {
     }
 
     /**
-     * Ads exercise to list of exercises if its not already added and isn't null
+     * Adds exercise to list of exercises
      * 
      * @param exercise Exercise
-     * @throws IllegalArgumentException If exercise already exists in workout
+     * @throws IllegalArgumentException if exercise already exists in list
      * @throws NullPointerException     if exercise is null
      */
     public void addExercise(Exercise exercise) throws IllegalArgumentException, NullPointerException {
@@ -92,7 +92,7 @@ public class Strength implements IWorkout {
     }
 
     @Override
-    public String getContent() {
+    public String getComment() {
         return comments;
     }
 
@@ -135,7 +135,7 @@ public class Strength implements IWorkout {
                 \tComments:
                 \t%s
                 """,
-                getContent());
+                getComment());
 
         return res;
     }

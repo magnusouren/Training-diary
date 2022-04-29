@@ -52,10 +52,10 @@ public class Diary {
      * @return List<Workout> with workouts from given month
      */
     public List<IWorkout> getWorkoutsPerMonth(int month, int year) {
-        return diary.stream()
+        return new ArrayList<>(diary.stream()
                 .filter(w -> w.getDate().getMonthValue() == month
                         && w.getDate().getYear() == year)
-                .toList();
+                .toList());
 
     }
 
@@ -94,13 +94,14 @@ public class Diary {
                 .filter(w -> w instanceof Strength)
                 .map(w -> (Strength) w)
                 .toList();
-        List<List<Exercise>> exercises = strengths.stream()
-                .map(s -> (List<Exercise>) s.getExercises())
-                .toList();
 
         totDuration(res, new ArrayList<>(strengths), "strengthTotDuration");
         averageRating(res, new ArrayList<>(strengths), "strengthAvgRating");
         totalWorkouts(res, new ArrayList<>(strengths), "totStrengths");
+
+        List<List<Exercise>> exercises = strengths.stream()
+                .map(s -> (List<Exercise>) s.getExercises())
+                .toList();
 
         res.put("kgLifted", exercises.stream()
                 .mapToInt(l -> l.stream()
@@ -142,7 +143,7 @@ public class Diary {
     }
 
     /**
-     * Method to get totalt duration from a list of workouts and map it to a
+     * Method to get total duration from a list of workouts and map it to a
      * key-value in a map.
      * 
      * @param map      Map<String, Number> to get total duration added
@@ -171,7 +172,7 @@ public class Diary {
     }
 
     /**
-     * Method to map totalt amount of workouts to a key-value in a map.
+     * Method to map total amount of workouts in a list to a key-value in a map.
      * 
      * @param map      Map<String, Number> to get size
      * @param workouts List<IWorkout> Workouts

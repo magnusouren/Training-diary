@@ -33,7 +33,8 @@ public class DiarySummaryTest {
 
         for (int i = 0; i < 5; i++) {
             diary.addWorkout(
-                    new Run(LocalDateTime.of(2022, 3, 31, 12, 00).minusDays(i), duration, distance, '4', "TestRun",
+                    new Run(LocalDateTime.of(2022, 3, 31, 12, 00).minusDays(i), duration, distance,
+                            '4', "TestRun",
                             150, 200));
 
             sumRunDuration += duration;
@@ -53,10 +54,6 @@ public class DiarySummaryTest {
             sumStrengthDuration += duration;
             sumWeight += (1 + 2 + 3 + 4) * 100;
             ratingsStrength.add(5);
-        }
-
-        for (int i = 0; i < 5; i++) {
-
         }
 
         totalSummary = diary.getTotalSummary();

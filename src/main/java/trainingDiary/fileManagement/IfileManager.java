@@ -24,5 +24,5 @@ public interface IfileManager {
      * @throws IOException throws if error occurs if file don't exists or
      *                     problems occurs while opening file
      */
-    public Diary read(String filename) throws IOException;
+    public Diary read(String filename) throws IOException, RuntimeException;
 }

@@ -108,7 +108,7 @@ public class TxtFile implements IfileManager {
                 workout.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-hh:mm")),
                 workout.getDuration(),
                 workout.getRating(),
-                workout.getContent());
+                workout.getComment());
 
         writer.print(commonFields);
 

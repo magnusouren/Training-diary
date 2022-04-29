@@ -92,21 +92,6 @@ public class Run implements IWorkout {
     }
 
     /**
-     * Sets average heartrate if value is valid
-     * 
-     * @param avaerageHeartRate int average heartrate (BPM)
-     * @throws IllegalArgumentException If avgHr is not in the interval [40,125] or
-     *                                  greater than maxHr
-     * 
-     */
-    public void setAvaerageHeartRate(int avaerageHeartRate) throws IllegalArgumentException {
-        validateHeartRate(avaerageHeartRate);
-        if (avaerageHeartRate > maxHeartRate)
-            throw new IllegalArgumentException("cannot be greater than maximum heartrate");
-        this.averageHeartRate = avaerageHeartRate;
-    }
-
-    /**
      * Sets maximum heartrate if value is valid
      * 
      * @param maxHeartRate int maximum heartrate (BPM)
@@ -116,6 +101,20 @@ public class Run implements IWorkout {
     public void setMaxHeartRate(int maxHeartRate) throws IllegalArgumentException {
         validateHeartRate(maxHeartRate);
         this.maxHeartRate = maxHeartRate;
+    }
+
+    /**
+     * Sets average heartrate if value is valid
+     * 
+     * @param avaerageHeartRate int average heartrate (BPM)
+     * @throws IllegalArgumentException If avgHr is not in the interval [40,125] or
+     *                                  greater than maxHr
+     */
+    public void setAvaerageHeartRate(int avaerageHeartRate) throws IllegalArgumentException {
+        validateHeartRate(avaerageHeartRate);
+        if (avaerageHeartRate > maxHeartRate)
+            throw new IllegalArgumentException("cannot be greater than maximum heartrate");
+        this.averageHeartRate = avaerageHeartRate;
     }
 
     /**
@@ -154,7 +153,7 @@ public class Run implements IWorkout {
     }
 
     @Override
-    public String getContent() {
+    public String getComment() {
         return comments;
     }
 
@@ -207,7 +206,7 @@ public class Run implements IWorkout {
                 getAverageSpeed(),
                 getMaxHeartRate(),
                 getAvaerageHeartRate(),
-                getContent());
+                getComment());
         return res;
     }
 

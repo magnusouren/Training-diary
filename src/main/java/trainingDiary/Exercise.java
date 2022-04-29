@@ -46,7 +46,6 @@ public class Exercise {
      * @param weigth int weight of exercise
      * @throws IllegalArgumentExceptioin if weight is not in the
      *                                   interval [0,300]
-     * 
      */
     public void setWeight(int weigth) throws IllegalArgumentException {
         if (weigth < 0)
